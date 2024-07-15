@@ -1,32 +1,30 @@
-'use client' // Error components must be Client Components
+"use client"; // Error components must be Client Components
 
-import { useEffect } from 'react'
+import { useEffect } from "react";
+import { Button, Result, Space } from "antd";
 
 export default function Error({
-                                  error,
-                                  reset,
-                              }: {
-    error: Error & { digest?: string }
-    reset: () => void
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
-    useEffect(() => {
-        // Log the error to an error reporting service
-        console.error(error)
-    }, [error])
+  useEffect(() => {
+    // Log the error to an error reporting service
+    console.error("Ошибка", error);
+  }, [error]);
 
-    return (
-        <div>
-            <h2>Что-то пошло не так!</h2>
-            <h3>{error.message}</h3>
-            <h3>{`Digest: ${error.digest}`}</h3>
-            <button
-                onClick={
-                    // Attempt to recover by trying to re-render the segment
-                    () => reset()
-                }
-            >
-                Попробовать снова
-            </button>
-        </div>
-    )
+  return (
+    <Result
+      status="500"
+      title={"Похоже что-то пошло не так"}
+      subTitle={`${error.message} (Digest: ${error.digest})`}
+      extra={
+        <Button type="primary" onClick={reset}>
+          Попробовать снова
+        </Button>
+      }
+    />
+  );
 }
