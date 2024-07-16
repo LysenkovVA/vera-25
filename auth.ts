@@ -12,8 +12,33 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       authorize: async (credentials) => {
-        throw new Error("User not found.");
+        return {
+          email: "user@email.com",
+          password: "pwd",
+          name: "Viktor",
+        };
       },
     }),
   ],
+  pages: {
+    signIn: "/",
+  },
+  session: {
+    strategy: "jwt",
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    },
+    // Для использования в клиентских приложениях
+    async session({ session, token }) {
+      if (session.user) {
+      }
+
+      return session;
+    },
+  },
 });

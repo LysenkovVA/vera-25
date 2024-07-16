@@ -3,16 +3,26 @@ import { useEffect } from "react";
 import { Col, Form, Row, Image, Input, Button } from "antd";
 import Link from "next/link";
 import logo from "../../public/logo.png";
+import { loginAction } from "@/actions/login.action";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
-  useEffect(() => {}, []);
+  const session = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session.data?.user) {
+      router.push("/main");
+    }
+  }, [router, session.data?.user]);
 
   return (
     <Form
       style={{
         marginTop: "10%",
       }}
-      // onFinish={loginAction}
+      onFinish={loginAction}
       layout={"vertical"}
     >
       <Row justify={"center"} align={"middle"}>
@@ -20,7 +30,6 @@ const Login = () => {
           <Image src={logo.src} alt={"logo"} width={100} preview={false} />
         </Col>
       </Row>
-      <Row></Row>
       <Row justify={"center"} align={"middle"}>
         <Col span={10}>
           <Form.Item name={"email"}>
