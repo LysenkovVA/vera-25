@@ -4,10 +4,10 @@ import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { SessionProvider } from "next-auth/react";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["cyrillic"] });
 
 export const metadata: Metadata = {
-  title: "Д-25",
+  title: "Бланки-25",
   description: "Система учета",
 };
 
@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ru">
       <body>
         <SessionProvider>
           <AntdRegistry>{children}</AntdRegistry>

@@ -5,7 +5,7 @@ import Link from "next/link";
 import logo from "../../public/logo.png";
 import { loginAction } from "@/actions/login.action";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 const Login = () => {
   const session = useSession();
@@ -13,7 +13,7 @@ const Login = () => {
 
   useEffect(() => {
     if (session.data?.user) {
-      router.push("/main");
+      router.push("/collection");
     }
   }, [router, session.data?.user]);
 
