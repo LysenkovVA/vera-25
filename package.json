@@ -2,17 +2,31 @@
   "name": "vera-25",
   "version": "0.1.0",
   "private": true,
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:migrate:diff": "npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/migrations/0_init/migration.sql",
+    "prisma:migrate:resolve": "npx prisma migrate resolve --applied 0_init",
+    "prisma:migrate:dev": "npm exec prisma migrate dev",
+    "prisma:client:generate": "npm exec prisma generate",
+    "prisma:db:push": "npm exec prisma db push",
+    "prisma:db:seed": "npx prisma db seed",
+    "prisma:initdb": "npm run prisma:migrate --name create_db && npm run prisma:db:seed",
+    "prisma:db:dev": "npm run prisma:db:push && npm run prisma:db:seed"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.4.0",
     "@ant-design/nextjs-registry": "^1.0.0",
+    "@prisma/client": "^5.17.0",
     "antd": "^5.19.2",
     "next": "14.2.5",
     "next-auth": "^5.0.0-beta.19",
+    "pg": "^8.12.0",
     "react": "^18",
     "react-dom": "^18"
   },
@@ -25,6 +39,7 @@
     "fork-ts-checker-webpack-plugin": "^9.0.2",
     "postcss": "^8",
     "prettier": "^3.3.3",
+    "prisma": "^5.17.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
