@@ -24,3 +24,9 @@ model Country {
   id   Int    @id @default(autoincrement())
   name String @unique
 }
+
+// Производитель
+model Manufacturer {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
