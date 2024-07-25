@@ -1,1 +1,1 @@
-export { default } from "./NewBlancButton";
+export { default } from "./ui/NewBlancButton";

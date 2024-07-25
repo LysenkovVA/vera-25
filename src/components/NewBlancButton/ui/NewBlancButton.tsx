@@ -1,7 +1,7 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Drawer } from "antd";
 import { useState } from "react";
-import NewBlancMaster from "@/components/NewBlancButton/NewBlancMaster";
+import NewBlancMaster from "@/components/NewBlancMaster";
 
 const NewBlancButton = () => {
   const [open, setOpen] = useState<boolean>(false);
