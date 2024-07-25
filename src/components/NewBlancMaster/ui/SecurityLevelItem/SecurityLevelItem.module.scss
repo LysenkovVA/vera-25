@@ -1,0 +1,14 @@
+.Card {
+  border-radius: 16px;
+
+  :hover {
+    border-radius: 16px;
+    background: lightblue;
+    cursor: pointer;
+  }
+}
+
+.SecurityLevelItem {
+  font-size: x-large;
+}
+

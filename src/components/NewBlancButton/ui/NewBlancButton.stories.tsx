@@ -4,7 +4,7 @@ import NewBlancButton from "@/components/NewBlancButton";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "componennts/NewBlancButton",
+  title: "components/NewBlancButton",
   component: NewBlancButton,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
