@@ -1,16 +1,9 @@
 import { PrismaClient } from "@prisma/client";
+import { securityLevels } from "./seedData/securityLevelsData.seed";
+import { countries } from "./seedData/countriesData.seed";
+import { documents } from "./seedData/documentsData.seed";
 
 const prisma = new PrismaClient();
-
-/**
- * Уровни безопасности
- */
-const securityLevels = ["А", "Б", "В", "Г"];
-
-/**
- * Страны
- */
-const countries = ["Российская Федерация"];
 
 async function main() {
   // Добавление уровней безопасности
@@ -29,6 +22,42 @@ async function main() {
         name: value,
       },
     });
+  }
+
+  // Добавление документов
+  for (const value of documents) {
+    const document = await prisma.document.create({
+      data: {
+        name: value.name,
+        number: value.number,
+        date: value.date,
+        startDate: value.startDate,
+        endDate: value.endDate,
+        notes: value.notes,
+      },
+    });
+
+    for (const group of value.requirementGroups) {
+      const reqGroup = await prisma.requirementGroup.create({
+        data: {
+          name: group.name,
+          position: group.position,
+          notes: group.notes,
+          document: { connect: document },
+        },
+      });
+
+      for (const req of group.requirements) {
+        await prisma.requirement.create({
+          data: {
+            name: req.name,
+            position: req.position,
+            notes: req.notes,
+            requirementGroup: { connect: reqGroup },
+          },
+        });
+      }
+    }
   }
 }
 

@@ -15,18 +15,67 @@ datasource db {
 
 // Уровень защищенности
 model SecurityLevel {
-  id   Int    @id @default(autoincrement())
+  id   String @id @default(cuid())
   name String @unique
+
+  @@map(name: "security_levels")
 }
 
 // Страна
 model Country {
-  id   Int    @id @default(autoincrement())
+  id   String @id @default(cuid())
   name String @unique
+
+  @@map(name: "countries")
 }
 
 // Производитель
 model Manufacturer {
-  id   Int    @id @default(autoincrement())
+  id   String @id @default(cuid())
   name String @unique
+
+  @@map(name: "manufacturers")
+}
+
+// НПА с требованиями
+model Document {
+  id        String   @id @default(cuid())
+  name      String
+  number    String
+  date      DateTime
+  startDate DateTime
+  endDate   DateTime
+  notes     String
+
+  RequirementGroup RequirementGroup[]
+
+  @@map(name: "documents")
+}
+
+// Группа требований НПА
+model RequirementGroup {
+  id       String @id @default(cuid())
+  name     String
+  position Int
+  notes    String
+
+  requirements Requirement[]
+
+  document   Document @relation(fields: [documentId], references: [id])
+  documentId String
+
+  @@map(name: "requirement_groups")
+}
+
+// Конкретное требование НПА
+model Requirement {
+  id       String @id @default(cuid())
+  name     String
+  position Int
+  notes    String
+
+  requirementGroup   RequirementGroup @relation(fields: [requirementGroupId], references: [id])
+  requirementGroupId String
+
+  @@map(name: "requirements")
 }
