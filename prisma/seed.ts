@@ -6,6 +6,36 @@ import { documents } from "./seedData/documentsData.seed";
 const prisma = new PrismaClient();
 
 async function main() {
+  // Добавление ролей пользователей
+  const adminRole = await prisma.role.create({
+    data: {
+      name: "admin",
+    },
+  });
+
+  const userRole = await prisma.role.create({
+    data: {
+      name: "user",
+    },
+  });
+
+  // Добавление пользователей
+  const admin = await prisma.user.create({
+    data: {
+      login: "admin",
+      password: "123456",
+      role: { connect: adminRole },
+    },
+  });
+
+  const user = await prisma.user.create({
+    data: {
+      login: "user",
+      password: "123456",
+      role: { connect: userRole },
+    },
+  });
+
   // Добавление уровней безопасности
   for (const value of securityLevels) {
     await prisma.securityLevel.create({
