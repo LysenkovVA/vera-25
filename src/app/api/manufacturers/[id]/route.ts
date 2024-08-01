@@ -12,7 +12,7 @@ export async function GET(
   { params }: { params: { id: string } },
 ) {
   const data = await prisma.manufacturer.findFirst({
-    where: { id: Number(params.id) },
+    where: { id: params.id },
   });
   return NextResponse.json(data);
 }

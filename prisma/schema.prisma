@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
 }
 
 datasource db {
@@ -47,7 +48,7 @@ model Document {
   endDate   DateTime
   notes     String
 
-  RequirementGroup RequirementGroup[]
+  requirementGroups RequirementGroup[]
 
   @@map(name: "documents")
 }
