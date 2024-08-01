@@ -16,7 +16,7 @@ const RequirementCard = (props: RequirementCardProps) => {
   const { groupName, requirement, onApply, onDiscard, onSkip } = props;
 
   return (
-    <Card>
+    <Card style={{ width: "100%", height: "500px" }}>
       <Text.Title style={{ textAlign: "center" }} level={2}>
         {requirement?.name}
       </Text.Title>

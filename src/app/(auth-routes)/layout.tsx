@@ -15,13 +15,14 @@ export default function UserLayout({
 }) {
   return (
     <Layout>
-      <Header style={{ display: "flex", alignItems: "center" }}>
+      <Header style={{ display: "flex", alignItems: "center", height: "80px" }}>
         <AppHeader />
       </Header>
       <Content
         style={{
-          // display: "flex",
-          // alignItems: "center",
+          width: "80%",
+          height: "calc(100vh - 80px)",
+          backgroundColor: "lightgray",
           padding: 16,
           margin: "0 auto",
         }}

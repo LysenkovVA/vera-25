@@ -1,4 +1,4 @@
-import { fetchSecurityLevelsAction } from "@/actions/security-levels/fetchSecurityLevelsAction";
+import { fetchSecurityLevelsAction } from "@/app/api/security-levels/fetchSecurityLevels.action";
 import SecurityLevelItem from "@/components/NewBlancMaster/ui/SecurityLevelItem/SecurityLevelItem";
 import { Flex } from "antd";
 

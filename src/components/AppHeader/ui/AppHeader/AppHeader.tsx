@@ -1,18 +1,19 @@
 "use client";
 
 import { Button, Flex, Menu, MenuProps, Space } from "antd";
-import SignOutButton from "@/components/AppHeader/SignOutButton";
-import { HeaderItems } from "@/components/AppHeader/HeaderItems";
+import SignOutButton from "@/components/AppHeader/ui/SignOutButton";
+import { HeaderItems } from "@/components/AppHeader/ui/HeaderItems";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import NewBlancButton from "@/components/NewBlancButton";
 import { usePathname, useRouter } from "next/navigation";
+import styles from "./AppHeader.module.scss";
 
 const AppHeader = () => {
   const pathname = usePathname();
   const router = useRouter();
 
   return (
-    <>
+    <nav className={styles.Container}>
       <NewBlancButton />
       <Menu
         theme="dark"
@@ -21,7 +22,7 @@ const AppHeader = () => {
           HeaderItems.find((item) => item.target === pathname)?.key || "1",
         ]}
         items={HeaderItems}
-        style={{ flex: 1, minWidth: 0 }}
+        style={{ flex: 1, minWidth: 0, marginLeft: 16 }}
         onClick={(menuInfo) => {
           const { target } =
             HeaderItems.find((item) => item.key === menuInfo.key) || {};
@@ -31,7 +32,7 @@ const AppHeader = () => {
         }}
       />
       <SignOutButton />
-    </>
+    </nav>
   );
 };
 

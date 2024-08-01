@@ -1,11 +1,10 @@
-import { MenuProps } from "antd";
 import {
+  DashboardOutlined,
   DatabaseOutlined,
   FileProtectOutlined,
-  PlusCircleOutlined,
 } from "@ant-design/icons";
 
-type MenuItem = Required<MenuProps>["items"][number];
+// type MenuItem = Required<MenuProps>["items"][number];
 
 export const HeaderItems = [
   {
@@ -16,8 +15,14 @@ export const HeaderItems = [
   },
   {
     key: "2",
-    label: `Документы`,
+    label: `Документы (test)`,
     icon: <FileProtectOutlined />,
     target: "/documents",
+  },
+  {
+    key: "3",
+    label: `Статистика`,
+    icon: <DashboardOutlined />,
+    target: "/dashboard",
   },
 ];

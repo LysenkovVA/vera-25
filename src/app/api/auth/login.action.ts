@@ -1,5 +1,5 @@
 "use server";
-import { signIn } from "../../auth";
+import { signIn } from "../../../../auth";
 import { redirect } from "next/navigation";
 
 export async function loginAction(formData: FormData) {

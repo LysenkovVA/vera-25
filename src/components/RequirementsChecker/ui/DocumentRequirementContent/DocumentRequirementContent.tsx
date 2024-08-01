@@ -46,7 +46,7 @@ const DocumentRequirementContent = (props: DocumentRequirementContentProps) => {
   }
 
   return (
-    <Flex vertical>
+    <Flex vertical justify={"center"}>
       <Flex>
         <Steps
           items={documentGroup.requirements?.map((requirement) => {
@@ -76,7 +76,6 @@ const DocumentRequirementContent = (props: DocumentRequirementContentProps) => {
         />
         <Button type={"dashed"}>Пропустить все</Button>
       </Flex>
-
       <RequirementCard
         requirement={documentGroup?.requirements?.[currentRequirement]}
         onApply={() => onButtonClick("applied")}

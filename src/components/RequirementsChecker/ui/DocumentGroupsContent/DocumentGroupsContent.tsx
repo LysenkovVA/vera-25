@@ -42,7 +42,7 @@ const DocumentGroupsContent = (props: DocumentGroupsContentProps) => {
   }
 
   return (
-    <Space>
+    <Flex style={{ width: "100%" }} gap={16}>
       <Steps
         items={document?.requirementGroups?.map((item) => {
           return { title: item.name };
@@ -56,7 +56,7 @@ const DocumentGroupsContent = (props: DocumentGroupsContentProps) => {
         documentGroup={document?.requirementGroups?.[currentGroup]}
         onFinished={onFinished}
       />
-    </Space>
+    </Flex>
   );
 };
 

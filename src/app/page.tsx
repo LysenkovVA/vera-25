@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Col, Form, Row, Image, Input, Button } from "antd";
 import Link from "next/link";
 import logo from "../../public/logo.png";
-import { loginAction } from "@/actions/login.action";
+import { loginAction } from "@/app/api/auth/login.action";
 import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 
