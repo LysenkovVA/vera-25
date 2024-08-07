@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, message, StepProps, Steps, theme } from "antd";
 import SecurityLevels from "@/components/NewBlancMaster/ui/SecurityLevels/SecurityLevels";
+import BlankDescriptionForm from "@/components/NewBlancMaster/ui/BlankDescriptionForm/BlankDescriptionForm";
 
 const NewBlancMaster = () => {
   const [current, setCurrent] = useState(0);
@@ -10,42 +11,47 @@ const NewBlancMaster = () => {
 
   const steps = [
     {
-      title: "Страна",
+      title: "Текстовое описание",
       description: "",
-      content: "Страна",
+      content: <BlankDescriptionForm />,
     },
-    {
-      title: "Уровень защищенности",
-      description: securityLevelDescription,
-      content: (
-        <SecurityLevels
-          onClick={(id) => {
-            setCurrent(current + 1);
-            setSecurityLevelDescription(String(id));
-          }}
-        />
-      ),
-    },
-    {
-      title: "Производитель",
-      description: "",
-      content: "Производитель",
-    },
-    {
-      title: "Внешний вид",
-      description: "",
-      content: "Внешний вид",
-    },
-    {
-      title: "Средства защиты",
-      description: "",
-      content: "Средства защиты",
-    },
-    {
-      title: "Изображения",
-      description: "",
-      content: "Изображения",
-    },
+    // {
+    //   title: "Страна",
+    //   description: "",
+    //   content: "Страна",
+    // },
+    // {
+    //   title: "Уровень защищенности",
+    //   description: securityLevelDescription,
+    //   content: (
+    //     <SecurityLevels
+    //       onClick={(id) => {
+    //         setCurrent(current + 1);
+    //         setSecurityLevelDescription(String(id));
+    //       }}
+    //     />
+    //   ),
+    // },
+    // {
+    //   title: "Производитель",
+    //   description: "",
+    //   content: "Производитель",
+    // },
+    // {
+    //   title: "Внешний вид",
+    //   description: "",
+    //   content: "Внешний вид",
+    // },
+    // {
+    //   title: "Средства защиты",
+    //   description: "",
+    //   content: "Средства защиты",
+    // },
+    // {
+    //   title: "Изображения",
+    //   description: "",
+    //   content: "Изображения",
+    // },
   ];
 
   const items = steps.map((item) => ({

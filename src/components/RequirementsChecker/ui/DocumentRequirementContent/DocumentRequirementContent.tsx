@@ -1,17 +1,12 @@
 "use client";
 
-import { RequirementGroupDto } from "@/dto/requirement-group.dto";
-import { Button, Flex, Steps } from "antd";
+import { Flex, Steps } from "antd";
 import { useCallback, useState } from "react";
-import RequirementCard from "@/components/RequirementCard/ui/RequirementCard/RequirementCard";
-import {
-  CheckCircleOutlined,
-  CiCircleFilled,
-  StarOutlined,
-} from "@ant-design/icons";
-import { red } from "@ant-design/colors";
-import { CircleIcon } from "@storybook/icons";
-import { StepStatus } from "@/dto/requirement.dto";
+import RequirementCard from "@/components/RequirementsChecker/ui/RequirementCard/RequirementCard";
+import { CheckCircleOutlined } from "@ant-design/icons";
+
+import { RequirementGroupDto } from "@/entities/RequirementGroup/dto/requirement-group.dto";
+import { StepStatus } from "@/entities/Requirement/dto/requirement.dto";
 
 export interface DocumentRequirementContentProps {
   documentGroup?: RequirementGroupDto;
@@ -46,36 +41,33 @@ const DocumentRequirementContent = (props: DocumentRequirementContentProps) => {
   }
 
   return (
-    <Flex vertical justify={"center"}>
-      <Flex>
-        <Steps
-          items={documentGroup.requirements?.map((requirement) => {
-            return { title: requirement.position };
-          })}
-          progressDot={(iconDot, info) => {
-            const status = documentGroup?.requirements?.[info.index].stepStatus;
+    <Flex vertical justify={"center"} gap={0}>
+      <Steps
+        items={documentGroup.requirements?.map((requirement) => {
+          return { title: requirement.position };
+        })}
+        progressDot={(iconDot, info) => {
+          const status = documentGroup?.requirements?.[info.index].stepStatus;
 
-            if (!status) {
-              return <CheckCircleOutlined style={{ color: "gray" }} />;
-            }
+          if (!status) {
+            return <CheckCircleOutlined style={{ color: "gray" }} />;
+          }
 
-            switch (status) {
-              case "applied":
-                return <CheckCircleOutlined style={{ color: "green" }} />;
-              case "declined":
-                return <CheckCircleOutlined style={{ color: "red" }} />;
-              case "skipped":
-                return <CheckCircleOutlined style={{ color: "orange" }} />;
+          switch (status) {
+            case "applied":
+              return <CheckCircleOutlined style={{ color: "green" }} />;
+            case "declined":
+              return <CheckCircleOutlined style={{ color: "red" }} />;
+            case "skipped":
+              return <CheckCircleOutlined style={{ color: "orange" }} />;
 
-              default:
-                return <CheckCircleOutlined style={{ color: "blue" }} />;
-            }
-          }}
-          current={currentRequirement}
-          onChange={onChange}
-        />
-        <Button type={"dashed"}>Пропустить все</Button>
-      </Flex>
+            default:
+              return <CheckCircleOutlined style={{ color: "blue" }} />;
+          }
+        }}
+        current={currentRequirement}
+        onChange={onChange}
+      />
       <RequirementCard
         requirement={documentGroup?.requirements?.[currentRequirement]}
         onApply={() => onButtonClick("applied")}

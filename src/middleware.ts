@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import { NextResponse } from "next/server";
-import { authConfig } from "@/config/authConfig";
+import { authConfig } from "@/shared/config/authConfig";
 
 const { auth } = NextAuth(authConfig);
 

@@ -1,21 +1,26 @@
 "use client";
-import { useEffect } from "react";
 import { Col, Form, Row, Image, Input, Button } from "antd";
 import Link from "next/link";
 import logo from "../../public/logo.png";
 import { loginAction } from "@/app/api/auth/login.action";
-import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
+import { auth } from "../../auth";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
-const Login = () => {
+export default function Login() {
+  console.log("Login page render");
+
   const session = useSession();
   const router = useRouter();
 
+  console.log(JSON.stringify(session));
+
   useEffect(() => {
-    if (session.data?.user) {
+    if (session.status === "authenticated" && session.data?.user) {
       router.push("/collection");
     }
-  }, [router, session.data?.user]);
+  }, [router, session.data?.user, session.status]);
 
   return (
     <Form
@@ -32,8 +37,8 @@ const Login = () => {
       </Row>
       <Row justify={"center"} align={"middle"}>
         <Col span={10}>
-          <Form.Item name={"email"}>
-            <Input placeholder={"Укажите e-mail"} />
+          <Form.Item name={"login"}>
+            <Input placeholder={"Укажите логин"} />
           </Form.Item>
         </Col>
       </Row>
@@ -51,8 +56,9 @@ const Login = () => {
               type={"primary"}
               htmlType={"submit"}
               style={{ width: "100%" }}
+              // onSubmit={(e) => e.preventDefault()}
             >
-              Войти
+              {"Войти"}
             </Button>
           </Form.Item>
         </Col>
@@ -75,6 +81,6 @@ const Login = () => {
       </Row>
     </Form>
   );
-};
+}
 
-export default Login;
+// export default Login;

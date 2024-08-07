@@ -1,0 +1,14 @@
+.Container {
+  display: flex;
+  flex: auto;
+  align-items: center;
+  background-color: black;
+}
+
+.Menu {
+  //display: flex;
+  flex: auto;
+  min-width: 0;
+  padding: 12px;
+  margin-left: 16px;
+}

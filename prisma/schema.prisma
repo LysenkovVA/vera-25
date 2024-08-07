@@ -14,6 +14,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// -----------------------------------------------------
+
 // Пользователи
 model User {
   id       String @id @default(cuid())
@@ -35,10 +37,441 @@ model Role {
   @@map(name: "roles")
 }
 
+// -----------------------------------------------------
+
+// Бланк ЗПП
+model Blank {
+  id String @id @default(cuid())
+
+  // Название
+  name            String
+  // Страна
+  country         Country?       @relation(fields: [countryId], references: [id])
+  countryId       String?
+  // Производитель
+  manufacturer    Manufacturer?  @relation(fields: [manufacturerId], references: [id])
+  manufacturerId  String?
+  // Уровень защищенности
+  securityLevel   SecurityLevel? @relation(fields: [securityLevelId], references: [id])
+  securityLevelId String?
+  // Обложка
+  cover           Cover[]
+  // Блок
+  block           Block[]
+  // Скрепление
+  fastening       Fastening[]
+
+  // Список ресурсов (изображений) бланка
+  // resources Resource[]
+  @@map("blanks")
+}
+
+// -----------------------------------------------------
+
+// Обложка
+model Cover {
+  id                 String            @id @default(cuid())
+  // Конструкция обложки
+  coverDesign        CoverDesign       @relation(fields: [coverDesignId], references: [id])
+  coverDesignId      String
+  // Формат
+  coverFormat        String?
+  // Цвет покровного материала
+  coverColor         CoverColor        @relation(fields: [coverColorId], references: [id])
+  coverColorId       String
+  // Фактура покровного материала
+  coverTexture       CoverTexture      @relation(fields: [coverTextureId], references: [id])
+  coverTextureId     String
+  // Способ нанесения изображений
+  coverImageMethod   CoverImageMethod? @relation(fields: [coverImageMethodId], references: [id])
+  coverImageMethodId String?
+
+  blank   Blank  @relation(fields: [blankId], references: [id])
+  blankId String
+
+  @@map("covers")
+}
+
+// Конструкция обложки
+model CoverDesign {
+  id    String  @id @default(cuid())
+  name  String
+  notes String?
+
+  cover Cover[]
+
+  @@map("cover_designs")
+}
+
+// Цвет покровного материла
+model CoverColor {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  notes String?
+
+  cover Cover[]
+
+  @@map("cover_colors")
+}
+
+// Фактура покровного материала
+model CoverTexture {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  notes String?
+
+  cover Cover[]
+
+  @@map("cover_textures")
+}
+
+model CoverImageMethod {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  notes String?
+
+  cover Cover[]
+
+  @@map("cover_image_methods")
+}
+
+// -----------------------------------------------------
+
+// Блок
+model Block {
+  id String @id @default(cuid())
+
+  // Конструкция блока
+  blockDesign          BlockDesign?        @relation(fields: [blockDesignId], references: [id])
+  blockDesignId        String?
+  // Формат
+  blockFormat          String?
+  // Форма углов
+  blockCornersDesign   BlockCornersDesign? @relation(fields: [blockCornersDesignId], references: [id])
+  blockCornersDesignId String?
+  // Материал страниц
+  blockPagesMaterial   BlockPagesMaterial? @relation(fields: [blockPagesMaterialId], references: [id])
+  blockPagesMaterialId String?
+  // Страниц в блоке
+  pagesInBlock         String?
+  // Пронумерованы
+  pagesNumbered        String?
+  // Наличие форзацев
+  hasEndPapers         Boolean?
+  // Примечания
+  notes                String?
+
+  blank   Blank?  @relation(fields: [blankId], references: [id])
+  blankId String?
+
+  @@map("blocks")
+}
+
+// Конструкция блока
+model BlockDesign {
+  id String @id @default(cuid())
+
+  name  String  @unique
+  // Примечания
+  notes String?
+
+  blocks Block[]
+
+  @@map("block_designs")
+}
+
+// Форма углов блока
+model BlockCornersDesign {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  // Примечания
+  notes String?
+
+  blocks Block[]
+
+  @@map("block_corners_designs")
+}
+
+// Материал страниц
+model BlockPagesMaterial {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  // Примечания
+  notes String?
+
+  blocks Block[]
+
+  @@map("block_pages_materials")
+}
+
+// -----------------------------------------------------
+
+// Скрепление
+model Fastening {
+  id String @id @default(cuid())
+
+  // Способ скрепления блока с обложкой
+  blockAndCoverFasteningMethod   BlockAndCoverFasteningMethod? @relation(fields: [blockAndCoverFasteningMethodId], references: [id])
+  blockAndCoverFasteningMethodId String?
+  // Способ скрепления страниц блока
+  blockPagesFasteningMethod      BlockPagesFasteningMethod?    @relation(fields: [blockPagesFasteningMethodId], references: [id])
+  blockPagesFasteningMethodId    String?
+  // Нити
+  fasteningFibers                FasteningFiber[]
+  // Скобы
+  fasteningStaples               FasteningStaples[]
+  // Примечания
+  notes                          String?
+
+  blank   Blank?  @relation(fields: [blankId], references: [id])
+  blankId String?
+
+  @@map("fastenings")
+}
+
+// Способ скрепления блока с обложкой
+model BlockAndCoverFasteningMethod {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  // Примечания
+  notes String?
+
+  fastenings Fastening[]
+
+  @@map("block_and_cover_fastening_methods")
+}
+
+// Способ скрепления страниц блока
+model BlockPagesFasteningMethod {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  // Примечания
+  notes String?
+
+  fastenings Fastening[]
+
+  @@map("block_pages_fastening_methods")
+}
+
+// Нить
+model FasteningFiber {
+  id String @id @default(cuid())
+
+  // Цвет
+  fiberColor        FiberColor?      @relation(fields: [fiberColorId], references: [id])
+  fiberColorId      String?
+  // Морфология
+  fiberMorphology   FiberMorphology? @relation(fields: [fiberMorphologyId], references: [id])
+  fiberMorphologyId String?
+  // Шаг стежка
+  fiberStep         FiberStep?       @relation(fields: [fiberStepId], references: [id])
+  fiberStepId       String?
+  // Примечания
+  notes             String?
+
+  fastening   Fastening? @relation(fields: [fasteningId], references: [id])
+  fasteningId String?
+
+  @@map("fastening_fibers")
+}
+
+// Цвет нити
+model FiberColor {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  notes String?
+
+  fasteningFiber FasteningFiber[]
+
+  @@map("fiber_colors")
+}
+
+// Морфология
+model FiberMorphology {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  notes String?
+
+  fasteningFiber FasteningFiber[]
+
+  @@map("fiber_morfologies")
+}
+
+// Шаг стежка
+model FiberStep {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  notes String?
+
+  fasteningFiber FasteningFiber[]
+
+  @@map("fiber_steps")
+}
+
+// Скобы
+model FasteningStaples {
+  id String @id @default(cuid())
+
+  // Материал
+  staplesMaterial   StaplesMaterial? @relation(fields: [staplesMaterialId], references: [id])
+  staplesMaterialId String?
+  // Размер спинок
+  staplesBackSize   StaplesBackSize? @relation(fields: [staplesBackSizeId], references: [id])
+  staplesBackSizeId String?
+  // Расстояние между
+  staplesDistance   StaplesDistance? @relation(fields: [staplesDistanceId], references: [id])
+  staplesDistanceId String?
+  // Примечания
+  notes             String?
+
+  fastening   Fastening? @relation(fields: [fasteningId], references: [id])
+  fasteningId String?
+
+  @@map("fastening_staples")
+}
+
+// Материал скоб
+model StaplesMaterial {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  notes String?
+
+  fasteningStaple FasteningStaples[]
+
+  @@map("staple_materials")
+}
+
+// Размер спинок скоб
+model StaplesBackSize {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  notes String?
+
+  fasteningStaple FasteningStaples[]
+
+  @@map("staple_back_sizes")
+}
+
+// Расстояние между скоб
+model StaplesDistance {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  notes String?
+
+  fasteningStaple FasteningStaples[]
+
+  @@map("staple_distances")
+}
+
+// -----------------------------------------------------
+
+// Ресурс (набор изображений в различных режимах, например страница паспорта в УФ, ИК, на просвет и т.д.)
+// model Resource {
+//   id       String @id @default(cuid())
+//   // Название (например страница №1)
+//   name     String
+//   // Позиция для сортировки
+//   position Int
+//
+//   notes String?
+//
+//   // Ссылка на бланк
+//   blank   Blank  @relation(fields: [blankId], references: [id])
+//   blankId String
+//
+//   // Изображения ресурса
+//   pictures Picture[]
+//   remedies Remedy[]
+//
+//   @@map("resources")
+// }
+//
+// // Изображение
+// model Picture {
+//   id String @id @default(cuid())
+//
+//   name            String
+//   thumbnailPath   String?
+//   highQualityPath String?
+//   size            Int?
+//   mimeType        String?
+//   notes           String?
+//
+//   // Режим изображения (УФ, ИК и др.)
+//   researchMethod   ResearchMethod? @relation(fields: [researchMethodId], references: [id])
+//   researchMethodId String?
+//
+//   // Ссылка на ресурс
+//   resource   Resource? @relation(fields: [resourceId], references: [id])
+//   resourceId String?
+//
+//   // Ссылка на средство защиты
+//   remedy   Remedy? @relation(fields: [remedyId], references: [id])
+//   remedyId String?
+//
+//   // Ссылка на устройство, с помощью которого получено изображение
+//   sourceDevice   SourceDevice? @relation(fields: [sourceDeviceId], references: [id])
+//   sourceDeviceId String?
+//
+//   @@map("pictures")
+// }
+
+// Метод исследования (Сканирование, Ультрафиолет, ИК образ, Просвет, Косопадающее освещение, Микроскопия)
+// model ResearchMethod {
+//   id       String  @id @default(cuid())
+//   name     String  @unique
+//   position Int
+//   notes    String?
+//
+//   pictures Picture[]
+//
+//   @@map("research_methods")
+// }
+
+// Источник данных изображения
+// model SourceDevice {
+//   id    String  @id @default(cuid())
+//   name  String  @unique
+//   notes String?
+//
+//   pictures Picture[]
+//
+//   @@map("source_devices")
+// }
+
+// Средства защиты
+// model Remedy {
+//   id          String  @id @default(cuid())
+//   name        String  @unique
+//   description String?
+//
+//   // Ссылка на ресурс
+//   resource   Resource @relation(fields: [resourceId], references: [id])
+//   resourceId String
+//
+//   remedyVariety   RemedyVariety @relation(fields: [remedyVarietyId], references: [id])
+//   remedyVarietyId String
+//
+//   pictures Picture[]
+//
+//   @@map("remedies")
+// }
+
+// Разновидность средства защиты
+// model RemedyVariety {
+//   id     String   @id @default(cuid())
+//   name   String
+//   remedy Remedy[]
+//
+//   @@map("remedy_varieties")
+// }
+
 // Уровень защищенности
 model SecurityLevel {
   id   String @id @default(cuid())
   name String @unique
+
+  blank Blank[]
 
   @@map(name: "security_levels")
 }
@@ -48,6 +481,8 @@ model Country {
   id   String @id @default(cuid())
   name String @unique
 
+  blank Blank[]
+
   @@map(name: "countries")
 }
 
@@ -55,6 +490,8 @@ model Country {
 model Manufacturer {
   id   String @id @default(cuid())
   name String @unique
+
+  blank Blank[]
 
   @@map(name: "manufacturers")
 }
@@ -67,7 +504,7 @@ model Document {
   date      DateTime
   startDate DateTime
   endDate   DateTime
-  notes     String
+  notes     String?
 
   requirementGroups RequirementGroup[]
 
@@ -76,10 +513,10 @@ model Document {
 
 // Группа требований НПА
 model RequirementGroup {
-  id       String @id @default(cuid())
+  id       String  @id @default(cuid())
   name     String
   position Int
-  notes    String
+  notes    String?
 
   requirements Requirement[]
 
@@ -91,10 +528,10 @@ model RequirementGroup {
 
 // Конкретное требование НПА
 model Requirement {
-  id       String @id @default(cuid())
+  id       String  @id @default(cuid())
   name     String
   position Int
-  notes    String
+  notes    String?
 
   requirementGroup   RequirementGroup @relation(fields: [requirementGroupId], references: [id])
   requirementGroupId String

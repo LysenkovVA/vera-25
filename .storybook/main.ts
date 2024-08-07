@@ -14,5 +14,9 @@ const config: StorybookConfig = {
     options: {},
   },
   staticDirs: ["../public"],
+  docs: {
+    //👇 See the table below for the list of supported options
+    defaultName: "Документация",
+  },
 };
 export default config;

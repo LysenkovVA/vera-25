@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { fetchDocumentByIdAction } from "@/app/api/documents/[id]/fetchDocumentById.action";
-import { DocumentDto } from "@/dto/document.dto";
-import { Button, Flex, Space, Steps } from "antd";
+import { DocumentDto } from "@/entities/Document/dto/document.dto";
+import { Card, Flex, Steps } from "antd";
 import DocumentRequirementContent from "@/components/RequirementsChecker/ui/DocumentRequirementContent/DocumentRequirementContent";
-import LoadingIndicator from "@/components/LoadingIndicator";
+import LoadingIndicator from "@/shared/UI/LoadingIndicator";
 
 export interface DocumentGroupsContentProps {
   documentId: string;
@@ -42,20 +42,24 @@ const DocumentGroupsContent = (props: DocumentGroupsContentProps) => {
   }
 
   return (
-    <Flex style={{ width: "100%" }} gap={16}>
-      <Steps
-        items={document?.requirementGroups?.map((item) => {
-          return { title: item.name };
-        })}
-        current={currentGroup}
-        size={"small"}
-        direction={"vertical"}
-        onChange={onChange}
-      />
-      <DocumentRequirementContent
-        documentGroup={document?.requirementGroups?.[currentGroup]}
-        onFinished={onFinished}
-      />
+    <Flex style={{ width: "100%", padding: "0px" }} gap={2}>
+      <Card style={{ minWidth: "15%", maxWidth: "15%" }}>
+        <Steps
+          items={document?.requirementGroups?.map((item) => {
+            return { title: item.name };
+          })}
+          current={currentGroup}
+          size={"small"}
+          direction={"vertical"}
+          onChange={onChange}
+        />
+      </Card>
+      <Card style={{ minWidth: "85%", maxWidth: "85%" }}>
+        <DocumentRequirementContent
+          documentGroup={document?.requirementGroups?.[currentGroup]}
+          onFinished={onFinished}
+        />
+      </Card>
     </Flex>
   );
 };

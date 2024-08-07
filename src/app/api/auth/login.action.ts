@@ -3,6 +3,10 @@ import { signIn } from "../../../../auth";
 import { redirect } from "next/navigation";
 
 export async function loginAction(formData: FormData) {
-  console.log("LOGIN:", JSON.stringify(formData));
-  await signIn("credentials", formData);
+  try {
+    console.log("LOGIN:", JSON.stringify(formData));
+    await signIn("credentials", { ...formData, redirect: false });
+  } catch (error) {
+    console.log("ERROR at loginAction", JSON.stringify(error, null, 2));
+  }
 }

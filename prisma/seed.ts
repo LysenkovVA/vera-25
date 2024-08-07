@@ -2,6 +2,10 @@ import { PrismaClient } from "@prisma/client";
 import { securityLevels } from "./seedData/securityLevelsData.seed";
 import { countries } from "./seedData/countriesData.seed";
 import { documents } from "./seedData/documentsData.seed";
+import { researchMethods } from "./seedData/researchMethods.seed";
+import { coverDesignDataSeed } from "./seedData/cover/coverDesignData.seed";
+import { coverTextureDataSeed } from "./seedData/cover/coverTextureData.seed";
+import { coverImageMethodDataSeed } from "./seedData/cover/coverImageMethodData.seed";
 
 const prisma = new PrismaClient();
 
@@ -20,10 +24,13 @@ async function main() {
   });
 
   // Добавление пользователей
+
+  const bcrypt = require("bcryptjs");
+
   const admin = await prisma.user.create({
     data: {
       login: "admin",
-      password: "123456",
+      password: bcrypt.hashSync("123456", 10),
       role: { connect: adminRole },
     },
   });
@@ -31,7 +38,7 @@ async function main() {
   const user = await prisma.user.create({
     data: {
       login: "user",
-      password: "123456",
+      password: bcrypt.hashSync("123456", 10),
       role: { connect: userRole },
     },
   });
@@ -53,6 +60,15 @@ async function main() {
       },
     });
   }
+
+  // for (const value of researchMethods) {
+  //   await prisma.researchMethod.create({
+  //     data: {
+  //       name: value.name,
+  //       position: value.position,
+  //     },
+  //   });
+  // }
 
   // Добавление документов
   for (const value of documents) {
@@ -88,6 +104,37 @@ async function main() {
         });
       }
     }
+  }
+
+  // ОБЛОЖКИ
+  // Конструкция обложек
+  for (const value of coverDesignDataSeed) {
+    await prisma.coverDesign.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // Фактура покровного материла обложек
+  for (const value of coverTextureDataSeed) {
+    await prisma.coverTexture.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  //
+  for (const value of coverImageMethodDataSeed) {
+    await prisma.coverImageMethod.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
   }
 }
 

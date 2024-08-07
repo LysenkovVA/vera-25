@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
-import AppHeader from "@/components/AppHeader";
+import AppHeader from "@/shared/UI/AppHeader";
 
 /**
  * Layout для страниц авторизованного пользователя

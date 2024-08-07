@@ -1,10 +1,10 @@
 // "use client";
-import { DocumentDto } from "@/dto/document.dto";
-import { Button, Flex, Result, Spin } from "antd";
+import { DocumentDto } from "@/entities/Document/dto/document.dto";
+import { Button, Flex, Result } from "antd";
 import { fetchDocumentsAction } from "@/app/api/documents/fetchDocuments.action";
 import { useEffect, useState } from "react";
 import styles from "./DocumentsContent.module.scss";
-import LoadingIndicator from "@/components/LoadingIndicator";
+import LoadingIndicator from "@/shared/UI/LoadingIndicator";
 
 export interface DocumentsContentProps {
   onSelectDocument?: (doc: DocumentDto) => void;
