@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Form, Input } from "antd";
+import { CoverForm } from "@/entities/Cover";
 
 const BlankDescriptionForm = () => {
   return (
@@ -13,7 +14,7 @@ const BlankDescriptionForm = () => {
         <Input placeholder={"Укажите название бланка"} />
       </Form.Item>
       <Form.Item label={"Обложка"}>
-        <Card></Card>
+        <CoverForm />
       </Form.Item>
       <Form.Item label={"Блок"}>
         <Card></Card>
