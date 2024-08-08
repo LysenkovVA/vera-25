@@ -1,0 +1,17 @@
+.DebounceSelect {
+  width: 100%;
+}
+
+.tagEditBtn {
+  &:hover {
+    color: #f8951c;
+    cursor: pointer;
+  }
+}
+
+.plusBtn {
+  &:hover {
+    color: #6d98f8;
+    cursor: pointer;
+  }
+}

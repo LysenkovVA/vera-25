@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { fn } from "@storybook/test";
-import NewBlancButton from "@/components/NewBlancButton";
 import RequirementCard from "@/components/RequirementsChecker/ui/RequirementCard/RequirementCard";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export

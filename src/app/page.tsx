@@ -1,10 +1,9 @@
 "use client";
-import { Col, Form, Row, Image, Input, Button } from "antd";
+import { Button, Col, Form, Image, Input, Row } from "antd";
 import Link from "next/link";
 import logo from "../../public/logo.png";
 import { loginAction } from "@/app/api/auth/login.action";
-import { redirect, useRouter } from "next/navigation";
-import { auth } from "../../auth";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
@@ -18,7 +17,7 @@ export default function Login() {
 
   useEffect(() => {
     if (session.status === "authenticated" && session.data?.user) {
-      router.push("/collection");
+      router.push("/blanks");
     }
   }, [router, session.data?.user, session.status]);
 

@@ -1,9 +1,9 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Drawer } from "antd";
+import { Button } from "antd";
 import { useState } from "react";
-import NewBlancMaster from "@/components/NewBlancMaster";
+import { BlankEditorDrawer } from "@/entities/Blank";
 
-const NewBlancButton = () => {
+const NewBlankButton = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -15,20 +15,17 @@ const NewBlancButton = () => {
       >
         Добавить
       </Button>
-      <Drawer
+      <BlankEditorDrawer
         closable
         destroyOnClose
-        title={<p>Новый бланк</p>}
+        title={<p>HHH</p>}
         height={"90%"}
         placement="bottom"
         open={open}
-        // loading={loading}
         onClose={() => setOpen(false)}
-      >
-        <NewBlancMaster />
-      </Drawer>
+      />
     </>
   );
 };
 
-export default NewBlancButton;
+export default NewBlankButton;

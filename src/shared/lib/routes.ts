@@ -4,6 +4,6 @@
 const authRoutes = [
   {
     name: "Коллекция",
-    path: "/collection",
+    path: "/blanks",
   },
 ];

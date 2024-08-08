@@ -55,11 +55,11 @@ model Blank {
   securityLevel   SecurityLevel? @relation(fields: [securityLevelId], references: [id])
   securityLevelId String?
   // Обложка
-  cover           Cover[]
+  covers          Cover[]
   // Блок
-  block           Block[]
+  blocks          Block[]
   // Скрепление
-  fastening       Fastening[]
+  fastenings      Fastening[]
 
   // Список ресурсов (изображений) бланка
   // resources Resource[]
@@ -98,7 +98,7 @@ model CoverDesign {
   name  String
   notes String?
 
-  cover Cover[]
+  covers Cover[]
 
   @@map("cover_designs")
 }
@@ -109,7 +109,7 @@ model CoverColor {
   name  String  @unique
   notes String?
 
-  cover Cover[]
+  covers Cover[]
 
   @@map("cover_colors")
 }
@@ -120,7 +120,7 @@ model CoverTexture {
   name  String  @unique
   notes String?
 
-  cover Cover[]
+  covers Cover[]
 
   @@map("cover_textures")
 }
@@ -130,7 +130,7 @@ model CoverImageMethod {
   name  String  @unique
   notes String?
 
-  cover Cover[]
+  covers Cover[]
 
   @@map("cover_image_methods")
 }
@@ -281,7 +281,7 @@ model FiberColor {
   name  String  @unique
   notes String?
 
-  fasteningFiber FasteningFiber[]
+  fasteningFibers FasteningFiber[]
 
   @@map("fiber_colors")
 }
@@ -292,7 +292,7 @@ model FiberMorphology {
   name  String  @unique
   notes String?
 
-  fasteningFiber FasteningFiber[]
+  fasteningFibers FasteningFiber[]
 
   @@map("fiber_morfologies")
 }
@@ -303,7 +303,7 @@ model FiberStep {
   name  String  @unique
   notes String?
 
-  fasteningFiber FasteningFiber[]
+  fasteningFibers FasteningFiber[]
 
   @@map("fiber_steps")
 }
@@ -336,7 +336,7 @@ model StaplesMaterial {
   name  String  @unique
   notes String?
 
-  fasteningStaple FasteningStaples[]
+  fasteningStaples FasteningStaples[]
 
   @@map("staple_materials")
 }
@@ -347,7 +347,7 @@ model StaplesBackSize {
   name  String  @unique
   notes String?
 
-  fasteningStaple FasteningStaples[]
+  fasteningStaples FasteningStaples[]
 
   @@map("staple_back_sizes")
 }
@@ -358,7 +358,7 @@ model StaplesDistance {
   name  String  @unique
   notes String?
 
-  fasteningStaple FasteningStaples[]
+  fasteningStaples FasteningStaples[]
 
   @@map("staple_distances")
 }
@@ -471,7 +471,7 @@ model SecurityLevel {
   id   String @id @default(cuid())
   name String @unique
 
-  blank Blank[]
+  blanks Blank[]
 
   @@map(name: "security_levels")
 }
@@ -481,7 +481,7 @@ model Country {
   id   String @id @default(cuid())
   name String @unique
 
-  blank Blank[]
+  blanks Blank[]
 
   @@map(name: "countries")
 }
@@ -491,7 +491,7 @@ model Manufacturer {
   id   String @id @default(cuid())
   name String @unique
 
-  blank Blank[]
+  blanks Blank[]
 
   @@map(name: "manufacturers")
 }

@@ -1,5 +1,4 @@
 import NextAuth from "next-auth";
-import { NextResponse } from "next/server";
 import { authConfig } from "@/shared/config/authConfig";
 
 const { auth } = NextAuth(authConfig);
@@ -17,5 +16,5 @@ export default auth((req) => {
 
 // Матчер для защищенных маршрутов
 export const config = {
-  matcher: ["/collection"],
+  matcher: ["/blanks"],
 };
