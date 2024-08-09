@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useState } from "react";
 import DrawerWrapper from "@/shared/UI/DrawerWrapper/DrawerWrapper";
 import { Button, DrawerProps, message, Steps, theme } from "antd";
@@ -33,7 +34,7 @@ const BlankEditorDrawer = (props: BlankEditorDrawerProps) => {
 
   const steps = [
     {
-      title: "Текстовое описание",
+      title: "Внешний вид, конструкция и реквизиты",
       description: "",
       content: <BlankForm onFieldsChange={onFieldsChanged} />,
     },
@@ -64,7 +65,7 @@ const BlankEditorDrawer = (props: BlankEditorDrawerProps) => {
   };
 
   return (
-    <DrawerWrapper {...restProps}>
+    <DrawerWrapper {...restProps} onClose={onClose}>
       <Steps current={current} items={items} />
       <div style={contentStyle}>{steps[current].content}</div>
       <div style={{ marginTop: 24 }}>

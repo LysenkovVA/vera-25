@@ -1,9 +1,17 @@
 import { Flex } from "antd";
+import { SecurityLevelSelector } from "@/entities/SecurityLevel";
 
 const Page = async () => {
   return (
-    <Flex align={"center"} justify={"center"} gap={16}>
+    <Flex
+      vertical
+      align={"center"}
+      justify={"center"}
+      gap={16}
+      style={{ width: "100%" }}
+    >
       <div>Dashboard</div>
+      <SecurityLevelSelector />
     </Flex>
   );
 };

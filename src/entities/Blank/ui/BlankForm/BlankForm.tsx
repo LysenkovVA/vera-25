@@ -3,6 +3,7 @@ import React from "react";
 import { Button, Card, Flex, Form, Input, Switch } from "antd";
 import { FieldData } from "rc-field-form/es/interface";
 import { MinusCircleFilled, PlusCircleFilled } from "@ant-design/icons";
+import { SecurityLevelSelector } from "@/entities/SecurityLevel";
 
 export interface BlankDescriptionFormProps {
   onFieldsChange?: (changedFields: FieldData[], allFields: FieldData[]) => void;
@@ -224,10 +225,84 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
     </Form.List>
   );
 
+  const fasteningFormContent = (
+    <Form.List name={"fastenings"}>
+      {(fields, { add, remove }) => (
+        <>
+          {fields.map(({ key, name, ...restField }) => (
+            <Flex key={key} gap={8}>
+              <MinusCircleFilled
+                style={{ color: "red" }}
+                onClick={() => remove(name)}
+              />
+              <Card style={{ marginBottom: 8, width: "100%" }}>
+                <>
+                  <Form.Item
+                    {...restField}
+                    labelCol={{ span: 4 }}
+                    label={"Способ скрепления блока с обложкой"}
+                    name={[name, "blockAndCoverFasteningMethod"]}
+                    rules={[{ required: true, message: "Не указано" }]}
+                  >
+                    <Input placeholder="Укажите" />
+                  </Form.Item>
+                  <Form.Item
+                    {...restField}
+                    labelCol={{ span: 4 }}
+                    label={"Способо скрпепления страниц блока"}
+                    name={[name, "blockPagesFasteningMethod"]}
+                    rules={[{ required: true, message: "Не указано" }]}
+                  >
+                    <Input placeholder="Укажите" />
+                  </Form.Item>
+                  <Form.Item
+                    {...restField}
+                    labelCol={{ span: 4 }}
+                    label={"Нить"}
+                    name={[name, "fasteningFibers"]}
+                  >
+                    <Input placeholder="Укажите" />
+                  </Form.Item>
+                  <Form.Item
+                    {...restField}
+                    labelCol={{ span: 4 }}
+                    label={"Скобы"}
+                    name={[name, "fasteningStaples"]}
+                    rules={[{ required: true, message: "Не указано" }]}
+                  >
+                    <Input placeholder={"Укажите"} />
+                  </Form.Item>
+                  <Form.Item
+                    {...restField}
+                    labelCol={{ span: 4 }}
+                    label={"Примечания"}
+                    name={[name, "notes"]}
+                  >
+                    <Input placeholder={"Укажите примечания"} />
+                  </Form.Item>
+                </>
+              </Card>
+            </Flex>
+          ))}
+          <Form.Item style={{ display: "flex", justifyItems: "start" }}>
+            <Button
+              type="link"
+              onClick={() => add()}
+              block
+              icon={<PlusCircleFilled style={{ color: "green" }} />}
+            >
+              Добавить скрепление
+            </Button>
+          </Form.Item>
+        </>
+      )}
+    </Form.List>
+  );
+
   return (
     <Form
       id={"blankForm"}
-      style={{ padding: 8, width: "100%" }}
+      style={{ padding: 4, width: "100%" }}
       labelCol={{ span: 4 }}
       labelWrap
       wrapperCol={{ span: 16 }}
@@ -236,8 +311,19 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
       <Form.Item label={"Название"} name={"name"}>
         <Input placeholder={"Укажите название бланка"} />
       </Form.Item>
+      <Form.Item label={"Страна"} name={"country"}>
+        <Input placeholder={"Укажите страну"} />
+      </Form.Item>
+      <Form.Item label={"Производитель"} name={"manufacturer"}>
+        <Input placeholder={"Укажите производителя"} />
+      </Form.Item>
+      <Form.Item label={"Уровень защищенности"} name={"securityLevel"}>
+        {/*<Input placeholder={"Укажите уровень защищенности"} />*/}
+        <SecurityLevelSelector />
+      </Form.Item>
       <Form.Item label={"Обложка"}>{coverFormContent}</Form.Item>
       <Form.Item label={"Блок"}>{blockFormContent}</Form.Item>
+      <Form.Item label={"Скрепление"}>{fasteningFormContent}</Form.Item>
     </Form>
   );
 };

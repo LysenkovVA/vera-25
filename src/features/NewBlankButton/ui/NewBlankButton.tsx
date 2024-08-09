@@ -18,7 +18,7 @@ const NewBlankButton = () => {
       <BlankEditorDrawer
         closable
         destroyOnClose
-        title={<p>HHH</p>}
+        title={<p>Новый бланк</p>}
         height={"90%"}
         placement="bottom"
         open={open}
