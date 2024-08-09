@@ -61,6 +61,8 @@ model Blank {
   // Скрепление
   fastenings      Fastening[]
 
+  notes String?
+
   // Список ресурсов (изображений) бланка
   // resources Resource[]
   @@map("blanks")
@@ -85,6 +87,8 @@ model Cover {
   // Способ нанесения изображений
   coverImageMethod   CoverImageMethod? @relation(fields: [coverImageMethodId], references: [id])
   coverImageMethodId String?
+  // Примечания
+  notes              String?
 
   blank   Blank  @relation(fields: [blankId], references: [id])
   blankId String
