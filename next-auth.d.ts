@@ -10,9 +10,7 @@ import { DefaultJWT } from "next-auth/jwt";
 declare module "next-auth" {
   interface Session {
     user: {
-      id: string;
       login: string;
-      password: string;
       role: {
         id: string;
         name: string;
@@ -23,10 +21,17 @@ declare module "next-auth" {
         name: string | undefined;
         avatar: string | undefined;
       };
-    } & DefaultSession;
+      /**
+       * By default, TypeScript merges new interface properties and overwrites existing ones.
+       * In this case, the default session user properties will be overwritten,
+       * with the new ones defined above. To keep the default session user properties,
+       * you need to add them back into the newly declared interface.
+       */
+    } & DefaultSession["user"];
   }
 
   interface User extends DefaultUser {
+    login: string;
     role: {
       id: string;
       name: string;
@@ -42,6 +47,7 @@ declare module "next-auth" {
 
 declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT {
+    login: string;
     role: {
       id: string;
       name: string;
