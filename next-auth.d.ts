@@ -13,40 +13,44 @@ declare module "next-auth" {
       id: string;
       login: string;
       password: string;
+      role: {
+        id: string;
+        name: string;
+      };
+      profile: {
+        id: string;
+        surname: string | undefined;
+        name: string | undefined;
+        avatar: string | undefined;
+      };
     } & DefaultSession;
   }
 
-  // interface User extends DefaultUser {
-  //   role: {
-  //     id: string;
-  //     name: string;
-  //   };
-  //   profile: {
-  //     id: string;
-  //     surname: string | undefined;
-  //     name: string | undefined;
-  //     birthDate: DateTime | undefined;
-  //     avatar: string | undefined;
-  //   };
-  // }
+  interface User extends DefaultUser {
+    role: {
+      id: string;
+      name: string;
+    };
+    profile: {
+      id: string;
+      surname: string | undefined;
+      name: string | undefined;
+      avatar: string | undefined;
+    };
+  }
 }
 
 declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT {
-    user: {
+    role: {
       id: string;
-      login: string;
+      name: string;
     };
-    // role: {
-    //   id: string;
-    //   name: string;
-    // };
-    // profile: {
-    //   id: string;
-    //   surname: string | undefined;
-    //   name: string | undefined;
-    //   birthDate: DateTime | undefined;
-    //   avatar: string | undefined;
-    // };
+    profile: {
+      id: string;
+      surname: string | undefined;
+      name: string | undefined;
+      avatar: string | undefined;
+    };
   }
 }

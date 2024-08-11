@@ -1,10 +1,11 @@
-import { CredentialsSignin, NextAuthConfig, User } from "next-auth";
+import { NextAuthConfig, User } from "next-auth";
 import Credentials from "@auth/core/providers/credentials";
 import prisma from "../../../prisma/db";
+import type { Adapter } from "next-auth/adapters";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
 export const authConfig: NextAuthConfig = {
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as Adapter,
   secret: process.env.AUTH_SECRET,
   debug: true,
   providers: [
@@ -24,6 +25,7 @@ export const authConfig: NextAuthConfig = {
           where: {
             login: credentials.login,
           },
+          include: { role: true, profile: true },
         });
 
         console.log(
@@ -45,7 +47,7 @@ export const authConfig: NextAuthConfig = {
           throw new Error("Неверный пароль!");
         }
 
-        return candidate;
+        return candidate as User;
       },
     }),
   ],
@@ -61,7 +63,8 @@ export const authConfig: NextAuthConfig = {
       console.log("JWT callback executing (authConfig)...");
       try {
         if (user) {
-          // token.user = user;
+          token.role = user.role;
+          token.profile = user.profile;
         }
         return token;
       } catch (error) {
@@ -74,6 +77,8 @@ export const authConfig: NextAuthConfig = {
       console.log("Session callback executing (authConfig)...");
       try {
         if (session.user) {
+          session.user.role = token.role;
+          session.user.profile = token.profile;
         }
 
         return session;

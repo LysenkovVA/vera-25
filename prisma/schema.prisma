@@ -25,6 +25,9 @@ model User {
   role   Role   @relation(fields: [roleId], references: [id])
   roleId String
 
+  profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?  @unique
+
   @@map(name: "users")
 }
 
@@ -35,6 +38,17 @@ model Role {
   users User[]
 
   @@map(name: "roles")
+}
+
+model Profile {
+  id      String  @id @default(cuid())
+  surname String?
+  name    String?
+  avatar  String?
+
+  User User?
+
+  @@map("profiles")
 }
 
 // -----------------------------------------------------

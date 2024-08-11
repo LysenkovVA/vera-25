@@ -2,7 +2,6 @@ import { PrismaClient } from "@prisma/client";
 import { securityLevels } from "./seedData/securityLevelsData.seed";
 import { countries } from "./seedData/countriesData.seed";
 import { documents } from "./seedData/documentsData.seed";
-import { researchMethods } from "./seedData/researchMethods.seed";
 import { coverDesignDataSeed } from "./seedData/cover/coverDesignData.seed";
 import { coverTextureDataSeed } from "./seedData/cover/coverTextureData.seed";
 import { coverImageMethodDataSeed } from "./seedData/cover/coverImageMethodData.seed";
@@ -11,17 +10,17 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Добавление ролей пользователей
-  const adminRole = await prisma.role.create({
-    data: {
-      name: "admin",
-    },
-  });
+  // const adminRole = await prisma.role.create({
+  //   data: {
+  //     name: "admin",
+  //   },
+  // });
 
-  const userRole = await prisma.role.create({
-    data: {
-      name: "user",
-    },
-  });
+  // const userRole = await prisma.role.create({
+  //   data: {
+  //     name: "user",
+  //   },
+  // });
 
   // Добавление пользователей
 
@@ -31,7 +30,18 @@ async function main() {
     data: {
       login: "admin",
       password: bcrypt.hashSync("123456", 10),
-      role: { connect: adminRole },
+      role: {
+        create: {
+          name: "admin",
+        },
+      },
+      profile: {
+        create: {
+          surname: "Иванов",
+          name: "Сергей",
+          avatar: "",
+        },
+      },
     },
   });
 
@@ -39,7 +49,18 @@ async function main() {
     data: {
       login: "user",
       password: bcrypt.hashSync("123456", 10),
-      role: { connect: userRole },
+      role: {
+        create: {
+          name: "user",
+        },
+      },
+      profile: {
+        create: {
+          surname: "Петров",
+          name: "Николай",
+          avatar: "",
+        },
+      },
     },
   });
 
