@@ -1,9 +1,15 @@
-import { Spin, SpinProps } from "antd";
+"use client";
+import { Flex, Spin, SpinProps } from "antd";
+import { memo } from "react";
 
 export interface LoadingIndicatorProps extends SpinProps {}
 
-const LoadingIndicator = (props: LoadingIndicatorProps) => {
-  return <Spin {...props}>{props.children}</Spin>;
-};
+const LoadingIndicator = memo((props: LoadingIndicatorProps) => {
+  return (
+    <Flex align={"center"} justify={"center"}>
+      <Spin {...props}>{props.children}</Spin>
+    </Flex>
+  );
+});
 
 export default LoadingIndicator;

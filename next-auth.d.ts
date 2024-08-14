@@ -1,15 +1,15 @@
 // Расширение стандартных интерфейсов AuthJS
 
+import { DefaultJWT } from "next-auth/jwt";
+
 /**
  * https://authjs.dev/getting-started/typescript#module-augmentation
  */
 
-import { DefaultSession, DefaultUser } from "next-auth";
-import { DefaultJWT } from "next-auth/jwt";
-
-declare module "next-auth" {
+export declare module "next-auth" {
   interface Session {
     user: {
+      id: string;
       login: string;
       role: {
         id: string;
@@ -21,16 +21,11 @@ declare module "next-auth" {
         name: string | undefined;
         avatar: string | undefined;
       };
-      /**
-       * By default, TypeScript merges new interface properties and overwrites existing ones.
-       * In this case, the default session user properties will be overwritten,
-       * with the new ones defined above. To keep the default session user properties,
-       * you need to add them back into the newly declared interface.
-       */
-    } & DefaultSession["user"];
+    };
   }
 
-  interface User extends DefaultUser {
+  interface User {
+    id: string;
     login: string;
     role: {
       id: string;
@@ -45,8 +40,9 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
+export declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT {
+    id: string;
     login: string;
     role: {
       id: string;

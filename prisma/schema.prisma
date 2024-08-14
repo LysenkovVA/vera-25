@@ -25,10 +25,21 @@ model User {
   role   Role   @relation(fields: [roleId], references: [id])
   roleId String
 
-  profile   Profile? @relation(fields: [profileId], references: [id])
-  profileId String?  @unique
+  profile   Profile?  @relation(fields: [profileId], references: [id])
+  profileId String?   @unique
+  sessions  Session[]
 
   @@map(name: "users")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
 }
 
 // Роли

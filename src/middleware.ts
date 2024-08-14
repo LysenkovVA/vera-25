@@ -1,20 +1,39 @@
-import NextAuth from "next-auth";
-import { authConfig } from "@/shared/config/authConfig";
+/**
+ * ПРОМЕЖУТОЧНОЕ ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ, КОТОРОЕ ВЫПОЛНЯЕТСЯ ДЛЯ ВСЕХ ЗАПРОСОВ
+ * МОЖЕТ БЫТЬ ИСПОЛЬЗОВАН ТОЛЬКО ОДИН ТАКОЙ ФАЙЛ НА ВСЕ ПРИЛОЖЕНИЕ
+ */
 
-const { auth } = NextAuth(authConfig);
+import { NextFunction } from "connect";
+import { NextRequest, NextResponse } from "next/server";
+import { corsOptions } from "@/shared/config/middleware/cors";
+import { auth } from "../auth";
 
-export default auth((req) => {
-  const { nextUrl } = req;
+export async function middleware(
+  request: NextRequest,
+  response: NextResponse,
+  next: NextFunction,
+) {
+  const { nextUrl } = request;
+  console.log(">>> FETCH URL:", nextUrl.pathname);
 
-  const isAuthenticated = !!req.auth;
+  const session = await auth();
 
-  // Если пользователь не авторизонван, перенаправляем на страницу входа
-  if (!isAuthenticated) {
-    return Response.redirect(new URL("/", nextUrl));
+  if (!session?.user) {
+    return NextResponse.json(
+      {
+        middlewareError: "Пользователь не авторизован",
+      },
+      { status: 403 },
+    );
   }
-});
 
-// Матчер для защищенных маршрутов
+  const res = NextResponse.next();
+  corsOptions(res);
+
+  return res;
+}
+
+// specify the path regex to apply the middleware to
 export const config = {
-  matcher: ["/blanks"],
+  matcher: ["/api/:path*", "/blanks", "/dashboard"],
 };

@@ -4,5 +4,6 @@ declare namespace NodeJS {
     readonly DATABASE_URL: string;
     readonly BASE_PATH: string;
     readonly AUTH_SECRET: string;
+    readonly PRIVATE_PATH: string;
   }
 }

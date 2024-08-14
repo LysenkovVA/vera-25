@@ -1,20 +1,35 @@
-import { NextAuthConfig, User } from "next-auth";
 import Credentials from "@auth/core/providers/credentials";
 import prisma from "../../../prisma/db";
 import type { Adapter } from "next-auth/adapters"; // Нужно это добавить, чтоб не было ошибки в adapter https://stackoverflow.com/questions/76503606/next-auth-error-adapter-is-not-assignable-to-type-adapter-undefined
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import { NextAuthConfig } from "next-auth";
 
 export const authConfig: NextAuthConfig = {
   adapter: PrismaAdapter(prisma) as Adapter,
+  pages: {
+    signIn: "/auth/signin",
+  },
+  session: {
+    // Для Credentials поддерживается только эта стратегия
+    strategy: "jwt",
+    maxAge: 7 * 24 * 60 * 60, // Set the session max age 7 days
+  },
   secret: process.env.AUTH_SECRET,
   debug: true,
   providers: [
     Credentials({
+      name: "Credentials",
       // You can specify which fields should be submitted, by adding keys to the `credentials` object.
       // e.g. domain, username, password, 2FA token, etc.
       credentials: {
-        login: {},
-        password: {},
+        login: {
+          label: "Login",
+          type: "text",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+        },
       },
       authorize: async (credentials) => {
         if (!credentials.login || !credentials.password) {
@@ -27,11 +42,6 @@ export const authConfig: NextAuthConfig = {
           },
           include: { role: true, profile: true },
         });
-
-        console.log(
-          "Found Candidate at authorize (auth config)",
-          JSON.stringify(candidate, null, 2),
-        );
 
         if (!candidate) {
           throw new Error("Пользователь не найден!");
@@ -47,22 +57,17 @@ export const authConfig: NextAuthConfig = {
           throw new Error("Неверный пароль!");
         }
 
-        return candidate as User;
+        const { password, ...userWithoutPass } = candidate;
+
+        return userWithoutPass as any;
       },
     }),
   ],
-  pages: {
-    signIn: "/",
-    // error: "/error",
-  },
-  session: {
-    strategy: "jwt",
-  },
   callbacks: {
     async jwt({ token, user }) {
-      console.log("JWT callback executing (authConfig)...");
       try {
         if (user) {
+          token.id = user.id!;
           token.login = user.login;
           token.role = user.role;
           token.profile = user.profile;
@@ -75,9 +80,9 @@ export const authConfig: NextAuthConfig = {
     },
     // Для использования в клиентских приложениях
     async session({ session, token }) {
-      console.log("Session callback executing (authConfig)...");
       try {
         if (session.user) {
+          session.user.id = token.id;
           session.user.login = token.login;
           session.user.role = token.role;
           session.user.profile = token.profile;
@@ -92,10 +97,5 @@ export const authConfig: NextAuthConfig = {
         return session;
       }
     },
-    // async authorized({ auth }) {
-    //   // Пользователь в прниципе авторизован,
-    //   // далее все проверки по ролям в middleware
-    //   return !!auth;
-    // },
   },
 };

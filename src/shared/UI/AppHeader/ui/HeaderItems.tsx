@@ -1,8 +1,4 @@
-import {
-  DashboardOutlined,
-  DatabaseOutlined,
-  FileProtectOutlined,
-} from "@ant-design/icons"; // type MenuItem = Required<MenuProps>["items"][number];
+import { DashboardOutlined, DatabaseOutlined } from "@ant-design/icons"; // type MenuItem = Required<MenuProps>["items"][number];
 
 // type MenuItem = Required<MenuProps>["items"][number];
 
@@ -15,13 +11,7 @@ export const HeaderItems = [
   },
   {
     key: "2",
-    label: `Документы (test)`,
-    icon: <FileProtectOutlined />,
-    target: "/documents",
-  },
-  {
-    key: "3",
-    label: `Статистика`,
+    label: `Панель управления`,
     icon: <DashboardOutlined />,
     target: "/dashboard",
   },
