@@ -4,6 +4,7 @@
 
 :root {
     --navbar-height: 100px;
+    --content-height: calc(100vh - var(--navbar-height));
 }
 
 /*:root {*/

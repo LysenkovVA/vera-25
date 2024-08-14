@@ -2,7 +2,8 @@
   display: flex;
   flex: auto;
   align-items: center;
-  background-color: black;
+  //background-color: black;
+  height: var(--navbar-height);
 }
 
 .Menu {
@@ -11,4 +12,5 @@
   min-width: 0;
   padding: 12px;
   margin-left: 16px;
+  height: var(--navbar-height);
 }

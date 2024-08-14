@@ -13,7 +13,7 @@ const AppHeader = () => {
   const router = useRouter();
 
   return (
-    <nav className={styles.Container}>
+    <div className={styles.Container}>
       <NewBlankButton />
       <Menu
         theme="dark"
@@ -35,7 +35,7 @@ const AppHeader = () => {
         <ProfileAvatar />
         <SignOutButton />
       </Space>
-    </nav>
+    </div>
   );
 };
 

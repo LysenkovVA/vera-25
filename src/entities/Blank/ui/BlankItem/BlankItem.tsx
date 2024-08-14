@@ -12,7 +12,7 @@ export interface BlankItemProps {
 const BlankItem = memo((props: BlankItemProps) => {
   const { blank, onClick } = props;
 
-  return <Card>{blank.name}</Card>;
+  return <Card style={{ margin: 4, height: 100 }}>{blank.name}</Card>;
 });
 
 export default BlankItem;

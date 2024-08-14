@@ -15,7 +15,10 @@ export default function UserLayout({
 }) {
   return (
     <Layout>
-      <Header style={{ display: "flex", alignItems: "center", height: "80px" }}>
+      <Header
+        // height должна быть синхронизирована с globals
+        style={{ display: "flex", alignItems: "center", height: "100px" }}
+      >
         <AppHeader />
       </Header>
       <Content
