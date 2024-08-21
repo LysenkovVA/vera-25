@@ -5,13 +5,20 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ReactNode } from "react";
 import AuthProvider from "@/shared/lib/Providers/AuthProvider";
 import { ConfigProvider } from "antd";
+// Локализация компонентов
+import ru_RU from "antd/lib/locale/ru_RU";
+import dayjs from "dayjs";
+import { StoreProvider } from "@/shared/lib/Providers/StoreProvider";
 
 const inter = Inter({ subsets: ["cyrillic"] });
 
 export const metadata: Metadata = {
-  title: "Бланки-25",
+  title: "Допуск-ЗПП 25",
   description: "Система учета",
 };
+
+// для локализации календаря
+dayjs.locale("ru");
 
 export default function RootLayout({
   children,
@@ -21,11 +28,17 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body>
-        <ConfigProvider>
+        {/*Redux*/}
+        <StoreProvider>
+          {/*Auth JS*/}
           <AuthProvider>
-            <AntdRegistry>{children}</AntdRegistry>
+            {/*Ant Design config provider*/}
+            <ConfigProvider locale={ru_RU}>
+              {/*Ant Design for Next JS*/}
+              <AntdRegistry>{children}</AntdRegistry>
+            </ConfigProvider>
           </AuthProvider>
-        </ConfigProvider>
+        </StoreProvider>
       </body>
     </html>
   );

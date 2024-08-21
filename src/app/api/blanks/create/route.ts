@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import prisma from "../../../../../prisma/db";
-import { BlankDto } from "@/entities/Blank";
+import { Blank } from "@/entities/Blank";
 
 export async function POST(request: Request, response: Response) {
-  const data: BlankDto = await request.json();
+  const data: Blank = await request.json();
 
   if (!data.name) {
     return NextResponse.json("name is required");

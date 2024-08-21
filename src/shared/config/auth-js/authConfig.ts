@@ -1,5 +1,5 @@
 import Credentials from "@auth/core/providers/credentials";
-import prisma from "../../../prisma/db";
+import prisma from "../../../../prisma/db";
 import type { Adapter } from "next-auth/adapters"; // Нужно это добавить, чтоб не было ошибки в adapter https://stackoverflow.com/questions/76503606/next-auth-error-adapter-is-not-assignable-to-type-adapter-undefined
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { NextAuthConfig } from "next-auth";

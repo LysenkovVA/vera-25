@@ -11,7 +11,7 @@ export const HeaderItems = [
   },
   {
     key: "2",
-    label: `Панель управления`,
+    label: `Статистика`,
     icon: <DashboardOutlined />,
     target: "/dashboard",
   },

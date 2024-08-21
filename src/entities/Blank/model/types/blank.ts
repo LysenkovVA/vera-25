@@ -5,8 +5,8 @@ import { ManufacturerDto } from "@/entities/Manufacturer";
 import { SecurityLevelDto } from "@/entities/SecurityLevel";
 import { FasteningDto } from "@/entities/Fastening";
 
-export interface BlankDto {
-  id?: string;
+export interface Blank {
+  id: string;
   name?: string;
   country?: CountryDto;
   manufacturer?: ManufacturerDto;

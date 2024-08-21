@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import DrawerWrapper from "@/shared/UI/DrawerWrapper/DrawerWrapper";
 import { Button, DrawerProps, message, Steps, theme } from "antd";
 import { createBlankAction } from "@/app/api/blanks/create/createBlank.action";
-import { BlankDto, BlankForm } from "@/entities/Blank";
+import { Blank, BlankForm } from "@/entities/Blank";
 import { FieldData } from "rc-field-form/es/interface";
 
 export interface BlankEditorDrawerProps extends Omit<DrawerProps, "children"> {}
@@ -14,12 +14,12 @@ const BlankEditorDrawer = (props: BlankEditorDrawerProps) => {
   const [current, setCurrent] = useState(0);
   const { token } = theme.useToken();
 
-  const [data, setData] = useState<BlankDto>({});
+  const [data, setData] = useState<Blank>({ id: "" });
 
   const onFieldsChanged = useCallback(
     (changedFields: FieldData[], allFields: FieldData[]) => {
       changedFields.map((field: FieldData) => {
-        const newData: BlankDto = {
+        const newData: Blank = {
           ...data,
           [field.name]: field.value,
         };

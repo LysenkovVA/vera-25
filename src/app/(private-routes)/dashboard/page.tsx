@@ -1,4 +1,5 @@
-import { Flex } from "antd";
+"use client";
+import { Flex, Typography } from "antd";
 import { memo } from "react";
 
 interface DashboardPageProps {}
@@ -8,13 +9,12 @@ const DashboardPage = memo((props: DashboardPageProps) => {
   return (
     <Flex
       vertical
-      align={"center"}
+      align={"start"}
       justify={"center"}
       gap={16}
       style={{ width: "100%" }}
     >
-      <div>Панель управления</div>
-      {/*<SecurityLevelSelector />*/}
+      <Typography.Title>Статистика</Typography.Title>
     </Flex>
   );
 });

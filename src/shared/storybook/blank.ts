@@ -1,6 +1,6 @@
-import { BlankDto } from "@/entities/Blank";
+import { Blank } from "@/entities/Blank";
 
-export const blankStorybook: BlankDto = {
+export const blankStorybook: Blank = {
   id: "blankId",
   name: "Свидетельство о государственной регистрации права собственности",
 };
