@@ -93,6 +93,36 @@ model Blank {
   @@map("blanks")
 }
 
+// Уровень защищенности
+model SecurityLevel {
+  id   String @id @default(cuid())
+  name String @unique
+
+  blanks Blank[]
+
+  @@map(name: "security_levels")
+}
+
+// Страна
+model Country {
+  id   String @id @default(cuid())
+  name String @unique
+
+  blanks Blank[]
+
+  @@map(name: "countries")
+}
+
+// Производитель
+model Manufacturer {
+  id   String @id @default(cuid())
+  name String @unique
+
+  blanks Blank[]
+
+  @@map(name: "manufacturers")
+}
+
 // -----------------------------------------------------
 
 // Обложка
@@ -394,136 +424,114 @@ model StaplesDistance {
 
 // -----------------------------------------------------
 
-// Ресурс (набор изображений в различных режимах, например страница паспорта в УФ, ИК, на просвет и т.д.)
-// model Resource {
-//   id       String @id @default(cuid())
-//   // Название (например страница №1)
-//   name     String
-//   // Позиция для сортировки
-//   position Int
-//
-//   notes String?
-//
-//   // Ссылка на бланк
-//   blank   Blank  @relation(fields: [blankId], references: [id])
-//   blankId String
-//
-//   // Изображения ресурса
-//   pictures Picture[]
-//   remedies Remedy[]
-//
-//   @@map("resources")
-// }
-//
-// // Изображение
-// model Picture {
-//   id String @id @default(cuid())
-//
-//   name            String
-//   thumbnailPath   String?
-//   highQualityPath String?
-//   size            Int?
-//   mimeType        String?
-//   notes           String?
-//
-//   // Режим изображения (УФ, ИК и др.)
-//   researchMethod   ResearchMethod? @relation(fields: [researchMethodId], references: [id])
-//   researchMethodId String?
-//
-//   // Ссылка на ресурс
-//   resource   Resource? @relation(fields: [resourceId], references: [id])
-//   resourceId String?
-//
-//   // Ссылка на средство защиты
-//   remedy   Remedy? @relation(fields: [remedyId], references: [id])
-//   remedyId String?
-//
-//   // Ссылка на устройство, с помощью которого получено изображение
-//   sourceDevice   SourceDevice? @relation(fields: [sourceDeviceId], references: [id])
-//   sourceDeviceId String?
-//
-//   @@map("pictures")
-// }
+// Изображение
+// Это просто ссылка на физическое изображение
+// в файловой системе
+model Image {
+  id              String  @id @default(cuid())
+  // Имя файла
+  fileName        String
+  // Путь к сжатому изображению
+  thumbnailPath   String?
+  // Путь к оригиналу
+  highQualityPath String?
+  // Размер
+  size            Int?
+  // Тип
+  mimeType        String?
+  // Примечания
+  notes           String?
+
+  // Ссылка на режим изображения (УФ, ИК и др.)
+  researchMethod   ResearchMethod? @relation(fields: [researchMethodId], references: [id])
+  researchMethodId String?
+
+  // Ссылка на набор изображений
+  imageSet   ImageSet? @relation(fields: [imageSetId], references: [id])
+  imageSetId String?
+
+  // Ссылка на устройство, с помощью которого получено изображение
+  sourceDevice   SourceDevice? @relation(fields: [sourceDeviceId], references: [id])
+  sourceDeviceId String?
+
+  @@map("images")
+}
 
 // Метод исследования (Сканирование, Ультрафиолет, ИК образ, Просвет, Косопадающее освещение, Микроскопия)
-// model ResearchMethod {
-//   id       String  @id @default(cuid())
-//   name     String  @unique
-//   position Int
-//   notes    String?
-//
-//   pictures Picture[]
-//
-//   @@map("research_methods")
-// }
+model ResearchMethod {
+  id       String  @id @default(cuid())
+  name     String  @unique
+  // Позиция (для сортировки)
+  position Int
+  notes    String?
 
-// Источник данных изображения
-// model SourceDevice {
-//   id    String  @id @default(cuid())
-//   name  String  @unique
-//   notes String?
-//
-//   pictures Picture[]
-//
-//   @@map("source_devices")
-// }
+  images Image[]
+
+  @@map("research_methods")
+}
+
+// Набор изображений одной картинки (логически) различными методами исследования
+model ImageSet {
+  id       String   @id @default(cuid())
+  images   Image[]
+  remedies Remedy[]
+
+  imageResource   ImageResource? @relation(fields: [imageResourceId], references: [id])
+  imageResourceId String?
+
+  @@map("image_sets")
+}
 
 // Средства защиты
-// model Remedy {
-//   id          String  @id @default(cuid())
-//   name        String  @unique
-//   description String?
-//
-//   // Ссылка на ресурс
-//   resource   Resource @relation(fields: [resourceId], references: [id])
-//   resourceId String
-//
-//   remedyVariety   RemedyVariety @relation(fields: [remedyVarietyId], references: [id])
-//   remedyVarietyId String
-//
-//   pictures Picture[]
-//
-//   @@map("remedies")
-// }
+model Remedy {
+  id String @id @default(cuid())
+
+  remedyVariety   RemedyVariety? @relation(fields: [remedyVarietyId], references: [id])
+  remedyVarietyId String?
+
+  imageSet   ImageSet? @relation(fields: [imageSetId], references: [id])
+  imageSetId String?
+
+  @@map("remedies")
+}
 
 // Разновидность средства защиты
-// model RemedyVariety {
-//   id     String   @id @default(cuid())
-//   name   String
-//   remedy Remedy[]
+model RemedyVariety {
+  id     String   @id @default(cuid())
+  name   String
+  remedy Remedy[]
+
+  @@map("remedy_varieties")
+}
+
+// Ресурс (набор изображений в различных режимах, например страница паспорта в УФ, ИК, на просвет и т.д.)
+model ImageResource {
+  id       String  @id @default(cuid())
+  // Название (например страница №1)
+  name     String
+  // Позиция для сортировки
+  position Int
+  notes    String?
+
+  imageSets ImageSet[]
+
+  @@map("image_resources")
+}
+
 //
-//   @@map("remedy_varieties")
-// }
 
-// Уровень защищенности
-model SecurityLevel {
-  id   String @id @default(cuid())
-  name String @unique
+// Источник данных изображения
+model SourceDevice {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  notes String?
 
-  blanks Blank[]
+  images Image[]
 
-  @@map(name: "security_levels")
+  @@map("source_devices")
 }
 
-// Страна
-model Country {
-  id   String @id @default(cuid())
-  name String @unique
-
-  blanks Blank[]
-
-  @@map(name: "countries")
-}
-
-// Производитель
-model Manufacturer {
-  id   String @id @default(cuid())
-  name String @unique
-
-  blanks Blank[]
-
-  @@map(name: "manufacturers")
-}
+// -----------------------------------------------------
 
 // НПА с требованиями
 model Document {
@@ -567,3 +575,5 @@ model Requirement {
 
   @@map(name: "requirements")
 }
+
+// -----------------------------------------------------

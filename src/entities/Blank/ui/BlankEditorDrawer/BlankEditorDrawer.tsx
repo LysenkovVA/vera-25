@@ -1,20 +1,26 @@
 "use client";
 import { useCallback, useState } from "react";
 import DrawerWrapper from "@/shared/UI/DrawerWrapper/DrawerWrapper";
-import { Button, DrawerProps, message, Steps, theme } from "antd";
-import { createBlankAction } from "@/app/api/blanks/create/createBlank.action";
+import { Button, DrawerProps, Steps, theme } from "antd";
 import { Blank, BlankForm } from "@/entities/Blank";
 import { FieldData } from "rc-field-form/es/interface";
+import { useAppDispatch } from "@/shared/lib/hooks/useAppDispatch";
+import { createBlankService } from "@/entities/Blank/model/services/createBlank.service";
+import useMessage from "antd/es/message/useMessage";
 
 export interface BlankEditorDrawerProps extends Omit<DrawerProps, "children"> {}
 
 const BlankEditorDrawer = (props: BlankEditorDrawerProps) => {
+  const [messageApi, contextHolder] = useMessage();
+
   const { onClose, ...restProps } = props;
 
   const [current, setCurrent] = useState(0);
   const { token } = theme.useToken();
 
   const [data, setData] = useState<Blank>({ id: "" });
+
+  const dispatch = useAppDispatch();
 
   const onFieldsChanged = useCallback(
     (changedFields: FieldData[], allFields: FieldData[]) => {
@@ -66,6 +72,7 @@ const BlankEditorDrawer = (props: BlankEditorDrawerProps) => {
 
   return (
     <DrawerWrapper {...restProps} onClose={onClose}>
+      {contextHolder}
       <Steps current={current} items={items} />
       <div style={contentStyle}>{steps[current].content}</div>
       <div style={{ marginTop: 24 }}>
@@ -78,12 +85,13 @@ const BlankEditorDrawer = (props: BlankEditorDrawerProps) => {
           <Button
             type="primary"
             onClick={(e) => {
-              createBlankAction(data)
-                .then((result) => {
-                  message.success("Данные сохранены!");
-                  onClose?.(e);
-                })
-                .catch((error) => message.error(error));
+              try {
+                dispatch(createBlankService({ blank: data }));
+                messageApi.success(`'${data.name}' сохранен!`);
+                onClose?.(e);
+              } catch (error) {
+                messageApi.error(error as string);
+              }
             }}
           >
             Готово

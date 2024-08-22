@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { blanksListReducer } from "@/features/BlanksList/model/slice/blanksList.slice";
+import { blankSliceReducer } from "@/entities/Blank";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       blanksList: blanksListReducer,
+      blankDetails: blankSliceReducer,
     },
   });
 };

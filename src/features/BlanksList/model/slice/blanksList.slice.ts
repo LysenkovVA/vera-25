@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BlanksListSchema } from "@/features/BlanksList/model/types/blanksList.schema";
 import { blanksListAdapter } from "@/features/BlanksList/model/adapter/blanksList.adapter";
 import { fetchBlanksListService } from "@/features/BlanksList/model/services/fetchBlanksList/fetchBlanksList.service";
+import { createBlankService } from "@/entities/Blank/model/services/createBlank.service";
 
 const initialState: BlanksListSchema = {
   ids: [],
@@ -68,6 +69,10 @@ export const blanksListSlice = createSlice({
           // Очищаем старые
           blanksListAdapter.removeAll(state);
         }
+      })
+      // Добавление бланка
+      .addCase(createBlankService.fulfilled, (state, action) => {
+        blanksListAdapter.addOne(state, action.payload);
       });
   },
 });
