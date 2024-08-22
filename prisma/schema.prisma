@@ -89,7 +89,8 @@ model Blank {
   notes String?
 
   // Список ресурсов (изображений) бланка
-  // resources Resource[]
+  imageResources ImageResource[]
+
   @@map("blanks")
 }
 
@@ -145,7 +146,7 @@ model Cover {
   // Примечания
   notes              String?
 
-  blank   Blank  @relation(fields: [blankId], references: [id])
+  blank   Blank  @relation(fields: [blankId], references: [id], onDelete: Cascade)
   blankId String
 
   @@map("covers")
@@ -220,7 +221,7 @@ model Block {
   // Примечания
   notes                String?
 
-  blank   Blank?  @relation(fields: [blankId], references: [id])
+  blank   Blank?  @relation(fields: [blankId], references: [id], onDelete: Cascade)
   blankId String?
 
   @@map("blocks")
@@ -282,7 +283,7 @@ model Fastening {
   // Примечания
   notes                          String?
 
-  blank   Blank?  @relation(fields: [blankId], references: [id])
+  blank   Blank?  @relation(fields: [blankId], references: [id], onDelete: Cascade)
   blankId String?
 
   @@map("fastenings")
@@ -328,7 +329,7 @@ model FasteningFiber {
   // Примечания
   notes             String?
 
-  fastening   Fastening? @relation(fields: [fasteningId], references: [id])
+  fastening   Fastening? @relation(fields: [fasteningId], references: [id], onDelete: Cascade)
   fasteningId String?
 
   @@map("fastening_fibers")
@@ -383,7 +384,7 @@ model FasteningStaples {
   // Примечания
   notes             String?
 
-  fastening   Fastening? @relation(fields: [fasteningId], references: [id])
+  fastening   Fastening? @relation(fields: [fasteningId], references: [id], onDelete: Cascade)
   fasteningId String?
 
   @@map("fastening_staples")
@@ -447,7 +448,7 @@ model Image {
   researchMethodId String?
 
   // Ссылка на набор изображений
-  imageSet   ImageSet? @relation(fields: [imageSetId], references: [id])
+  imageSet   ImageSet? @relation(fields: [imageSetId], references: [id], onDelete: Cascade)
   imageSetId String?
 
   // Ссылка на устройство, с помощью которого получено изображение
@@ -476,7 +477,7 @@ model ImageSet {
   images   Image[]
   remedies Remedy[]
 
-  imageResource   ImageResource? @relation(fields: [imageResourceId], references: [id])
+  imageResource   ImageResource? @relation(fields: [imageResourceId], references: [id], onDelete: Cascade)
   imageResourceId String?
 
   @@map("image_sets")
@@ -489,7 +490,7 @@ model Remedy {
   remedyVariety   RemedyVariety? @relation(fields: [remedyVarietyId], references: [id])
   remedyVarietyId String?
 
-  imageSet   ImageSet? @relation(fields: [imageSetId], references: [id])
+  imageSet   ImageSet? @relation(fields: [imageSetId], references: [id], onDelete: Cascade)
   imageSetId String?
 
   @@map("remedies")
@@ -514,6 +515,9 @@ model ImageResource {
   notes    String?
 
   imageSets ImageSet[]
+
+  blank   Blank?  @relation(fields: [blankId], references: [id], onDelete: Cascade)
+  blankId String?
 
   @@map("image_resources")
 }
@@ -557,7 +561,7 @@ model RequirementGroup {
 
   requirements Requirement[]
 
-  document   Document @relation(fields: [documentId], references: [id])
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
   documentId String
 
   @@map(name: "requirement_groups")
@@ -570,7 +574,7 @@ model Requirement {
   position Int
   notes    String?
 
-  requirementGroup   RequirementGroup @relation(fields: [requirementGroupId], references: [id])
+  requirementGroup   RequirementGroup @relation(fields: [requirementGroupId], references: [id], onDelete: Cascade)
   requirementGroupId String
 
   @@map(name: "requirements")

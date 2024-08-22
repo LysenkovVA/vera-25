@@ -73,6 +73,11 @@ export const blanksListSlice = createSlice({
       // Добавление бланка
       .addCase(createBlankService.fulfilled, (state, action) => {
         blanksListAdapter.addOne(state, action.payload);
+        if (state.totalCount) {
+          state.totalCount = state.totalCount + 1;
+        } else {
+          state.totalCount = 1;
+        }
       });
   },
 });

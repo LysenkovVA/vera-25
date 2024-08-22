@@ -1,6 +1,15 @@
 "use client";
 import React from "react";
-import { Button, Card, Flex, Form, Input, Switch } from "antd";
+import {
+  Button,
+  Card,
+  Divider,
+  Flex,
+  Form,
+  Input,
+  Switch,
+  Typography,
+} from "antd";
 import { FieldData } from "rc-field-form/es/interface";
 import { MinusCircleFilled, PlusCircleFilled } from "@ant-design/icons";
 import { SecurityLevelSelector } from "@/entities/SecurityLevel";
@@ -308,6 +317,9 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
       wrapperCol={{ span: 16 }}
       onFieldsChange={onFieldsChange}
     >
+      <Divider orientation={"left"}>
+        <Typography.Title level={4}>Общие сведения</Typography.Title>
+      </Divider>
       <Form.Item label={"Название"} name={"name"}>
         <Input placeholder={"Укажите название бланка"} />
       </Form.Item>
@@ -318,9 +330,11 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
         <Input placeholder={"Укажите производителя"} />
       </Form.Item>
       <Form.Item label={"Уровень защищенности"} name={"securityLevel"}>
-        {/*<Input placeholder={"Укажите уровень защищенности"} />*/}
         <SecurityLevelSelector />
       </Form.Item>
+      <Divider orientation={"left"}>
+        <Typography.Title level={4}>Конструкция</Typography.Title>
+      </Divider>
       <Form.Item label={"Обложка"}>{coverFormContent}</Form.Item>
       <Form.Item label={"Блок"}>{blockFormContent}</Form.Item>
       <Form.Item label={"Скрепление"}>{fasteningFormContent}</Form.Item>

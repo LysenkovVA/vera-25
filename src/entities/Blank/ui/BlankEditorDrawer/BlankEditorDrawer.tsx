@@ -71,39 +71,41 @@ const BlankEditorDrawer = (props: BlankEditorDrawerProps) => {
   };
 
   return (
-    <DrawerWrapper {...restProps} onClose={onClose}>
+    <>
       {contextHolder}
-      <Steps current={current} items={items} />
-      <div style={contentStyle}>{steps[current].content}</div>
-      <div style={{ marginTop: 24 }}>
-        {current < steps.length - 1 && (
-          <Button type="primary" onClick={() => next()}>
-            Далее
-          </Button>
-        )}
-        {current === steps.length - 1 && (
-          <Button
-            type="primary"
-            onClick={(e) => {
-              try {
-                dispatch(createBlankService({ blank: data }));
-                messageApi.success(`'${data.name}' сохранен!`);
-                onClose?.(e);
-              } catch (error) {
-                messageApi.error(error as string);
-              }
-            }}
-          >
-            Готово
-          </Button>
-        )}
-        {current > 0 && (
-          <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
-            Назад
-          </Button>
-        )}
-      </div>
-    </DrawerWrapper>
+      <DrawerWrapper {...restProps} onClose={onClose}>
+        <Steps current={current} items={items} />
+        <div style={contentStyle}>{steps[current].content}</div>
+        <div style={{ marginTop: 24 }}>
+          {current < steps.length - 1 && (
+            <Button type="primary" onClick={() => next()}>
+              Далее
+            </Button>
+          )}
+          {current === steps.length - 1 && (
+            <Button
+              type="primary"
+              onClick={(e) => {
+                try {
+                  dispatch(createBlankService({ blank: data }));
+                  messageApi.success(`'${data.name}' сохранен!`);
+                  onClose?.(e);
+                } catch (error) {
+                  messageApi.error(error as string);
+                }
+              }}
+            >
+              Готово
+            </Button>
+          )}
+          {current > 0 && (
+            <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
+              Назад
+            </Button>
+          )}
+        </div>
+      </DrawerWrapper>
+    </>
   );
 };
 
