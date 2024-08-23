@@ -1,8 +1,7 @@
 "use client";
 import { Selector, SelectorOption } from "@/shared/UI/Selector";
 import { memo, useEffect } from "react";
-import { useAppDispatch } from "@/shared/lib/hooks/useAppDispatch";
-import { useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/shared/lib/hooks/storeHooks";
 import {
   getSecurityLevelsList,
   getSecurityLevelsListError,
@@ -22,10 +21,10 @@ export const SecurityLevelSelector = memo(
     const { placeholder } = props;
 
     const dispatch = useAppDispatch();
-    const data = useSelector(getSecurityLevelsList.selectAll);
-    const loading = useSelector(getSecurityLevelsListIsLoading);
-    const error = useSelector(getSecurityLevelsListError);
-    const isInitialized = useSelector(getSecurityLevelsListIsInitialized);
+    const data = useAppSelector(getSecurityLevelsList.selectAll);
+    const loading = useAppSelector(getSecurityLevelsListIsLoading);
+    const error = useAppSelector(getSecurityLevelsListError);
+    const isInitialized = useAppSelector(getSecurityLevelsListIsInitialized);
 
     useEffect(() => {
       if (!isInitialized && !loading) {

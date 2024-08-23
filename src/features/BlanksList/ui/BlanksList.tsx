@@ -15,7 +15,7 @@ import {
 } from "@/features/BlanksList/model/selectors/blanksList.selectors";
 import { fetchBlanksListService } from "@/features/BlanksList/model/services/fetchBlanksList/fetchBlanksList.service";
 import { blanksListActions } from "@/features/BlanksList/model/slice/blanksList.slice";
-import { useAppDispatch } from "@/shared/lib/hooks/useAppDispatch";
+import { useAppDispatch } from "@/shared/lib/hooks/storeHooks";
 
 export interface BlanksListProps {}
 

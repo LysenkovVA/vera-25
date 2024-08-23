@@ -4,6 +4,17 @@
     "plugin:storybook/recommended"
   ],
   "rules": {
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "no-restricted-imports": [
+      "warn",
+      {
+        "name": "react-redux",
+        "importNames": [
+          "useSelector",
+          "useDispatch"
+        ],
+        "message": "Используйте типизированные хуки `useAppDispatch` и `useAppSelector`!"
+      }
+    ]
   }
 }

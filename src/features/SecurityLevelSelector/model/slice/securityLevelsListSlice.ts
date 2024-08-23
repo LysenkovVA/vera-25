@@ -20,7 +20,6 @@ export const securityLevelsListSlice = createSlice({
       .addCase(fetchSecurityLevelsListService.pending, (state, action) => {
         state.isLoading = true;
         state.error = undefined;
-
         // Если данные заменяются
         if (action.meta.arg.replaceData) {
           // Очищаем старые
