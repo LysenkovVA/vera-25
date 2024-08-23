@@ -4,36 +4,37 @@ import { memo, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/shared/lib/hooks/storeHooks";
 
 import { Typography } from "antd";
-import { fetchCountriesListService } from "@/features/CountrySelector/model/services/fetchCountriesList/fetchBlanksList.service";
-import {
-  getCountriesList,
-  getCountriesListError,
-  getCountriesListIsInitialized,
-  getCountriesListIsLoading,
-} from "@/features/CountrySelector";
-import { Country } from "@/entities/Country";
 
-export interface CountrySelectorProps {
+import { Manufacturer } from "@/entities/Manufacturer";
+import {
+  getManufacturersList,
+  getManufacturersListError,
+  getManufacturersListIsInitialized,
+  getManufacturersListIsLoading,
+} from "@/features/ManufacturerSelector";
+import { fetchManufacturersListService } from "../model/services/fetchManufacturersList/fetchManufacturersListService";
+
+export interface ManufacturerSelectorProps {
   placeholder?: string;
   onSelectChange?: (id: string | undefined) => void;
 }
 
-export const CountrySelector = memo((props: CountrySelectorProps) => {
+export const ManufacturerSelector = memo((props: ManufacturerSelectorProps) => {
   const { placeholder, onSelectChange } = props;
 
   const dispatch = useAppDispatch();
-  const data = useAppSelector(getCountriesList.selectAll);
-  const loading = useAppSelector(getCountriesListIsLoading);
-  const error = useAppSelector(getCountriesListError);
-  const isInitialized = useAppSelector(getCountriesListIsInitialized);
+  const data = useAppSelector(getManufacturersList.selectAll);
+  const loading = useAppSelector(getManufacturersListIsLoading);
+  const error = useAppSelector(getManufacturersListError);
+  const isInitialized = useAppSelector(getManufacturersListIsInitialized);
 
   useEffect(() => {
     if (!isInitialized && !loading) {
-      dispatch(fetchCountriesListService({ replaceData: true }));
+      dispatch(fetchManufacturersListService({ replaceData: true }));
     }
   }, [isInitialized, dispatch, loading, data]);
 
-  const opts = data.map((value: Country): SelectorOption => {
+  const opts = data.map((value: Manufacturer): SelectorOption => {
     return { value: value.id!, label: <div>{value.name}</div> };
   });
 
