@@ -12,5 +12,11 @@ export interface SelectorProps extends Omit<SelectProps, "options" | "style"> {
 
 export const Selector = memo((props: SelectorProps) => {
   const { options, ...restProps } = props;
-  return <Select {...restProps} style={{ width: "100%" }} options={options} />;
+  return (
+    <Select
+      {...restProps}
+      style={{ width: "100%", textAlign: "start" }}
+      options={options}
+    />
+  );
 });

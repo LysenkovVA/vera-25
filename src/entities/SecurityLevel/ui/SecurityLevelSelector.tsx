@@ -4,10 +4,13 @@ import { memo, useEffect, useState } from "react";
 import { fetchSecurityLevelsAction } from "@/app/api/security-levels/fetchSecurityLevels.action";
 import { SecurityLevelDto } from "@/entities/SecurityLevel";
 
-export interface SecurityLevelSelectorProps {}
+export interface SecurityLevelSelectorProps {
+  placeholder?: string;
+}
 
 export const SecurityLevelSelector = memo(
   (props: SecurityLevelSelectorProps) => {
+    const { placeholder } = props;
     const [options, setOptions] = useState<SelectorOption[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -27,7 +30,13 @@ export const SecurityLevelSelector = memo(
     }, []);
 
     return (
-      <Selector options={options} loading={loading} allowClear showSearch />
+      <Selector
+        placeholder={placeholder}
+        options={options}
+        loading={loading}
+        allowClear
+        showSearch
+      />
     );
   },
 );

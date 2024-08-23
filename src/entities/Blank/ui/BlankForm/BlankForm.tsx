@@ -8,6 +8,7 @@ import {
   Form,
   Input,
   Switch,
+  Tabs,
   Typography,
 } from "antd";
 import { FieldData } from "rc-field-form/es/interface";
@@ -20,6 +21,29 @@ export interface BlankDescriptionFormProps {
 
 const BlankForm = (props: BlankDescriptionFormProps) => {
   const { onFieldsChange } = props;
+
+  const infoFormContent = (
+    <>
+      <Divider orientation={"left"}>
+        <Typography.Title level={4}>Общие сведения</Typography.Title>
+      </Divider>
+      <Form.Item label={"Название"} name={"name"}>
+        <Input.TextArea
+          placeholder={"Укажите название бланка"}
+          autoSize={{ minRows: 3, maxRows: 3 }}
+        />
+      </Form.Item>
+      <Form.Item label={"Страна"} name={"country"}>
+        <Input placeholder={"Укажите страну"} />
+      </Form.Item>
+      <Form.Item label={"Производитель"} name={"manufacturer"}>
+        <Input placeholder={"Укажите производителя"} />
+      </Form.Item>
+      <Form.Item label={"Уровень защищенности"} name={"securityLevel"}>
+        <SecurityLevelSelector placeholder={"Укажите уровень защищенности"} />
+      </Form.Item>
+    </>
+  );
 
   const coverFormContent = (
     <Form.List name={"covers"}>
@@ -308,6 +332,44 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
     </Form.List>
   );
 
+  // Размещение основных реквизитов
+  const detailsLocationFormContent = <>{"Контент размещения реквизитов"}</>;
+
+  // Персонализация
+  const personalizationFormContent = <>{"Контент персонализации"}</>;
+
+  const tabsItems: { label: string; key: string; children: React.ReactNode }[] =
+    [
+      { label: "Обложка", key: "1", children: coverFormContent },
+      { label: "Блок", key: "2", children: blockFormContent },
+      { label: "Скрепление", key: "3", children: fasteningFormContent },
+      { label: "Реквизиты", key: "4", children: detailsLocationFormContent },
+      {
+        label: "Персонализация",
+        key: "5",
+        children: personalizationFormContent,
+      },
+    ];
+
+  const constructionFormContent = (
+    <>
+      <Divider orientation={"left"}>
+        <Typography.Title level={4}>Конструкция</Typography.Title>
+      </Divider>
+      <Form.Item colon={false} label={" "}>
+        <Tabs tabPosition={"top"} items={tabsItems} />
+      </Form.Item>
+    </>
+  );
+
+  const imagesFormContent = (
+    <>
+      <Divider orientation={"left"}>
+        <Typography.Title level={4}>Изображения</Typography.Title>
+      </Divider>
+    </>
+  );
+
   return (
     <Form
       id={"blankForm"}
@@ -317,27 +379,9 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
       wrapperCol={{ span: 16 }}
       onFieldsChange={onFieldsChange}
     >
-      <Divider orientation={"left"}>
-        <Typography.Title level={4}>Общие сведения</Typography.Title>
-      </Divider>
-      <Form.Item label={"Название"} name={"name"}>
-        <Input placeholder={"Укажите название бланка"} />
-      </Form.Item>
-      <Form.Item label={"Страна"} name={"country"}>
-        <Input placeholder={"Укажите страну"} />
-      </Form.Item>
-      <Form.Item label={"Производитель"} name={"manufacturer"}>
-        <Input placeholder={"Укажите производителя"} />
-      </Form.Item>
-      <Form.Item label={"Уровень защищенности"} name={"securityLevel"}>
-        <SecurityLevelSelector />
-      </Form.Item>
-      <Divider orientation={"left"}>
-        <Typography.Title level={4}>Конструкция</Typography.Title>
-      </Divider>
-      <Form.Item label={"Обложка"}>{coverFormContent}</Form.Item>
-      <Form.Item label={"Блок"}>{blockFormContent}</Form.Item>
-      <Form.Item label={"Скрепление"}>{fasteningFormContent}</Form.Item>
+      {infoFormContent}
+      {constructionFormContent}
+      {imagesFormContent}
     </Form>
   );
 };

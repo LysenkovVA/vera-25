@@ -5,23 +5,11 @@ import { documents } from "./seedData/documentsData.seed";
 import { coverDesignDataSeed } from "./seedData/cover/coverDesignData.seed";
 import { coverTextureDataSeed } from "./seedData/cover/coverTextureData.seed";
 import { coverImageMethodDataSeed } from "./seedData/cover/coverImageMethodData.seed";
+import { researchMethods } from "./seedData/researchMethods.seed";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  // Добавление ролей пользователей
-  // const adminRole = await prisma.role.create({
-  //   data: {
-  //     name: "admin",
-  //   },
-  // });
-
-  // const userRole = await prisma.role.create({
-  //   data: {
-  //     name: "user",
-  //   },
-  // });
-
   // Добавление пользователей
 
   const bcrypt = require("bcryptjs");
@@ -82,14 +70,14 @@ async function main() {
     });
   }
 
-  // for (const value of researchMethods) {
-  //   await prisma.researchMethod.create({
-  //     data: {
-  //       name: value.name,
-  //       position: value.position,
-  //     },
-  //   });
-  // }
+  for (const value of researchMethods) {
+    await prisma.researchMethod.create({
+      data: {
+        name: value.name,
+        position: value.position,
+      },
+    });
+  }
 
   // Добавление документов
   for (const value of documents) {
