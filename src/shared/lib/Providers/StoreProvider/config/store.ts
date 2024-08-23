@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { blanksListReducer } from "@/features/BlanksList/model/slice/blanksList.slice";
 import { blankSliceReducer } from "@/entities/Blank";
+import { securityLevelsListReducer } from "@/features/SecurityLevelSelector";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       blanksList: blanksListReducer,
       blankDetails: blankSliceReducer,
+      securityLevelsList: securityLevelsListReducer,
     },
   });
 };

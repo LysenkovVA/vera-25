@@ -13,7 +13,7 @@ import {
 } from "antd";
 import { FieldData } from "rc-field-form/es/interface";
 import { MinusCircleFilled, PlusCircleFilled } from "@ant-design/icons";
-import { SecurityLevelSelector } from "@/entities/SecurityLevel";
+import { SecurityLevelSelector } from "@/features/SecurityLevelSelector";
 
 export interface BlankDescriptionFormProps {
   onFieldsChange?: (changedFields: FieldData[], allFields: FieldData[]) => void;

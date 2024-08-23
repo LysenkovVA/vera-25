@@ -1,5 +1,3 @@
-import { SecurityLevelDto } from "./dto/security-level.dto";
-import { SecurityLevelSelector } from "./ui/SecurityLevelSelector";
+import { SecurityLevel } from "./dto/security.level";
 
-export type { SecurityLevelDto };
-export { SecurityLevelSelector };
+export type { SecurityLevel };

@@ -6,6 +6,7 @@ import { coverDesignDataSeed } from "./seedData/cover/coverDesignData.seed";
 import { coverTextureDataSeed } from "./seedData/cover/coverTextureData.seed";
 import { coverImageMethodDataSeed } from "./seedData/cover/coverImageMethodData.seed";
 import { researchMethods } from "./seedData/researchMethods.seed";
+import { manufacturers } from "./seedData/manufacturers.seed";
 
 const prisma = new PrismaClient();
 
@@ -75,6 +76,14 @@ async function main() {
       data: {
         name: value.name,
         position: value.position,
+      },
+    });
+  }
+
+  for (const value of manufacturers) {
+    await prisma.manufacturer.create({
+      data: {
+        name: value,
       },
     });
   }

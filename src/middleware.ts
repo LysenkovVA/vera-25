@@ -14,11 +14,11 @@ export async function middleware(
   next: NextFunction,
 ) {
   const { nextUrl } = request;
-  console.log(">>> FETCH URL:", nextUrl.pathname);
+  // console.log(">>> FETCH URL:", nextUrl.pathname);
 
   const session = await auth();
 
-  console.log(">>> USER:", JSON.stringify(session?.user));
+  // console.log(">>> USER:", JSON.stringify(session?.user));
 
   // TODO разобраться с сессией, почему-то пользователь пропадает, например на странице blanks/id
   // if (!session?.user) {
