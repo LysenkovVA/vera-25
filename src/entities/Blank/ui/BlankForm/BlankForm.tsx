@@ -14,6 +14,7 @@ import {
 import { FieldData } from "rc-field-form/es/interface";
 import { MinusCircleFilled, PlusCircleFilled } from "@ant-design/icons";
 import { SecurityLevelSelector } from "@/features/SecurityLevelSelector";
+import { CountrySelector } from "@/features/CountrySelector";
 
 export interface BlankDescriptionFormProps {
   onFieldsChange?: (changedFields: FieldData[], allFields: FieldData[]) => void;
@@ -34,7 +35,7 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
         />
       </Form.Item>
       <Form.Item label={"Страна"} name={"country"}>
-        <Input placeholder={"Укажите страну"} />
+        <CountrySelector placeholder={"Укажите страну"} />
       </Form.Item>
       <Form.Item label={"Производитель"} name={"manufacturer"}>
         <Input placeholder={"Укажите производителя"} />

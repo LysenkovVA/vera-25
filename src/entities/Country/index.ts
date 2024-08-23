@@ -1,3 +1,3 @@
-import { CountryDto } from "./dto/country.dto";
+import { Country } from "./dto/country";
 
-export type { CountryDto };
+export type { Country };

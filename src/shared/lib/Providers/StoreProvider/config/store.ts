@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { blanksListReducer } from "@/features/BlanksList/model/slice/blanksList.slice";
 import { blankSliceReducer } from "@/entities/Blank";
 import { securityLevelsListReducer } from "@/features/SecurityLevelSelector";
+import { countriesListReducer } from "@/features/CountrySelector/model/slice/countriesListSlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
       blanksList: blanksListReducer,
       blankDetails: blankSliceReducer,
       securityLevelsList: securityLevelsListReducer,
+      countriesList: countriesListReducer,
     },
   });
 };
