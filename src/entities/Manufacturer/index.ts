@@ -1,3 +1,3 @@
-import { ManufacturerDto } from "./dto/manufacturer.dto";
+import { Manufacturer } from "./dto/manufacturer";
 
-export type { ManufacturerDto };
+export type { Manufacturer };
