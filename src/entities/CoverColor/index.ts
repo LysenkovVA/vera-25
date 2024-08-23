@@ -1,3 +1,3 @@
-import { CoverColorDto } from "./dto/cover-color.dto";
+import { CoverColor } from "./dto/cover.color";
 
-export type { CoverColorDto };
+export type { CoverColor };

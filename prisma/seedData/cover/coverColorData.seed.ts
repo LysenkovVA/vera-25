@@ -1,1 +1,1 @@
-export const coverColorDataSeed = [];
+export const coverColorDataSeed = ["Красный", "Черный", "Синий"];

@@ -15,11 +15,12 @@ import { Country } from "@/entities/Country";
 
 export interface CountrySelectorProps {
   placeholder?: string;
-  onSelectChange?: (id: string | undefined) => void;
+  value?: any;
+  onChange?: (value: any) => void;
 }
 
 export const CountrySelector = memo((props: CountrySelectorProps) => {
-  const { placeholder, onSelectChange } = props;
+  const { placeholder, value, onChange } = props;
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(getCountriesList.selectAll);
@@ -47,9 +48,9 @@ export const CountrySelector = memo((props: CountrySelectorProps) => {
         loading={loading}
         allowClear
         showSearch
-        value={opts?.length === 1 ? opts[0].value : undefined}
+        value={value}
         onChange={(value: any) => {
-          onSelectChange?.(value?.toString());
+          onChange?.(value);
         }}
       />
       {error && <Typography.Text>{error}</Typography.Text>}

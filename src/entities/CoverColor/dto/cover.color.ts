@@ -1,4 +1,4 @@
-export interface CoverImageMethodDto {
+export interface CoverColor {
   id?: string;
   name?: string;
   notes?: string;

@@ -1,3 +1,3 @@
-import { CoverTextureDto } from "./dto/cover-texture.dto";
+import { CoverTexture } from "./dto/cover.texture";
 
-export type { CoverTextureDto };
+export type { CoverTexture };

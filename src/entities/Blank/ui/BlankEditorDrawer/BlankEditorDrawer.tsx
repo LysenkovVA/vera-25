@@ -3,7 +3,6 @@ import { useCallback, useState } from "react";
 import DrawerWrapper from "@/shared/UI/DrawerWrapper/DrawerWrapper";
 import { Button, DrawerProps, Flex } from "antd";
 import { Blank, BlankForm } from "@/entities/Blank";
-import { FieldData } from "rc-field-form/es/interface";
 import useMessage from "antd/es/message/useMessage";
 import { createBlankService } from "@/entities/Blank/model/services/createBlank.service";
 import { useAppDispatch } from "@/shared/lib/hooks/storeHooks";
@@ -19,19 +18,23 @@ const BlankEditorDrawer = (props: BlankEditorDrawerProps) => {
 
   const dispatch = useAppDispatch();
 
-  const onFieldsChanged = useCallback(
-    (changedFields: FieldData[], allFields: FieldData[]) => {
-      changedFields.map((field: FieldData) => {
-        const newData: Blank = {
-          ...data,
-          [field.name]: field.value,
-        };
+  const onFieldsChanged = useCallback((blank: Blank) => {
+    setData(blank);
+  }, []);
 
-        setData(newData);
-      });
-    },
-    [data],
-  );
+  // const onFieldsChanged = useCallback(
+  //   (changedFields: FieldData[], allFields: FieldData[]) => {
+  //     changedFields.map((field: FieldData) => {
+  //       const newData: Blank = {
+  //         ...data,
+  //         [field.name]: field.value,
+  //       };
+  //
+  //       setData(newData);
+  //     });
+  //   },
+  //   [data],
+  // );
 
   const extraContent = (
     <Flex gap={8}>
@@ -47,8 +50,13 @@ const BlankEditorDrawer = (props: BlankEditorDrawerProps) => {
         type={"default"}
         onClick={(e) => {
           try {
-            dispatch(createBlankService({ blank: data }));
-            messageApi.success(`'${data.name}' сохранен!`);
+            if (!data.id) {
+              dispatch(createBlankService({ blank: data }));
+              messageApi.success(`'${data.name}' сохранен!`);
+            } else {
+              messageApi.info("Логика по редактированию в разработке...");
+            }
+
             onClose?.(e);
           } catch (error) {
             messageApi.error(error as string);

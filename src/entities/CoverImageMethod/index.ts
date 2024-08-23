@@ -1,3 +1,3 @@
-import { CoverImageMethodDto } from "./dto/cover-image-method.dto";
+import { CoverImageMethod } from "./dto/cover-image.method";
 
-export type { CoverImageMethodDto };
+export type { CoverImageMethod };

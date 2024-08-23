@@ -7,6 +7,7 @@ import { coverTextureDataSeed } from "./seedData/cover/coverTextureData.seed";
 import { coverImageMethodDataSeed } from "./seedData/cover/coverImageMethodData.seed";
 import { researchMethods } from "./seedData/researchMethods.seed";
 import { manufacturers } from "./seedData/manufacturers.seed";
+import { coverColorDataSeed } from "./seedData/cover/coverColorData.seed";
 
 const prisma = new PrismaClient();
 
@@ -131,6 +132,14 @@ async function main() {
       data: {
         name: value.name,
         notes: value.notes,
+      },
+    });
+  }
+
+  for (const value of coverColorDataSeed) {
+    await prisma.coverColor.create({
+      data: {
+        name: value,
       },
     });
   }

@@ -1,4 +1,4 @@
-export interface CoverColorDto {
+export interface CoverTexture {
   id?: string;
   name?: string;
   notes?: string;

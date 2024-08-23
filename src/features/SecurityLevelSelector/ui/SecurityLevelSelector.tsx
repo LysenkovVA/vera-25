@@ -14,12 +14,13 @@ import { SecurityLevel } from "@/entities/SecurityLevel";
 
 export interface SecurityLevelSelectorProps {
   placeholder?: string;
-  onSelectChange?: (id: string | undefined) => void;
+  value?: any;
+  onChange?: (value: any) => void;
 }
 
 export const SecurityLevelSelector = memo(
   (props: SecurityLevelSelectorProps) => {
-    const { placeholder, onSelectChange } = props;
+    const { placeholder, value, onChange } = props;
 
     const dispatch = useAppDispatch();
     const data = useAppSelector(getSecurityLevelsList.selectAll);
@@ -47,8 +48,9 @@ export const SecurityLevelSelector = memo(
           loading={loading}
           allowClear
           showSearch
+          value={value}
           onChange={(value: any) => {
-            onSelectChange?.(value?.toString());
+            onChange?.(value);
           }}
         />
         {error && <Typography.Text>{error}</Typography.Text>}

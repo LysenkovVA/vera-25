@@ -1,4 +1,4 @@
-import { CoverDto } from "./dto/cover.dto";
+import { Cover } from "./dto/cover";
 
 // export { CoverForm };
-export type { CoverDto };
+export type { Cover };

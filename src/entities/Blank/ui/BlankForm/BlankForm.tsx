@@ -11,18 +11,21 @@ import {
   Tabs,
   Typography,
 } from "antd";
-import { FieldData } from "rc-field-form/es/interface";
 import { MinusCircleFilled, PlusCircleFilled } from "@ant-design/icons";
 import { SecurityLevelSelector } from "@/features/SecurityLevelSelector";
 import { CountrySelector } from "@/features/CountrySelector";
 import { ManufacturerSelector } from "@/features/ManufacturerSelector";
+import { Blank } from "@/entities/Blank";
 
 export interface BlankDescriptionFormProps {
-  onFieldsChange?: (changedFields: FieldData[], allFields: FieldData[]) => void;
+  initialValue?: Blank;
+  onFieldsChange?: (blank: Blank) => void;
 }
 
 const BlankForm = (props: BlankDescriptionFormProps) => {
   const { onFieldsChange } = props;
+
+  const [form] = Form.useForm();
 
   const infoFormContent = (
     <>
@@ -35,13 +38,13 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
           autoSize={{ minRows: 3, maxRows: 3 }}
         />
       </Form.Item>
-      <Form.Item label={"Страна"} name={"country"}>
+      <Form.Item label={"Страна"} name={"countryId"}>
         <CountrySelector placeholder={"Укажите страну"} />
       </Form.Item>
-      <Form.Item label={"Производитель"} name={"manufacturer"}>
+      <Form.Item label={"Производитель"} name={"manufacturerId"}>
         <ManufacturerSelector placeholder={"Укажите производителя"} />
       </Form.Item>
-      <Form.Item label={"Уровень защищенности"} name={"securityLevel"}>
+      <Form.Item label={"Уровень защищенности"} name={"securityLevelId"}>
         <SecurityLevelSelector placeholder={"Укажите уровень защищенности"} />
       </Form.Item>
     </>
@@ -63,7 +66,7 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                     {...restField}
                     labelCol={{ span: 4 }}
                     label={"Конструкция"}
-                    name={[name, "coverDesign"]}
+                    name={[name, "coverDesignId"]}
                     rules={[
                       { required: true, message: "Не указана конструкция" },
                     ]}
@@ -83,7 +86,7 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                     {...restField}
                     labelCol={{ span: 4 }}
                     label={"Цвет покровного материала"}
-                    name={[name, "coverColor"]}
+                    name={[name, "coverColorId"]}
                     rules={[{ required: true, message: "Не указан цвет" }]}
                   >
                     <Input placeholder="Укажите цвет" />
@@ -92,7 +95,7 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                     {...restField}
                     labelCol={{ span: 4 }}
                     label={"Фактура покровного материала"}
-                    name={[name, "coverTexture"]}
+                    name={[name, "coverTextureId"]}
                     rules={[{ required: true, message: "Не указана фактура" }]}
                   >
                     <Input placeholder={"Укажите фактуру"} />
@@ -101,7 +104,7 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                     {...restField}
                     labelCol={{ span: 4 }}
                     label={"Способ нанесения изображений"}
-                    name={[name, "coverImageMethod"]}
+                    name={[name, "coverImageMethodId"]}
                     rules={[
                       {
                         required: true,
@@ -375,11 +378,16 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
   return (
     <Form
       id={"blankForm"}
+      form={form}
       style={{ padding: 4, width: "100%" }}
       labelCol={{ span: 4 }}
       labelWrap
       wrapperCol={{ span: 16 }}
-      onFieldsChange={onFieldsChange}
+      onFieldsChange={(changedFields, allFields) => {
+        // onFieldsChange?.(changedFields, allFields);
+        onFieldsChange?.(form.getFieldsValue());
+        // message.info(JSON.stringify(form.getFieldsValue(), null, 2));
+      }}
     >
       {infoFormContent}
       {constructionFormContent}

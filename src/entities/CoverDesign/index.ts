@@ -1,3 +1,3 @@
-import { CoverDesignDto } from "./dto/cover-design.dto";
+import { CoverDesign } from "./dto/cover.design";
 
-export type { CoverDesignDto };
+export type { CoverDesign };
