@@ -11,4 +11,4 @@ export {
   coverDesignsListReducer,
 };
 export type { CoverDesignsListSchema };
-export * from "./model/selectors/countriesList.selectors";
+export * from "./model/selectors/coverDesignsList.selectors";

@@ -1,5 +1,5 @@
 export interface CoverImageMethod {
-  id?: string;
+  id: string;
   name?: string;
   notes?: string;
 }

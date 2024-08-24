@@ -6,6 +6,8 @@ import { countriesListReducer } from "@/features/CountrySelector/model/slice/cou
 import { manufacturersListReducer } from "@/features/ManufacturerSelector";
 import { coverDesignsListReducer } from "@/features/CoverDesignSelector";
 import { coverColorsListReducer } from "@/features/CoverColorSelector/model/slice/coverColorsListSlice";
+import { coverTexturesListReducer } from "@/features/CoverTextureSelector";
+import { coverImageMethodsListReducer } from "@/features/CoverImageMethodSelector";
 
 export const makeStore = () => {
   return configureStore({
@@ -17,6 +19,8 @@ export const makeStore = () => {
       manufacturersList: manufacturersListReducer,
       coverDesignsList: coverDesignsListReducer,
       coverColorsList: coverColorsListReducer,
+      coverTexturesList: coverTexturesListReducer,
+      coverImageMethodsList: coverImageMethodsListReducer,
     },
   });
 };

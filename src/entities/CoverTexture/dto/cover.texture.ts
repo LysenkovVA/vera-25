@@ -1,5 +1,5 @@
 export interface CoverTexture {
-  id?: string;
+  id: string;
   name?: string;
   notes?: string;
 }

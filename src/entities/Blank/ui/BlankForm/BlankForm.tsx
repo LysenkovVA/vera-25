@@ -18,6 +18,8 @@ import { ManufacturerSelector } from "@/features/ManufacturerSelector";
 import { Blank } from "@/entities/Blank";
 import { CoverDesignSelector } from "@/features/CoverDesignSelector";
 import { CoverColorSelector } from "@/features/CoverColorSelector";
+import { CoverTextureSelector } from "@/features/CoverTextureSelector";
+import { CoverImageMethodSelector } from "@/features/CoverImageMethodSelector";
 
 export interface BlankDescriptionFormProps {
   initialValue?: Blank;
@@ -100,7 +102,7 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                     name={[name, "coverTextureId"]}
                     rules={[{ required: true, message: "Не указана фактура" }]}
                   >
-                    <Input placeholder={"Укажите фактуру"} />
+                    <CoverTextureSelector placeholder={"Укажите фактуру"} />
                   </Form.Item>
                   <Form.Item
                     {...restField}
@@ -114,7 +116,7 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                       },
                     ]}
                   >
-                    <Input
+                    <CoverImageMethodSelector
                       placeholder={"Укажите способ нанесения изображений"}
                     />
                   </Form.Item>
@@ -124,7 +126,10 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                     label={"Примечания"}
                     name={[name, "coverNotes"]}
                   >
-                    <Input placeholder={"Укажите примечания"} />
+                    <Input.TextArea
+                      placeholder={"Укажите примечания"}
+                      autoSize={{ minRows: 3, maxRows: 3 }}
+                    />
                   </Form.Item>
                 </>
               </Card>
