@@ -10,6 +10,7 @@ import { coverTexturesListReducer } from "@/features/CoverTextureSelector";
 import { coverImageMethodsListReducer } from "@/features/CoverImageMethodSelector";
 import { blockDesignsListReducer } from "@/features/BlockDesignSelector";
 import { blockCornersDesignsListReducer } from "@/features/BlockCornerDesignSelector";
+import { blockPagesMaterialsListReducer } from "@/features/BlockPageMaterialSelector";
 
 export const makeStore = () => {
   return configureStore({
@@ -25,6 +26,7 @@ export const makeStore = () => {
       coverImageMethodsList: coverImageMethodsListReducer,
       blockDesignsList: blockDesignsListReducer,
       blockCornersDesignsList: blockCornersDesignsListReducer,
+      blockPagesMaterialsList: blockPagesMaterialsListReducer,
     },
   });
 };

@@ -22,6 +22,7 @@ import { CoverTextureSelector } from "@/features/CoverTextureSelector";
 import { CoverImageMethodSelector } from "@/features/CoverImageMethodSelector";
 import { BlockDesignSelector } from "@/features/BlockDesignSelector";
 import { BlockCornersDesignSelector } from "@/features/BlockCornerDesignSelector";
+import { BlockPagesMaterialSelector } from "@/features/BlockPageMaterialSelector";
 
 export interface BlankDescriptionFormProps {
   initialValue?: Blank;
@@ -204,7 +205,9 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                       { required: true, message: "Не указан материал страниц" },
                     ]}
                   >
-                    <Input placeholder={"Укажите материал страниц"} />
+                    <BlockPagesMaterialSelector
+                      placeholder={"Укажите материал страниц"}
+                    />
                   </Form.Item>
                   <Form.Item
                     {...restField}
