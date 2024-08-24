@@ -20,6 +20,7 @@ import { CoverDesignSelector } from "@/features/CoverDesignSelector";
 import { CoverColorSelector } from "@/features/CoverColorSelector";
 import { CoverTextureSelector } from "@/features/CoverTextureSelector";
 import { CoverImageMethodSelector } from "@/features/CoverImageMethodSelector";
+import { BlockDesignSelector } from "@/features/BlockDesignSelector";
 
 export interface BlankDescriptionFormProps {
   initialValue?: Blank;
@@ -171,7 +172,7 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                       { required: true, message: "Не указана конструкция" },
                     ]}
                   >
-                    <Input placeholder="Укажите конструкцию" />
+                    <BlockDesignSelector placeholder="Укажите конструкцию" />
                   </Form.Item>
                   <Form.Item
                     {...restField}

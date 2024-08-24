@@ -1,5 +1,5 @@
 import { Cover } from "@/entities/Cover";
-import { BlockDto } from "@/entities/Block";
+import { Block } from "@/entities/Block";
 import { Country } from "@/entities/Country";
 import { Manufacturer } from "@/entities/Manufacturer";
 import { SecurityLevel } from "@/entities/SecurityLevel";
@@ -15,7 +15,7 @@ export interface Blank {
   securityLevel?: SecurityLevel;
   securityLevelId?: string;
   covers?: Array<Cover>;
-  blocks?: Array<BlockDto>;
+  blocks?: Array<Block>;
   fastenings?: Array<FasteningDto>;
   notes?: string;
 }

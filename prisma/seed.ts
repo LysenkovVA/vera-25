@@ -8,6 +8,9 @@ import { coverImageMethodDataSeed } from "./seedData/cover/coverImageMethodData.
 import { researchMethods } from "./seedData/researchMethods.seed";
 import { manufacturers } from "./seedData/manufacturers.seed";
 import { coverColorDataSeed } from "./seedData/cover/coverColorData.seed";
+import { blockDesignDataSeed } from "./seedData/block/blockDesignData.seed";
+import { blockCornersDesignDataSeed } from "./seedData/block/blockCornersDesignData.seed";
+import { blockPagesMaterialDataSeed } from "./seedData/block/blockPagesMaterialData.seed";
 
 const prisma = new PrismaClient();
 
@@ -136,6 +139,7 @@ async function main() {
     });
   }
 
+  // Цвет покровного материала
   for (const value of coverColorDataSeed) {
     await prisma.coverColor.create({
       data: {
@@ -154,9 +158,40 @@ async function main() {
     });
   }
 
-  //
+  // Способ нанесения изображений
   for (const value of coverImageMethodDataSeed) {
     await prisma.coverImageMethod.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // БЛОКИ
+  // Конструкция блока
+  for (const value of blockDesignDataSeed) {
+    await prisma.blockDesign.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // Конструкция углов
+  for (const value of blockCornersDesignDataSeed) {
+    await prisma.blockCornersDesign.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // Материал страниц
+  for (const value of blockPagesMaterialDataSeed) {
+    await prisma.blockPagesMaterial.create({
       data: {
         name: value.name,
         notes: value.notes,

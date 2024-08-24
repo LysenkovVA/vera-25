@@ -1,3 +1,3 @@
-import { BlockCornersDesignDto } from "./dto/block-corners-design.dto";
+import { BlockCornersDesign } from "./dto/block-corners.design";
 
-export type { BlockCornersDesignDto };
+export type { BlockCornersDesign };

@@ -1,3 +1,3 @@
-import { BlockDesignDto } from "./dto/block-design.dto";
+import { BlockDesign } from "./dto/block.design";
 
-export type { BlockDesignDto };
+export type { BlockDesign };

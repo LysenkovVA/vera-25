@@ -1,3 +1,3 @@
-import type { BlockDto } from "./dto/block.dto";
+import type { Block } from "./dto/block";
 
-export type { BlockDto };
+export type { Block };

@@ -1,3 +1,3 @@
-import { BlockPagesMaterialDto } from "./dto/block-pages-material.dto";
+import { BlockPagesMaterial } from "./dto/block-pages.material";
 
-export type { BlockPagesMaterialDto };
+export type { BlockPagesMaterial };
