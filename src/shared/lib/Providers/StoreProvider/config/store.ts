@@ -9,6 +9,7 @@ import { coverColorsListReducer } from "@/features/CoverColorSelector/model/slic
 import { coverTexturesListReducer } from "@/features/CoverTextureSelector";
 import { coverImageMethodsListReducer } from "@/features/CoverImageMethodSelector";
 import { blockDesignsListReducer } from "@/features/BlockDesignSelector";
+import { blockCornersDesignsListReducer } from "@/features/BlockCornerDesignSelector";
 
 export const makeStore = () => {
   return configureStore({
@@ -23,6 +24,7 @@ export const makeStore = () => {
       coverTexturesList: coverTexturesListReducer,
       coverImageMethodsList: coverImageMethodsListReducer,
       blockDesignsList: blockDesignsListReducer,
+      blockCornersDesignsList: blockCornersDesignsListReducer,
     },
   });
 };

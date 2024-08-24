@@ -21,6 +21,7 @@ import { CoverColorSelector } from "@/features/CoverColorSelector";
 import { CoverTextureSelector } from "@/features/CoverTextureSelector";
 import { CoverImageMethodSelector } from "@/features/CoverImageMethodSelector";
 import { BlockDesignSelector } from "@/features/BlockDesignSelector";
+import { BlockCornersDesignSelector } from "@/features/BlockCornerDesignSelector";
 
 export interface BlankDescriptionFormProps {
   initialValue?: Blank;
@@ -192,7 +193,7 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                       { required: true, message: "Не указана форма углов" },
                     ]}
                   >
-                    <Input placeholder="Укажите форму углов" />
+                    <BlockCornersDesignSelector placeholder="Укажите форму углов" />
                   </Form.Item>
                   <Form.Item
                     {...restField}
@@ -250,7 +251,10 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                     label={"Примечания"}
                     name={[name, "coverNotes"]}
                   >
-                    <Input placeholder={"Укажите примечания"} />
+                    <Input.TextArea
+                      placeholder={"Укажите примечания"}
+                      autoSize={{ minRows: 3, maxRows: 3 }}
+                    />
                   </Form.Item>
                 </>
               </Card>
@@ -324,7 +328,10 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                     label={"Примечания"}
                     name={[name, "notes"]}
                   >
-                    <Input placeholder={"Укажите примечания"} />
+                    <Input.TextArea
+                      placeholder={"Укажите примечания"}
+                      autoSize={{ minRows: 3, maxRows: 3 }}
+                    />
                   </Form.Item>
                 </>
               </Card>
