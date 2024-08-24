@@ -17,6 +17,7 @@ import { CountrySelector } from "@/features/CountrySelector";
 import { ManufacturerSelector } from "@/features/ManufacturerSelector";
 import { Blank } from "@/entities/Blank";
 import { CoverDesignSelector } from "@/features/CoverDesignSelector";
+import { CoverColorSelector } from "@/features/CoverColorSelector";
 
 export interface BlankDescriptionFormProps {
   initialValue?: Blank;
@@ -90,7 +91,7 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                     name={[name, "coverColorId"]}
                     rules={[{ required: true, message: "Не указан цвет" }]}
                   >
-                    <Input placeholder="Укажите цвет" />
+                    <CoverColorSelector placeholder="Укажите цвет" />
                   </Form.Item>
                   <Form.Item
                     {...restField}

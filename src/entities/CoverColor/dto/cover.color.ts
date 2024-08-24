@@ -1,5 +1,5 @@
 export interface CoverColor {
-  id?: string;
+  id: string;
   name?: string;
   notes?: string;
 }

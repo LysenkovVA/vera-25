@@ -5,6 +5,7 @@ import { securityLevelsListReducer } from "@/features/SecurityLevelSelector";
 import { countriesListReducer } from "@/features/CountrySelector/model/slice/countriesListSlice";
 import { manufacturersListReducer } from "@/features/ManufacturerSelector";
 import { coverDesignsListReducer } from "@/features/CoverDesignSelector";
+import { coverColorsListReducer } from "@/features/CoverColorSelector/model/slice/coverColorsListSlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -15,6 +16,7 @@ export const makeStore = () => {
       countriesList: countriesListReducer,
       manufacturersList: manufacturersListReducer,
       coverDesignsList: coverDesignsListReducer,
+      coverColorsList: coverColorsListReducer,
     },
   });
 };
