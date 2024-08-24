@@ -4,6 +4,7 @@ import { blankSliceReducer } from "@/entities/Blank";
 import { securityLevelsListReducer } from "@/features/SecurityLevelSelector";
 import { countriesListReducer } from "@/features/CountrySelector/model/slice/countriesListSlice";
 import { manufacturersListReducer } from "@/features/ManufacturerSelector";
+import { coverDesignsListReducer } from "@/features/CoverDesignSelector";
 
 export const makeStore = () => {
   return configureStore({
@@ -13,6 +14,7 @@ export const makeStore = () => {
       securityLevelsList: securityLevelsListReducer,
       countriesList: countriesListReducer,
       manufacturersList: manufacturersListReducer,
+      coverDesignsList: coverDesignsListReducer,
     },
   });
 };

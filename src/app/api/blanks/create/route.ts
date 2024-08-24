@@ -17,10 +17,6 @@ export async function POST(request: Request, response: Response) {
     securityLevel: { connect: { id: data.securityLevelId } },
   };
 
-  // if (data.countryId) {
-  //   blankQuery.country!.connect!.id = data.countryId;
-  // }
-
   const result = await prisma.blank.create({
     data: blankQuery,
   });

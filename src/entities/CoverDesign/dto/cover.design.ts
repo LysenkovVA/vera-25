@@ -1,5 +1,5 @@
 export interface CoverDesign {
-  id?: string;
+  id: string;
   name?: string;
   notes?: string;
 }

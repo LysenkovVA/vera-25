@@ -16,6 +16,7 @@ import { SecurityLevelSelector } from "@/features/SecurityLevelSelector";
 import { CountrySelector } from "@/features/CountrySelector";
 import { ManufacturerSelector } from "@/features/ManufacturerSelector";
 import { Blank } from "@/entities/Blank";
+import { CoverDesignSelector } from "@/features/CoverDesignSelector";
 
 export interface BlankDescriptionFormProps {
   initialValue?: Blank;
@@ -71,7 +72,7 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                       { required: true, message: "Не указана конструкция" },
                     ]}
                   >
-                    <Input placeholder="Укажите конструкцию" />
+                    <CoverDesignSelector placeholder="Укажите конструкцию" />
                   </Form.Item>
                   <Form.Item
                     {...restField}
