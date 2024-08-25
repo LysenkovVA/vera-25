@@ -1,3 +1,3 @@
-import { BlockAndCoverFasteningMethodDto } from "./dto/block-and-cover-fastening-method.dto";
+import { BlockAndCoverFasteningMethod } from "./dto/block-and-cover-fastening.method";
 
-export type { BlockAndCoverFasteningMethodDto };
+export type { BlockAndCoverFasteningMethod };

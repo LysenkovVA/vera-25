@@ -23,6 +23,7 @@ import { CoverImageMethodSelector } from "@/features/CoverImageMethodSelector";
 import { BlockDesignSelector } from "@/features/BlockDesignSelector";
 import { BlockCornersDesignSelector } from "@/features/BlockCornerDesignSelector";
 import { BlockPagesMaterialSelector } from "@/features/BlockPageMaterialSelector";
+import { BlockAndCoverFasteningMethodSelector } from "@/features/BlockAndCoverFasteningMethodSelector";
 
 export interface BlankDescriptionFormProps {
   initialValue?: Blank;
@@ -297,7 +298,7 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                     name={[name, "blockAndCoverFasteningMethod"]}
                     rules={[{ required: true, message: "Не указано" }]}
                   >
-                    <Input placeholder="Укажите" />
+                    <BlockAndCoverFasteningMethodSelector placeholder="Укажите способ скрепления блока с обложкой" />
                   </Form.Item>
                   <Form.Item
                     {...restField}

@@ -11,6 +11,7 @@ import { coverImageMethodsListReducer } from "@/features/CoverImageMethodSelecto
 import { blockDesignsListReducer } from "@/features/BlockDesignSelector";
 import { blockCornersDesignsListReducer } from "@/features/BlockCornerDesignSelector";
 import { blockPagesMaterialsListReducer } from "@/features/BlockPageMaterialSelector";
+import { blockAndCoverFasteningMethodsListReducer } from "@/features/BlockAndCoverFasteningMethodSelector";
 
 export const makeStore = () => {
   return configureStore({
@@ -27,6 +28,8 @@ export const makeStore = () => {
       blockDesignsList: blockDesignsListReducer,
       blockCornersDesignsList: blockCornersDesignsListReducer,
       blockPagesMaterialsList: blockPagesMaterialsListReducer,
+      blockAndCoverFasteningMethodsList:
+        blockAndCoverFasteningMethodsListReducer,
     },
   });
 };

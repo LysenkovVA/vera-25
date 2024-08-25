@@ -11,6 +11,8 @@ import { coverColorDataSeed } from "./seedData/cover/coverColorData.seed";
 import { blockDesignDataSeed } from "./seedData/block/blockDesignData.seed";
 import { blockCornersDesignDataSeed } from "./seedData/block/blockCornersDesignData.seed";
 import { blockPagesMaterialDataSeed } from "./seedData/block/blockPagesMaterialData.seed";
+import { blockAndCoverFasteningMethodDataSeed } from "./seedData/fastening/blockAndCoverFasteningMethodData.seed";
+import { blockPagesFasteningMethodDataSeed } from "./seedData/fastening/blockPagesFasteningMethodData.seed";
 
 const prisma = new PrismaClient();
 
@@ -192,6 +194,27 @@ async function main() {
   // Материал страниц
   for (const value of blockPagesMaterialDataSeed) {
     await prisma.blockPagesMaterial.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // СКРЕПЛЕНИЕ
+  // Скрепление блока с обложкой
+  for (const value of blockAndCoverFasteningMethodDataSeed) {
+    await prisma.blockAndCoverFasteningMethod.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // Скрепление страниц блока
+  for (const value of blockPagesFasteningMethodDataSeed) {
+    await prisma.blockPagesFasteningMethod.create({
       data: {
         name: value.name,
         notes: value.notes,

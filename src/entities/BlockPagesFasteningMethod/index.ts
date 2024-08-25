@@ -1,3 +1,3 @@
-import { BlockPagesFasteningMethodDto } from "./dto/block-pages-fastening-method.dto";
+import { BlockPagesFasteningMethod } from "./dto/block-pages-fastening.method";
 
-export type { BlockPagesFasteningMethodDto };
+export type { BlockPagesFasteningMethod };
