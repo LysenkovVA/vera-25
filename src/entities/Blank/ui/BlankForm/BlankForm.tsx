@@ -38,6 +38,7 @@ import { BlockDesignSelector } from "@/features/BlockDesignSelector";
 import { BlockCornersDesignSelector } from "@/features/BlockCornerDesignSelector";
 import { BlockPagesMaterialSelector } from "@/features/BlockPageMaterialSelector";
 import { BlockAndCoverFasteningMethodSelector } from "@/features/BlockAndCoverFasteningMethodSelector";
+import { BlockPagesFasteningMethodSelector } from "@/features/BlockPagesFasteningMethodSelector";
 
 export interface BlankDescriptionFormProps {
   initialValue?: Blank;
@@ -346,11 +347,11 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
                   <Form.Item
                     {...restField}
                     labelCol={{ span: 4 }}
-                    label={"Способо скрпепления страниц блока"}
+                    label={"Способ скрпепления страниц блока"}
                     name={[name, "blockPagesFasteningMethod"]}
                     rules={[{ required: true, message: "Не указано" }]}
                   >
-                    <Input placeholder="Укажите" />
+                    <BlockPagesFasteningMethodSelector placeholder="Укажите способ скрпепления страниц блока" />
                   </Form.Item>
                   <Form.Item
                     {...restField}
