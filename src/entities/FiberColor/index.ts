@@ -1,3 +1,3 @@
-import { FiberColorDto } from "./dto/fiber-color.dto";
+import { FiberColor } from "./dto/fiber.color";
 
-export type { FiberColorDto };
+export type { FiberColor };

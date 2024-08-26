@@ -1,3 +1,3 @@
-import { FiberMorphologyDto } from "./dto/fiber-morphology.dto";
+import { FiberMorphology } from "./dto/fiber.morphology";
 
-export type { FiberMorphologyDto };
+export type { FiberMorphology };

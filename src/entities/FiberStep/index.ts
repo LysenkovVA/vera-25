@@ -1,3 +1,3 @@
-import { FiberStepDto } from "./dto/fiber-step.dto";
+import { FiberStep } from "./dto/fiber.step";
 
-export type { FiberStepDto };
+export type { FiberStep };

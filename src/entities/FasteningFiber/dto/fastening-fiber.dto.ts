@@ -1,11 +1,11 @@
-import { FiberColorDto } from "@/entities/FiberColor";
-import { FiberMorphologyDto } from "@/entities/FiberMorphology";
-import { FiberStepDto } from "@/entities/FiberStep";
+import { FiberColor } from "@/entities/FiberColor";
+import { FiberMorphology } from "@/entities/FiberMorphology";
+import { FiberStep } from "@/entities/FiberStep";
 
 export interface FasteningFiberDto {
   id?: string;
-  fiberColor?: FiberColorDto;
-  fiberMorphology?: FiberMorphologyDto;
-  fiberStep?: FiberStepDto;
+  fiberColor?: FiberColor;
+  fiberMorphology?: FiberMorphology;
+  fiberStep?: FiberStep;
   notes?: string;
 }

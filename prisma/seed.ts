@@ -13,6 +13,9 @@ import { blockCornersDesignDataSeed } from "./seedData/block/blockCornersDesignD
 import { blockPagesMaterialDataSeed } from "./seedData/block/blockPagesMaterialData.seed";
 import { blockAndCoverFasteningMethodDataSeed } from "./seedData/fastening/blockAndCoverFasteningMethodData.seed";
 import { blockPagesFasteningMethodDataSeed } from "./seedData/fastening/blockPagesFasteningMethodData.seed";
+import { fiberColorsDataSeed } from "./seedData/fastening/fiber/fiberColorsDataSeed";
+import { fiberMorphologyDataSeed } from "./seedData/fastening/fiber/fiberMorphologyDataSeed";
+import { fiberStepDataSeed } from "./seedData/fastening/fiber/fiberStepDataSeed";
 
 const prisma = new PrismaClient();
 
@@ -215,6 +218,36 @@ async function main() {
   // Скрепление страниц блока
   for (const value of blockPagesFasteningMethodDataSeed) {
     await prisma.blockPagesFasteningMethod.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // Цвет нити
+  for (const value of fiberColorsDataSeed) {
+    await prisma.fiberColor.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // Морфология нити
+  for (const value of fiberMorphologyDataSeed) {
+    await prisma.fiberMorphology.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // Шаг нити
+  for (const value of fiberStepDataSeed) {
+    await prisma.fiberStep.create({
       data: {
         name: value.name,
         notes: value.notes,

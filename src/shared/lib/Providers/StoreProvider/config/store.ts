@@ -13,6 +13,9 @@ import { blockCornersDesignsListReducer } from "@/features/BlockCornerDesignSele
 import { blockPagesMaterialsListReducer } from "@/features/BlockPageMaterialSelector";
 import { blockAndCoverFasteningMethodsListReducer } from "@/features/BlockAndCoverFasteningMethodSelector";
 import { blockPagesFasteningMethodsListReducer } from "@/features/BlockPagesFasteningMethodSelector";
+import { fiberColorsListReducer } from "@/features/FiberColorSelector";
+import { fiberMorphologiesListReducer } from "@/features/FiberMorphologySelector";
+import { fiberStepsListReducer } from "@/features/FiberStepSelector";
 
 export const makeStore = () => {
   return configureStore({
@@ -32,6 +35,9 @@ export const makeStore = () => {
       blockAndCoverFasteningMethodsList:
         blockAndCoverFasteningMethodsListReducer,
       blockPagesFasteningMethodsList: blockPagesFasteningMethodsListReducer,
+      fiberColorsList: fiberColorsListReducer,
+      fiberMorphologiesList: fiberMorphologiesListReducer,
+      fiberStepsList: fiberStepsListReducer,
     },
   });
 };
