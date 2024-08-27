@@ -69,22 +69,34 @@ model Blank {
   id String @id @default(cuid())
 
   // Название
-  name            String
+  name                        String
   // Страна
-  country         Country?       @relation(fields: [countryId], references: [id])
-  countryId       String?
+  country                     Country?            @relation(fields: [countryId], references: [id])
+  countryId                   String?
   // Производитель
-  manufacturer    Manufacturer?  @relation(fields: [manufacturerId], references: [id])
-  manufacturerId  String?
+  manufacturer                Manufacturer?       @relation(fields: [manufacturerId], references: [id])
+  manufacturerId              String?
   // Уровень защищенности
-  securityLevel   SecurityLevel? @relation(fields: [securityLevelId], references: [id])
-  securityLevelId String?
+  securityLevel               SecurityLevel?      @relation(fields: [securityLevelId], references: [id])
+  securityLevelId             String?
   // Обложка
-  covers          Cover[]
+  covers                      Cover[]
   // Блок
-  blocks          Block[]
+  blocks                      Block[]
   // Скрепление
-  fastenings      Fastening[]
+  fastenings                  Fastening[]
+  // Реквизиты
+  details                     Detail[]
+  // Персонализация
+  // Количество страниц
+  pagesCount                  Int?
+  // Ламинат
+  laminates                   Laminate[]
+  // Содержание данных персонализации
+  personalizationDataContents String?
+  // Способ нанесения данных
+  applyingDataMethod          ApplyingDataMethod? @relation(fields: [applyingDataMethodId], references: [id])
+  applyingDataMethodId        String?
 
   notes String?
 
@@ -498,9 +510,9 @@ model Remedy {
 
 // Разновидность средства защиты
 model RemedyVariety {
-  id     String   @id @default(cuid())
-  name   String
-  remedy Remedy[]
+  id       String   @id @default(cuid())
+  name     String
+  remedies Remedy[]
 
   @@map("remedy_varieties")
 }
@@ -533,6 +545,96 @@ model SourceDevice {
   images Image[]
 
   @@map("source_devices")
+}
+
+// РЕКВИЗИТЫ
+// Варианты расположения
+enum Location {
+  TopLeft
+  TopMiddle
+  TopRight
+  MiddleLeft
+  Middle
+  MiddleRight
+  BottomLeft
+  BottomMiddle
+  BottomRight
+  Custom
+}
+
+// Реквизит
+model Detail {
+  id       String   @id @default(cuid())
+  location Location
+  notes    String?
+
+  detailType   DetailType? @relation(fields: [detailTypeId], references: [id])
+  detailTypeId String?
+
+  blank   Blank?  @relation(fields: [blankId], references: [id], onDelete: Cascade)
+  blankId String?
+
+  @@map("details")
+}
+
+// Тип реквизита
+model DetailType {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  notes String?
+
+  details Detail[]
+
+  @@map("detail_types")
+}
+
+// Персонализация
+model Laminate {
+  id    String  @id @default(cuid())
+  notes String?
+
+  laminateType     LaminateType?   @relation(fields: [laminateTypeId], references: [id])
+  laminateTypeId   String?
+  laminateMethod   LaminateMethod? @relation(fields: [laminateMethodId], references: [id])
+  laminateMethodId String?
+
+  blank   Blank?  @relation(fields: [blankId], references: [id], onDelete: Cascade)
+  blankId String?
+
+  @@map("laminates")
+}
+
+// Тип ламината
+model LaminateType {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  notes String?
+
+  laminates Laminate[]
+
+  @@map("laminate_types")
+}
+
+// Способ ламинирования
+model LaminateMethod {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  notes String?
+
+  laminates Laminate[]
+
+  @@map("laminate_methods")
+}
+
+// Способ нанесения данных
+model ApplyingDataMethod {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  notes String?
+
+  blanks Blank[]
+
+  @@map("applying_data_methods")
 }
 
 // -----------------------------------------------------

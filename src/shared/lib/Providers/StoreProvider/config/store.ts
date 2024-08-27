@@ -16,6 +16,13 @@ import { blockPagesFasteningMethodsListReducer } from "@/features/BlockPagesFast
 import { fiberColorsListReducer } from "@/features/FiberColorSelector";
 import { fiberMorphologiesListReducer } from "@/features/FiberMorphologySelector";
 import { fiberStepsListReducer } from "@/features/FiberStepSelector";
+import { staplesMaterialsListReducer } from "@/features/StaplesMaterialSelector";
+import { staplesBackSizesListReducer } from "@/features/StaplesBackSizeSelector";
+import { staplesDistancesListReducer } from "@/features/StaplesDistanceSelector";
+import { detailTypesListReducer } from "@/features/DetailTypeSelector";
+import { laminateTypesListReducer } from "@/features/LaminateTypeSelector";
+import { laminateMethodsListReducer } from "@/features/LaminateMethodSelector";
+import { applyingDataMethodsListReducer } from "@/features/ApplyingDataMethodSelector";
 
 export const makeStore = () => {
   return configureStore({
@@ -38,6 +45,13 @@ export const makeStore = () => {
       fiberColorsList: fiberColorsListReducer,
       fiberMorphologiesList: fiberMorphologiesListReducer,
       fiberStepsList: fiberStepsListReducer,
+      staplesMaterialsList: staplesMaterialsListReducer,
+      staplesBackSizesList: staplesBackSizesListReducer,
+      staplesDistancesList: staplesDistancesListReducer,
+      detailTypesList: detailTypesListReducer,
+      laminateTypesList: laminateTypesListReducer,
+      laminateMethodsList: laminateMethodsListReducer,
+      applyingDataMethodsList: applyingDataMethodsListReducer,
     },
   });
 };

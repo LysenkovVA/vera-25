@@ -1,3 +1,3 @@
-import { StaplesMaterialDto } from "./dto/staples-material.dto";
+import { StaplesMaterial } from "./dto/staples.material";
 
-export type { StaplesMaterialDto };
+export type { StaplesMaterial };

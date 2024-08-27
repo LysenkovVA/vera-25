@@ -16,6 +16,13 @@ import { blockPagesFasteningMethodDataSeed } from "./seedData/fastening/blockPag
 import { fiberColorsDataSeed } from "./seedData/fastening/fiber/fiberColorsDataSeed";
 import { fiberMorphologyDataSeed } from "./seedData/fastening/fiber/fiberMorphologyDataSeed";
 import { fiberStepDataSeed } from "./seedData/fastening/fiber/fiberStepDataSeed";
+import { staplesMaterialsDataSeed } from "./seedData/fastening/staples/staplesMaterialsDataSeed";
+import { staplesBackSizesDataSeed } from "./seedData/fastening/staples/staplesBackSizesDataSeed";
+import { staplesDistancesDataSeed } from "./seedData/fastening/staples/staplesDistancesDataSeed";
+import { detailTypesDataSeed } from "./seedData/detailTypesData.seed";
+import { laminateTypesDataSeed } from "./seedData/laminateTypesData.seed";
+import { laminateMethodsDataSeed } from "./seedData/laminateMethodsData.seed";
+import { applyingDataMethodsDataSeed } from "./seedData/applyingDataMethodsData.seed";
 
 const prisma = new PrismaClient();
 
@@ -248,6 +255,78 @@ async function main() {
   // Шаг нити
   for (const value of fiberStepDataSeed) {
     await prisma.fiberStep.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // Материал скрепок
+  for (const value of staplesMaterialsDataSeed) {
+    await prisma.staplesMaterial.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // Размер спинок скрепок
+  for (const value of staplesBackSizesDataSeed) {
+    await prisma.staplesBackSize.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // Расстояние между скрепками
+  for (const value of staplesDistancesDataSeed) {
+    await prisma.staplesDistance.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // РЕКВИЗИТЫ
+  // Расстояние между скрепками
+  for (const value of detailTypesDataSeed) {
+    await prisma.detailType.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // ПЕРСОНАЛИЗАЦИЯ
+  // Тип ламината
+  for (const value of laminateTypesDataSeed) {
+    await prisma.laminateType.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // Способ ламинирования
+  for (const value of laminateMethodsDataSeed) {
+    await prisma.laminateMethod.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
+
+  // Способ нанесения данных
+  for (const value of applyingDataMethodsDataSeed) {
+    await prisma.applyingDataMethod.create({
       data: {
         name: value.name,
         notes: value.notes,

@@ -1,3 +1,3 @@
-import { StaplesDistanceDto } from "./dto/staples-distance.dto";
+import { StaplesDistance } from "./dto/staples.distance";
 
-export type { StaplesDistanceDto };
+export type { StaplesDistance };

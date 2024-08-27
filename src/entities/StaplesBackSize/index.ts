@@ -1,3 +1,3 @@
-import { StaplesBackSizeDto } from "./dto/staples-back-size.dto";
+import { StaplesBackSize } from "./dto/staples-back.size";
 
-export type { StaplesBackSizeDto };
+export type { StaplesBackSize };

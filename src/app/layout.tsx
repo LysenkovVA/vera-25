@@ -13,7 +13,7 @@ import { StoreProvider } from "@/shared/lib/Providers/StoreProvider";
 const inter = Inter({ subsets: ["cyrillic"] });
 
 export const metadata: Metadata = {
-  title: "Допуск-ЗПП 25",
+  title: "Допуск-ЗПП",
   description: "Система учета",
 };
 

@@ -4,6 +4,7 @@ import { BlockAndCoverFasteningMethodSelector } from "@/features/BlockAndCoverFa
 import { BlockPagesFasteningMethodSelector } from "@/features/BlockPagesFasteningMethodSelector";
 import { fasteningFiberContent } from "./fasteningFiberFormContent";
 import React from "react";
+import { fasteningStaplesContent } from "@/entities/Blank/ui/BlankForm/content/fasteningStaplesFormContent";
 
 const listName = "fastenings";
 
@@ -39,15 +40,7 @@ export const fasteningFormContent = (
                     <BlockPagesFasteningMethodSelector placeholder="Укажите способ скрпепления страниц блока" />
                   </Form.Item>
                   {fasteningFiberContent(fasteningIndex)}
-                  <Form.Item
-                    {...restField}
-                    labelCol={{ span: 4 }}
-                    label={"Скобы"}
-                    name={[fasteningIndex, "fasteningStaples"]}
-                    rules={[{ required: true, message: "Не указано" }]}
-                  >
-                    <Input placeholder={"Укажите"} />
-                  </Form.Item>
+                  {fasteningStaplesContent(fasteningIndex)}
                   <Form.Item
                     {...restField}
                     labelCol={{ span: 4 }}
