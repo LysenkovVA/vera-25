@@ -1,3 +1,11 @@
-import { ResearchMethod } from "./dto/research-method";
+import { ResearchMethod } from "./model/types/research-method";
+import { ResearchMethodsListSchema } from "./model/types/researchMethodsListSchema";
+import {
+  researchMethodsListActions,
+  researchMethodsListReducer,
+} from "./model/slice/researchMethodsListSlice";
 
-export type { ResearchMethod };
+export { researchMethodsListActions, researchMethodsListReducer };
+export * from "./model/selectors/researchMethodsList.selectors";
+
+export type { ResearchMethod, ResearchMethodsListSchema };

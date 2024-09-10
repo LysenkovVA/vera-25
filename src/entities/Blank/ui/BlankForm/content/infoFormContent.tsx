@@ -9,6 +9,7 @@ import { CountrySelector } from "@/features/CountrySelector";
 import { ManufacturerSelector } from "@/features/ManufacturerSelector";
 import { SecurityLevelSelector } from "@/features/SecurityLevelSelector";
 import React from "react";
+import { BlankTypeSelector } from "@/features/BlankTypeSelector";
 
 export const infoFormContent = (
   <>
@@ -25,6 +26,9 @@ export const infoFormContent = (
         placeholder={"Укажите название бланка"}
         autoSize={{ minRows: 3, maxRows: 3 }}
       />
+    </Form.Item>
+    <Form.Item label={<Flex gap={4}>{"Тип"}</Flex>} name={"blankTypeId"}>
+      <BlankTypeSelector placeholder={"Укажите тип"} />
     </Form.Item>
     <Form.Item
       label={

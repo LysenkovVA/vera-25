@@ -8,10 +8,13 @@ import { Detail } from "@/entities/Detail";
 import { ImageResource } from "@/entities/ImageResource";
 import { Laminate } from "@/entities/Laminate";
 import { ApplyingDataMethod } from "@/entities/ApplyingDataMethod";
+import { BlankType } from "@/entities/BlankType";
 
 export interface Blank {
   id: string;
   name?: string;
+  blankType?: BlankType;
+  blankTypeId?: string;
   country?: Country;
   countryId?: string;
   manufacturer?: Manufacturer;

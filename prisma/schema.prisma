@@ -70,6 +70,9 @@ model Blank {
 
   // Название
   name                        String
+  // Тип
+  blankType                   BlankType?          @relation(fields: [blankTypeId], references: [id])
+  blankTypeId                 String?
   // Страна
   country                     Country?            @relation(fields: [countryId], references: [id])
   countryId                   String?
@@ -104,6 +107,18 @@ model Blank {
   imageResources ImageResource[]
 
   @@map("blanks")
+}
+
+model BlankType {
+  id String @id @default(cuid())
+
+  // Название
+  name  String  @unique
+  notes String?
+
+  blanks Blank[]
+
+  @@map("blank_types")
 }
 
 // Уровень защищенности
@@ -451,7 +466,7 @@ model Image {
   // Размер
   size            Int?
   // Тип
-  mimeType        String?
+  type            String?
   // Примечания
   notes           String?
 

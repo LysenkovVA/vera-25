@@ -5,7 +5,7 @@ import { SourceDevice } from "@/entities/SourceDevice";
 export interface Image {
   id: string;
   // Имя файла
-  fileName?: string;
+  name?: string; // TODO - Заменить на просто name
   // Путь к сжатому изображению
   thumbnailPath?: string;
   // Путь к оригиналу
@@ -13,7 +13,7 @@ export interface Image {
   // Размер
   size?: number;
   // Тип
-  mimeType?: string;
+  type?: string;
   // Ссылка на режим изображения (УФ, ИК и др.)
   researchMethod?: ResearchMethod;
   researchMethodId?: string;

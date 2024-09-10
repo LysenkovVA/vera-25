@@ -23,6 +23,7 @@ import { detailTypesDataSeed } from "./seedData/detailTypesData.seed";
 import { laminateTypesDataSeed } from "./seedData/laminateTypesData.seed";
 import { laminateMethodsDataSeed } from "./seedData/laminateMethodsData.seed";
 import { applyingDataMethodsDataSeed } from "./seedData/applyingDataMethodsData.seed";
+import { blankTypesDataSeed } from "./seedData/blankTypesData.seed";
 
 const prisma = new PrismaClient();
 
@@ -68,6 +69,15 @@ async function main() {
       },
     },
   });
+
+  for (const value of blankTypesDataSeed) {
+    await prisma.blankType.create({
+      data: {
+        name: value.name,
+        notes: value.notes,
+      },
+    });
+  }
 
   // Добавление уровней безопасности
   for (const value of securityLevels) {

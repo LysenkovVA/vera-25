@@ -23,6 +23,8 @@ import { detailTypesListReducer } from "@/features/DetailTypeSelector";
 import { laminateTypesListReducer } from "@/features/LaminateTypeSelector";
 import { laminateMethodsListReducer } from "@/features/LaminateMethodSelector";
 import { applyingDataMethodsListReducer } from "@/features/ApplyingDataMethodSelector";
+import { blankTypesListReducer } from "@/features/BlankTypeSelector";
+import { researchMethodsListReducer } from "@/entities/ResearchMethod/model/slice/researchMethodsListSlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -52,6 +54,8 @@ export const makeStore = () => {
       laminateTypesList: laminateTypesListReducer,
       laminateMethodsList: laminateMethodsListReducer,
       applyingDataMethodsList: applyingDataMethodsListReducer,
+      blankTypesList: blankTypesListReducer,
+      researchMethodsList: researchMethodsListReducer,
     },
   });
 };

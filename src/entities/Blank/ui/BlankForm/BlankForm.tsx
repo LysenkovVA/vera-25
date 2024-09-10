@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Form, message } from "antd";
+import { Form } from "antd";
 import { Blank } from "@/entities/Blank";
 import { infoFormContent } from "./content/infoFormContent";
 import { constructionFormContent } from "@/entities/Blank/ui/BlankForm/content/constructionFormContent";
@@ -27,7 +27,8 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
       onFieldsChange={(changedFields, allFields) => {
         // onFieldsChange?.(changedFields, allFields);
         onFieldsChange?.(form.getFieldsValue());
-        message.info(JSON.stringify(form.getFieldsValue(), null, 2));
+        console.log(JSON.stringify(form.getFieldsValue(), null, 2));
+        // message.info(JSON.stringify(form.getFieldsValue(), null, 2));
       }}
     >
       {infoFormContent}
