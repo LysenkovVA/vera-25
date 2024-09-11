@@ -12,13 +12,14 @@ export interface BlankDescriptionFormProps {
 }
 
 const BlankForm = (props: BlankDescriptionFormProps) => {
-  const { onFieldsChange } = props;
+  const { onFieldsChange, initialValue } = props;
 
   const [form] = Form.useForm();
 
   return (
     <Form
       id={"blankForm"}
+      initialValues={initialValue}
       form={form}
       style={{ padding: 4, width: "100%" }}
       labelCol={{ span: 4 }}

@@ -4,7 +4,6 @@ import { memo } from "react";
 
 interface DashboardPageProps {}
 
-// TODO мемо норм?
 const DashboardPage = memo((props: DashboardPageProps) => {
   return (
     <Flex

@@ -118,7 +118,7 @@ model BlankType {
 
   blanks Blank[]
 
-  @@map("blank_types")
+  @@map(name: "blank_types")
 }
 
 // Уровень защищенности

@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ThunkConfig } from "@/shared/lib/Providers/StoreProvider/config/store";
-import { fetchBlankByIdAction } from "@/app/api/blanks/[id]/fetchBlankById.action";
 import { Blank } from "../types/blank";
 
 export interface FetchBlankByIdProps {
@@ -15,7 +14,12 @@ export const fetchBlankByIdService = createAsyncThunk<
   const { rejectWithValue } = thunkApi;
 
   try {
-    return await fetchBlankByIdAction(props.id);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_PATH}/blanks/${props.id}`,
+    );
+
+    return (await res.json()) as Blank;
+    // return await fetchBlankByIdAction(props.id);
   } catch (e) {
     return rejectWithValue(`Ошибка при получении бланка с id=${props.id}`);
   }

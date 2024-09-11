@@ -5,8 +5,9 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  const data = await prisma.blank.findUnique({
+  const data = await prisma.blank.findFirst({
     include: {
+      blankType: true,
       securityLevel: true,
       manufacturer: true,
       country: true,

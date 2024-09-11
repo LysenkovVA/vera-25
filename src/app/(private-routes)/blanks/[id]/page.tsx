@@ -1,8 +1,8 @@
 import { memo } from "react";
 import { fetchBlankByIdAction } from "@/app/api/blanks/[id]/fetchBlankById.action";
 import { BlankBreadCrumb } from "@/features/BlankBreadCrumb";
-import { BlankView } from "@/entities/Blank";
 import { Flex } from "antd";
+import { BlankView } from "@/entities/Blank";
 
 interface BlankPageProps {
   params: { id: string };

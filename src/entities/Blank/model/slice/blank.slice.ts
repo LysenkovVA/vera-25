@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BlankSchema } from "../types/blank.schema";
 import { fetchBlankByIdService } from "@/entities/Blank/model/services/fetchBlank.service";
+import { Blank } from "@/entities/Blank";
 
 const initialState: BlankSchema = {
   blank: undefined,
@@ -13,7 +14,11 @@ const initialState: BlankSchema = {
 export const blankSlice = createSlice({
   name: "blankSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    setFormData: (state, action: PayloadAction<Blank>) => {
+      state.blankFormData = { ...state.blankFormData, ...action.payload };
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchBlankByIdService.pending, (state, action) => {

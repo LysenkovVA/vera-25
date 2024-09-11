@@ -2,20 +2,20 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ThunkConfig } from "@/shared/lib/Providers/StoreProvider/config/store";
 import { Blank } from "../types/blank";
 
-export interface CreateBlankProps {
+export interface UpsertBlankProps {
   blank: Blank;
 }
 
-export const createBlankService = createAsyncThunk<
+export const upsertBlankService = createAsyncThunk<
   Blank,
-  CreateBlankProps,
+  UpsertBlankProps,
   ThunkConfig<string>
->("createBlankService", async (props, thunkApi) => {
+>("upsertBlankService", async (props, thunkApi) => {
   const { rejectWithValue } = thunkApi;
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_PATH}/blanks/create`,
+      `${process.env.NEXT_PUBLIC_API_PATH}/blanks/upsert`,
       {
         method: "POST",
         headers: {
@@ -26,6 +26,6 @@ export const createBlankService = createAsyncThunk<
     );
     return (await res.json()) as Blank;
   } catch (e) {
-    return rejectWithValue(`Ошибка при добавлении бланка`);
+    return rejectWithValue(`Ошибка при сохранении бланка`);
   }
 });
