@@ -14,6 +14,7 @@ import useMessage from "antd/es/message/useMessage";
 import { upsertBlankService } from "@/entities/Blank/model/services/upsertBlankService";
 import { useAppDispatch, useAppSelector } from "@/shared/lib/hooks/storeHooks";
 import LoadingIndicator from "@/shared/UI/LoadingIndicator";
+import { CloseOutlined, SaveOutlined } from "@ant-design/icons";
 
 export interface BlankEditorDrawerProps extends Omit<DrawerProps, "children"> {
   blankId?: string;
@@ -46,11 +47,15 @@ const BlankEditorDrawer = (props: BlankEditorDrawerProps) => {
     async (e: any) => {
       try {
         if (blankFormData) {
-          messageApi.info("Sending to service blank id=" + blankFormData?.id);
+          // messageApi.info("Sending to service blank id=" + blankFormData?.id);
           dispatch(upsertBlankService({ blank: blankFormData })).then(
             (result) => {
               if (result.payload) {
-                messageApi.success(`'${blankFormData.name}' сохранен!`);
+                messageApi.success(
+                  <Flex gap={4}>
+                    <Typography.Text>{"Информация сохранена!"}</Typography.Text>
+                  </Flex>,
+                );
                 onClose?.(e);
               }
             },
@@ -70,14 +75,13 @@ const BlankEditorDrawer = (props: BlankEditorDrawerProps) => {
   const extraContent = (
     <Flex gap={8}>
       <Button
+        icon={<CloseOutlined />}
         danger
         onClick={(e) => {
           onClose?.(e);
         }}
-      >
-        {"Отмена"}
-      </Button>
-      <Button type={"default"} onClick={onSave}>
+      />
+      <Button icon={<SaveOutlined />} type={"primary"} onClick={onSave}>
         {"Сохранить"}
       </Button>
     </Flex>
@@ -88,15 +92,17 @@ const BlankEditorDrawer = (props: BlankEditorDrawerProps) => {
       {contextHolder}
       <DrawerWrapper
         title={
-          <Flex vertical>
-            <Typography.Text style={{ color: "saddlebrown", fontSize: 20 }}>
-              {blankFormData?.name}
-            </Typography.Text>
-            {blankFormData?.id ? (
-              <Typography.Text type={"secondary"} style={{ fontSize: 10 }}>
-                {`ID=${blankFormData?.id}`}
+          <Flex gap={8}>
+            <Flex vertical>
+              <Typography.Text style={{ color: "saddlebrown", fontSize: 20 }}>
+                {blankFormData?.name}
               </Typography.Text>
-            ) : null}
+              {blankFormData?.id ? (
+                <Typography.Text type={"secondary"} style={{ fontSize: 10 }}>
+                  {`ID=${blankFormData?.id}`}
+                </Typography.Text>
+              ) : null}
+            </Flex>
           </Flex>
         }
         {...restProps}

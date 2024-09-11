@@ -27,7 +27,7 @@ const EditBlankButton = (props: EditBlankButtonProps) => {
       />
       <BlankEditorDrawer
         blankId={props.blankId}
-        closable
+        closable={false}
         destroyOnClose
         // title={<p>{props.blankId}</p>}
         height={"90%"}

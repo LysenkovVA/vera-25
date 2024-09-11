@@ -25,6 +25,10 @@ export async function GET(request: NextRequest) {
 
   // Базовый запрос
   const query: Prisma.BlankFindManyArgs = {
+    include: {
+      blankType: true,
+      securityLevel: true,
+    },
     orderBy: { name: "asc" },
     skip,
     take,

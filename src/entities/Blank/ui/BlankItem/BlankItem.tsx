@@ -2,9 +2,9 @@
 
 import { memo } from "react";
 import { Blank } from "@/entities/Blank";
-import { Card } from "antd";
-import { useRouter } from "next/navigation";
+import { Card, Flex, Typography } from "antd";
 import EditBlankButton from "@/features/EditBlankButton/ui/EditBlankButton";
+import { CheckOutlined, EyeOutlined } from "@ant-design/icons";
 
 export interface BlankItemProps {
   blank: Blank;
@@ -14,17 +14,36 @@ export interface BlankItemProps {
 const BlankItem = memo((props: BlankItemProps) => {
   const { blank, onClick } = props;
 
-  const router = useRouter();
+  // const router = useRouter();
+
+  const titleContent = (
+    <Flex gap={4} justify={"space-between"}>
+      <Typography.Text type={"secondary"}>
+        {blank.blankType?.name}
+      </Typography.Text>
+      <Typography.Text type={"danger"}>
+        {blank.securityLevel?.name}
+      </Typography.Text>
+    </Flex>
+  );
 
   return (
     <Card
-      title={<EditBlankButton blankId={blank.id} />}
-      style={{ width: "100%", margin: 0, height: 200, cursor: "pointer" }}
+      title={titleContent}
+      size={"small"}
+      style={{ width: "100%", margin: 0, cursor: "pointer" }}
+      actions={[
+        <CheckOutlined key={"documents"} />,
+        <EyeOutlined key={"view"} />,
+        <EditBlankButton key={"edit"} blankId={blank.id} />,
+      ]}
       // onClick={() => {
       //   router.push(`${process.env.NEXT_PUBLIC_BASE_PATH}/blanks/${blank.id}`);
       // }}
     >
-      {blank.name}
+      <Flex vertical align={"center"} justify={"center"}>
+        <Typography.Title level={5}>{blank.name}</Typography.Title>
+      </Flex>
     </Card>
   );
 });

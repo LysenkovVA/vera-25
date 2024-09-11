@@ -75,7 +75,7 @@ export const blanksListSlice = createSlice({
         blanksListAdapter.upsertOne(state, action.payload);
         // blanksListAdapter.addOne(state, action.payload);
         if (state.totalCount) {
-          state.totalCount = state.totalCount + 1;
+          state.totalCount = state.ids.length;
         } else {
           state.totalCount = 1;
         }

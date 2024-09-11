@@ -6,15 +6,12 @@ import { Prisma } from "@prisma/client";
 export async function POST(request: Request, response: Response) {
   const data: Blank = await request.json();
 
-  console.log("DATA", JSON.stringify(data));
-
   if (!data.name) {
     return NextResponse.json("name is required");
   }
 
   let result = {};
   if (data.id) {
-    console.log("updating...");
     const blankQuery: Prisma.BlankUpdateInput = {
       name: data.name,
     };
@@ -34,13 +31,13 @@ export async function POST(request: Request, response: Response) {
     if (data.securityLevelId) {
       blankQuery.securityLevel = { connect: { id: data.securityLevelId } };
     }
+
     // update
     result = await prisma.blank.update({
       data: blankQuery,
       where: { id: data.id },
     });
   } else {
-    console.log("creating...");
     const blankQuery: Prisma.BlankCreateInput = {
       name: data.name,
     };
