@@ -19,9 +19,9 @@ export const fetchBlanksListService = createAsyncThunk<
   try {
     // Отправляем запрос
     const response = (await fetchBlanksAction(
-      state.blanksList.skip!,
-      state.blanksList.take!,
-      state.blanksList.search,
+      state.blanksList!.skip!,
+      state.blanksList!.take!,
+      state.blanksList!.search,
     )) as BlanksResponse;
 
     if (!response.data) {

@@ -18,18 +18,26 @@ export async function POST(request: Request, response: Response) {
 
     if (data.blankTypeId) {
       blankQuery.blankType = { connect: { id: data.blankTypeId } };
+    } else {
+      blankQuery.blankType = undefined;
     }
 
     if (data.countryId) {
       blankQuery.country = { connect: { id: data.countryId } };
+    } else {
+      blankQuery.country = undefined;
     }
 
     if (data.manufacturerId) {
       blankQuery.manufacturer = { connect: { id: data.manufacturerId } };
+    } else {
+      blankQuery.manufacturer = undefined;
     }
 
     if (data.securityLevelId) {
       blankQuery.securityLevel = { connect: { id: data.securityLevelId } };
+    } else {
+      blankQuery.securityLevel = undefined;
     }
 
     // update

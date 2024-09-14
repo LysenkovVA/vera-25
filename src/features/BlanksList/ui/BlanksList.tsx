@@ -4,7 +4,6 @@ import { BlankItem } from "@/entities/Blank";
 import { memo, useCallback, useEffect, useState } from "react";
 import { Flex, List, Typography } from "antd";
 import { SearchBar } from "@/shared/UI/SearchBar";
-import { useSelector } from "react-redux";
 import {
   getBlanksList,
   getBlanksListIsInitialized,
@@ -15,18 +14,22 @@ import {
 } from "@/features/BlanksList/model/selectors/blanksList.selectors";
 import { fetchBlanksListService } from "@/features/BlanksList/model/services/fetchBlanksList/fetchBlanksList.service";
 import { blanksListActions } from "@/features/BlanksList/model/slice/blanksList.slice";
-import { useAppDispatch } from "@/shared/lib/hooks/storeHooks";
+import { useAppDispatch, useAppSelector } from "@/shared/lib/hooks/storeHooks";
+
+// const reducerList: ReducersList = {
+//   blanksList: blanksListReducer,
+// };
 
 export interface BlanksListProps {}
 
 const BlanksList = memo((props: BlanksListProps) => {
   const dispatch = useAppDispatch();
-  const blanksList = useSelector(getBlanksList.selectAll);
-  const isLoading = useSelector(getBlanksListIsLoading);
-  const totalCount = useSelector(getBlanksListTotalCount);
-  const take = useSelector(getBlanksListTake);
-  const search = useSelector(getBlanksListSearch);
-  const isInitialized = useSelector(getBlanksListIsInitialized);
+  const blanksList = useAppSelector(getBlanksList.selectAll);
+  const isLoading = useAppSelector(getBlanksListIsLoading);
+  const totalCount = useAppSelector(getBlanksListTotalCount);
+  const take = useAppSelector(getBlanksListTake);
+  const search = useAppSelector(getBlanksListSearch);
+  const isInitialized = useAppSelector(getBlanksListIsInitialized);
 
   const [current, setCurrent] = useState(1);
 
@@ -38,11 +41,15 @@ const BlanksList = memo((props: BlanksListProps) => {
     dispatch(fetchBlanksListService({ replaceData: true }));
   }, [dispatch, isInitialized, isLoading]);
 
+  // useEffect(() => {
+  //   if (!isInitialized) {
+  //     loadData();
+  //   }
+  // }, [isInitialized, loadData]);
+
   useEffect(() => {
-    if (!isInitialized) {
-      loadData();
-    }
-  }, [isInitialized, loadData]);
+    loadData();
+  }, []);
 
   const onChangeSearch = useCallback(
     (value: string) => {
@@ -52,6 +59,7 @@ const BlanksList = memo((props: BlanksListProps) => {
   );
 
   return (
+    // <DynamicModuleLoader reducers={reducerList} removeAfterUnmount={false}>
     <Flex vertical gap={16}>
       <Typography.Title>Коллекция</Typography.Title>
       <SearchBar value={search} onChange={onChangeSearch} />
@@ -79,6 +87,7 @@ const BlanksList = memo((props: BlanksListProps) => {
         )}
       />
     </Flex>
+    // </DynamicModuleLoader>
   );
 });
 

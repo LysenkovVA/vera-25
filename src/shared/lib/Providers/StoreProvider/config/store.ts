@@ -1,63 +1,67 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { blanksListReducer } from "@/features/BlanksList/model/slice/blanksList.slice";
-import { blankSliceReducer } from "@/entities/Blank";
-import { securityLevelsListReducer } from "@/features/SecurityLevelSelector";
-import { countriesListReducer } from "@/features/CountrySelector/model/slice/countriesListSlice";
-import { manufacturersListReducer } from "@/features/ManufacturerSelector";
-import { coverDesignsListReducer } from "@/features/CoverDesignSelector";
-import { coverColorsListReducer } from "@/features/CoverColorSelector/model/slice/coverColorsListSlice";
-import { coverTexturesListReducer } from "@/features/CoverTextureSelector";
-import { coverImageMethodsListReducer } from "@/features/CoverImageMethodSelector";
-import { blockDesignsListReducer } from "@/features/BlockDesignSelector";
-import { blockCornersDesignsListReducer } from "@/features/BlockCornerDesignSelector";
-import { blockPagesMaterialsListReducer } from "@/features/BlockPageMaterialSelector";
-import { blockAndCoverFasteningMethodsListReducer } from "@/features/BlockAndCoverFasteningMethodSelector";
-import { blockPagesFasteningMethodsListReducer } from "@/features/BlockPagesFasteningMethodSelector";
-import { fiberColorsListReducer } from "@/features/FiberColorSelector";
-import { fiberMorphologiesListReducer } from "@/features/FiberMorphologySelector";
-import { fiberStepsListReducer } from "@/features/FiberStepSelector";
-import { staplesMaterialsListReducer } from "@/features/StaplesMaterialSelector";
-import { staplesBackSizesListReducer } from "@/features/StaplesBackSizeSelector";
-import { staplesDistancesListReducer } from "@/features/StaplesDistanceSelector";
-import { detailTypesListReducer } from "@/features/DetailTypeSelector";
-import { laminateTypesListReducer } from "@/features/LaminateTypeSelector";
-import { laminateMethodsListReducer } from "@/features/LaminateMethodSelector";
-import { applyingDataMethodsListReducer } from "@/features/ApplyingDataMethodSelector";
-import { blankTypesListReducer } from "@/features/BlankTypeSelector";
-import { researchMethodsListReducer } from "@/entities/ResearchMethod/model/slice/researchMethodsListSlice";
+import { configureStore, Reducer } from "@reduxjs/toolkit";
+import {
+  createReducerManager,
+  TStore,
+} from "@/shared/lib/Providers/StoreProvider/config/ReducerManager";
+import { StateSchema } from "@/shared/lib/Providers/StoreProvider/config/StateSchema";
 
 export const makeStore = () => {
-  return configureStore({
-    reducer: {
-      blanksList: blanksListReducer,
-      blankDetails: blankSliceReducer,
-      securityLevelsList: securityLevelsListReducer,
-      countriesList: countriesListReducer,
-      manufacturersList: manufacturersListReducer,
-      coverDesignsList: coverDesignsListReducer,
-      coverColorsList: coverColorsListReducer,
-      coverTexturesList: coverTexturesListReducer,
-      coverImageMethodsList: coverImageMethodsListReducer,
-      blockDesignsList: blockDesignsListReducer,
-      blockCornersDesignsList: blockCornersDesignsListReducer,
-      blockPagesMaterialsList: blockPagesMaterialsListReducer,
-      blockAndCoverFasteningMethodsList:
-        blockAndCoverFasteningMethodsListReducer,
-      blockPagesFasteningMethodsList: blockPagesFasteningMethodsListReducer,
-      fiberColorsList: fiberColorsListReducer,
-      fiberMorphologiesList: fiberMorphologiesListReducer,
-      fiberStepsList: fiberStepsListReducer,
-      staplesMaterialsList: staplesMaterialsListReducer,
-      staplesBackSizesList: staplesBackSizesListReducer,
-      staplesDistancesList: staplesDistancesListReducer,
-      detailTypesList: detailTypesListReducer,
-      laminateTypesList: laminateTypesListReducer,
-      laminateMethodsList: laminateMethodsListReducer,
-      applyingDataMethodsList: applyingDataMethodsListReducer,
-      blankTypesList: blankTypesListReducer,
-      researchMethodsList: researchMethodsListReducer,
-    },
+  // TODO -Здесь возможно необходимо сразу грузить статические редюсеры
+  // Для проверки что нет ошибки с редюсерами при старте приложения добавил этот редюсер
+  const reducerManager = createReducerManager({
+    // blanksList: blanksListReducer,
   });
+
+  // Create a store with the root reducer function being the one exposed by the manager.
+  // const store = createStore(
+  //   reducerManager.reduce,
+  //   {} as StateSchema,
+  //   // rest
+  // ) as TStore;
+
+  const store = configureStore({
+    reducer: reducerManager.reduce as Reducer<StateSchema>,
+    devTools: true, // TODO -Переменная для разработки
+    preloadedState: {} as StateSchema,
+  }) as TStore;
+
+  // Optional: Put the reducer manager on the store so it is easily accessible
+  store.reducerManager = reducerManager;
+
+  // СТАРЫЙ СТОР (РАБОЧИЙ)
+  // const store = configureStore({
+  //   reducer: {
+  //     blanksList: blanksListReducer,
+  //     blankDetails: blankSliceReducer,
+  //     securityLevelsList: securityLevelsListReducer,
+  //     countriesList: countriesListReducer,
+  //     manufacturersList: manufacturersListReducer,
+  //     coverDesignsList: coverDesignsListReducer,
+  //     coverColorsList: coverColorsListReducer,
+  //     coverTexturesList: coverTexturesListReducer,
+  //     coverImageMethodsList: coverImageMethodsListReducer,
+  //     blockDesignsList: blockDesignsListReducer,
+  //     blockCornersDesignsList: blockCornersDesignsListReducer,
+  //     blockPagesMaterialsList: blockPagesMaterialsListReducer,
+  //     blockAndCoverFasteningMethodsList:
+  //       blockAndCoverFasteningMethodsListReducer,
+  //     blockPagesFasteningMethodsList: blockPagesFasteningMethodsListReducer,
+  //     fiberColorsList: fiberColorsListReducer,
+  //     fiberMorphologiesList: fiberMorphologiesListReducer,
+  //     fiberStepsList: fiberStepsListReducer,
+  //     staplesMaterialsList: staplesMaterialsListReducer,
+  //     staplesBackSizesList: staplesBackSizesListReducer,
+  //     staplesDistancesList: staplesDistancesListReducer,
+  //     detailTypesList: detailTypesListReducer,
+  //     laminateTypesList: laminateTypesListReducer,
+  //     laminateMethodsList: laminateMethodsListReducer,
+  //     applyingDataMethodsList: applyingDataMethodsListReducer,
+  //     blankTypesList: blankTypesListReducer,
+  //     researchMethodsList: researchMethodsListReducer,
+  //   },
+  // });
+
+  return store;
 };
 
 // Infer the type of makeStore
