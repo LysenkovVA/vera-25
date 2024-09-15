@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Form } from "antd";
 import { Blank } from "@/entities/Blank";
 import { infoFormContent } from "./content/infoFormContent";
@@ -16,20 +16,24 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
 
   const [form] = Form.useForm();
 
+  useEffect(() => {
+    form.setFieldsValue(initialValue);
+  }, [form, initialValue]);
+
   return (
     <Form
       id={"blankForm"}
-      initialValues={initialValue}
       form={form}
       style={{ padding: 4, width: "100%" }}
       labelCol={{ span: 4 }}
       labelWrap
       wrapperCol={{ span: 16 }}
       onFieldsChange={(changedFields, allFields) => {
-        // onFieldsChange?.(changedFields, allFields);
         onFieldsChange?.(form.getFieldsValue());
-        console.log(JSON.stringify(form.getFieldsValue(), null, 2));
-        // message.info(JSON.stringify(form.getFieldsValue(), null, 2));
+        console.log(
+          "ОБЪЕКТ ФОРМЫ:",
+          JSON.stringify(form.getFieldsValue(), null, 2),
+        );
       }}
     >
       {infoFormContent}

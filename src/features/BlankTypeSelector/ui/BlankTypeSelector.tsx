@@ -8,11 +8,16 @@ import { fetchBlankTypesListService } from "@/features/BlankTypeSelector/model/s
 
 import { BlankType } from "@/entities/BlankType";
 import {
+  blankTypesListReducer,
   getBlankTypesList,
   getBlankTypesListError,
   getBlankTypesListIsInitialized,
   getBlankTypesListIsLoading,
 } from "@/features/BlankTypeSelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface BlankTypeSelectorProps {
   placeholder?: string;
@@ -22,6 +27,10 @@ export interface BlankTypeSelectorProps {
 
 export const BlankTypeSelector = memo((props: BlankTypeSelectorProps) => {
   const { placeholder, value, onChange } = props;
+
+  const reducers: ReducersList = {
+    blankTypesList: blankTypesListReducer,
+  };
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(getBlankTypesList.selectAll);
@@ -40,7 +49,7 @@ export const BlankTypeSelector = memo((props: BlankTypeSelectorProps) => {
   });
 
   return (
-    <>
+    <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
       <Selector
         placeholder={placeholder}
         disabled={!!error}
@@ -55,6 +64,6 @@ export const BlankTypeSelector = memo((props: BlankTypeSelectorProps) => {
         }}
       />
       {error && <Typography.Text>{error}</Typography.Text>}
-    </>
+    </DynamicModuleLoader>
   );
 });

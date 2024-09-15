@@ -7,10 +7,15 @@ import {
   getSecurityLevelsListError,
   getSecurityLevelsListIsInitialized,
   getSecurityLevelsListIsLoading,
+  securityLevelsListReducer,
 } from "@/features/SecurityLevelSelector";
 import { Typography } from "antd";
 import { fetchSecurityLevelsListService } from "../model/services/fetchSecurityLevelsList/fetchBlanksList.service";
 import { SecurityLevel } from "@/entities/SecurityLevel";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface SecurityLevelSelectorProps {
   placeholder?: string;
@@ -20,6 +25,10 @@ export interface SecurityLevelSelectorProps {
 
 export const SecurityLevelSelector = memo(
   (props: SecurityLevelSelectorProps) => {
+    const reducers: ReducersList = {
+      securityLevelsList: securityLevelsListReducer,
+    };
+
     const { placeholder, value, onChange } = props;
 
     const dispatch = useAppDispatch();
@@ -39,10 +48,14 @@ export const SecurityLevelSelector = memo(
     });
 
     return (
-      <>
+      /**
+       * TODO: Эта логика должна быть изменена в случае одновременной работы нескольких пользователей
+       * Загружаем по мере надобности
+       */
+      <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
         <Selector
           placeholder={placeholder}
-          disabled={!!error}
+          disabled={!isInitialized || loading || !!error}
           status={error ? "error" : undefined}
           options={opts}
           loading={loading}
@@ -54,7 +67,7 @@ export const SecurityLevelSelector = memo(
           }}
         />
         {error && <Typography.Text>{error}</Typography.Text>}
-      </>
+      </DynamicModuleLoader>
     );
   },
 );

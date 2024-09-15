@@ -13,16 +13,23 @@ import {
   getBlanksListTotalCount,
 } from "@/features/BlanksList/model/selectors/blanksList.selectors";
 import { fetchBlanksListService } from "@/features/BlanksList/model/services/fetchBlanksList/fetchBlanksList.service";
-import { blanksListActions } from "@/features/BlanksList/model/slice/blanksList.slice";
+import {
+  blanksListActions,
+  blanksListReducer,
+} from "@/features/BlanksList/model/slice/blanksList.slice";
 import { useAppDispatch, useAppSelector } from "@/shared/lib/hooks/storeHooks";
-
-// const reducerList: ReducersList = {
-//   blanksList: blanksListReducer,
-// };
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface BlanksListProps {}
 
 const BlanksList = memo((props: BlanksListProps) => {
+  const reducers: ReducersList = {
+    blanksList: blanksListReducer,
+  };
+
   const dispatch = useAppDispatch();
   const blanksList = useAppSelector(getBlanksList.selectAll);
   const isLoading = useAppSelector(getBlanksListIsLoading);
@@ -59,35 +66,35 @@ const BlanksList = memo((props: BlanksListProps) => {
   );
 
   return (
-    // <DynamicModuleLoader reducers={reducerList} removeAfterUnmount={false}>
-    <Flex vertical gap={16}>
-      <Typography.Title>Коллекция</Typography.Title>
-      <SearchBar value={search} onChange={onChangeSearch} />
-      <List
-        pagination={{
-          position: "bottom",
-          align: "center",
-          pageSize: take,
-          total: totalCount,
-          current,
-          onChange: (newPage) => {
-            dispatch(blanksListActions.setSkip((newPage - 1) * take));
-            setCurrent(newPage);
-          },
-          showTotal: (total) => <div>{`Всего: ${totalCount}`}</div>,
-        }}
-        loading={isLoading}
-        dataSource={blanksList}
-        style={{}}
-        grid={{ gutter: [4, 4], column: 3 }}
-        renderItem={(item) => (
-          <List.Item>
-            <BlankItem blank={item} />
-          </List.Item>
-        )}
-      />
-    </Flex>
-    // </DynamicModuleLoader>
+    <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
+      <Flex vertical gap={16}>
+        <Typography.Title>Коллекция</Typography.Title>
+        <SearchBar value={search} onChange={onChangeSearch} />
+        <List
+          pagination={{
+            position: "bottom",
+            align: "center",
+            pageSize: take,
+            total: totalCount,
+            current,
+            onChange: (newPage) => {
+              dispatch(blanksListActions.setSkip((newPage - 1) * take));
+              setCurrent(newPage);
+            },
+            showTotal: (total) => <div>{`Всего: ${totalCount}`}</div>,
+          }}
+          loading={isLoading}
+          dataSource={blanksList}
+          style={{}}
+          grid={{ gutter: [4, 4], column: 3 }}
+          renderItem={(item) => (
+            <List.Item>
+              <BlankItem blank={item} />
+            </List.Item>
+          )}
+        />
+      </Flex>
+    </DynamicModuleLoader>
   );
 });
 

@@ -1,13 +1,13 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { securityLevelsListAdapter } from "../adapter/securityLevelsListAdapter";
-import { RootState } from "@/shared/lib/Providers/StoreProvider/config/store";
+import { StateSchema } from "@/shared/lib/Providers/StoreProvider/config/StateSchema";
 
-const getSecurityLevelsListSchema = (state: RootState) => {
+const getSecurityLevelsListSchema = (state: StateSchema) => {
   return state.securityLevelsList;
 };
 
 export const getSecurityLevelsList =
-  securityLevelsListAdapter.getSelectors<RootState>(
+  securityLevelsListAdapter.getSelectors<StateSchema>(
     (state) =>
       state.securityLevelsList ?? securityLevelsListAdapter.getInitialState(),
   );

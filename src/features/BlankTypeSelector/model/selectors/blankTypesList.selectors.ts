@@ -1,14 +1,15 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { blankTypesListAdapter } from "../adapter/blankTypesListAdapter";
-import { RootState } from "@/shared/lib/Providers/StoreProvider/config/store";
+import { StateSchema } from "@/shared/lib/Providers/StoreProvider/config/StateSchema";
 
-const getBlankTypesListSchema = (state: RootState) => {
+const getBlankTypesListSchema = (state: StateSchema) => {
   return state.blankTypesList;
 };
 
-export const getBlankTypesList = blankTypesListAdapter.getSelectors<RootState>(
-  (state) => state.blankTypesList ?? blankTypesListAdapter.getInitialState(),
-);
+export const getBlankTypesList =
+  blankTypesListAdapter.getSelectors<StateSchema>(
+    (state) => state.blankTypesList ?? blankTypesListAdapter.getInitialState(),
+  );
 
 export const getBlankTypesListIsLoading = createSelector(
   getBlankTypesListSchema,

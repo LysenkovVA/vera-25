@@ -11,8 +11,13 @@ import {
   getManufacturersListError,
   getManufacturersListIsInitialized,
   getManufacturersListIsLoading,
+  manufacturersListReducer,
 } from "@/features/ManufacturerSelector";
 import { fetchManufacturersListService } from "../model/services/fetchManufacturersList/fetchManufacturersListService";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface ManufacturerSelectorProps {
   placeholder?: string;
@@ -22,6 +27,10 @@ export interface ManufacturerSelectorProps {
 
 export const ManufacturerSelector = memo((props: ManufacturerSelectorProps) => {
   const { placeholder, value, onChange } = props;
+
+  const reducers: ReducersList = {
+    manufacturersList: manufacturersListReducer,
+  };
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(getManufacturersList.selectAll);
@@ -40,7 +49,7 @@ export const ManufacturerSelector = memo((props: ManufacturerSelectorProps) => {
   });
 
   return (
-    <>
+    <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
       <Selector
         placeholder={placeholder}
         disabled={!!error}
@@ -55,6 +64,6 @@ export const ManufacturerSelector = memo((props: ManufacturerSelectorProps) => {
         }}
       />
       {error && <Typography.Text>{error}</Typography.Text>}
-    </>
+    </DynamicModuleLoader>
   );
 });

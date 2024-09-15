@@ -1,12 +1,12 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { blanksListAdapter } from "../adapter/blanksList.adapter";
-import { RootState } from "@/shared/lib/Providers/StoreProvider/config/store";
+import { StateSchema } from "@/shared/lib/Providers/StoreProvider/config/StateSchema";
 
-const getBlanksListSchema = (state: RootState) => {
+const getBlanksListSchema = (state: StateSchema) => {
   return state.blanksList;
 };
 
-export const getBlanksList = blanksListAdapter.getSelectors<RootState>(
+export const getBlanksList = blanksListAdapter.getSelectors<StateSchema>(
   (state) => state.blanksList ?? blanksListAdapter.getInitialState(),
 );
 

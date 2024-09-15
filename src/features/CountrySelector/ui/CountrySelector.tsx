@@ -6,12 +6,17 @@ import { useAppDispatch, useAppSelector } from "@/shared/lib/hooks/storeHooks";
 import { Typography } from "antd";
 import { fetchCountriesListService } from "@/features/CountrySelector/model/services/fetchCountriesList/fetchBlanksList.service";
 import {
+  countriesListReducer,
   getCountriesList,
   getCountriesListError,
   getCountriesListIsInitialized,
   getCountriesListIsLoading,
 } from "@/features/CountrySelector";
 import { Country } from "@/entities/Country";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface CountrySelectorProps {
   placeholder?: string;
@@ -21,6 +26,10 @@ export interface CountrySelectorProps {
 
 export const CountrySelector = memo((props: CountrySelectorProps) => {
   const { placeholder, value, onChange } = props;
+
+  const reducers: ReducersList = {
+    countriesList: countriesListReducer,
+  };
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(getCountriesList.selectAll);
@@ -39,7 +48,7 @@ export const CountrySelector = memo((props: CountrySelectorProps) => {
   });
 
   return (
-    <>
+    <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
       <Selector
         placeholder={placeholder}
         disabled={!!error}
@@ -54,6 +63,6 @@ export const CountrySelector = memo((props: CountrySelectorProps) => {
         }}
       />
       {error && <Typography.Text>{error}</Typography.Text>}
-    </>
+    </DynamicModuleLoader>
   );
 });

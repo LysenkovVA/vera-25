@@ -1,9 +1,17 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import { useState } from "react";
-import { BlankEditorDrawer } from "@/entities/Blank";
+import React, { useState } from "react";
+import { BlankEditorDrawer, blankSliceReducer } from "@/entities/Blank";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 const NewBlankButton = () => {
+  const reducers: ReducersList = {
+    blankDetails: blankSliceReducer,
+  };
+
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -15,15 +23,17 @@ const NewBlankButton = () => {
       >
         Добавить
       </Button>
-      <BlankEditorDrawer
-        closable
-        destroyOnClose
-        title={<p>Новый бланк</p>}
-        height={"90%"}
-        placement="bottom"
-        open={open}
-        onClose={() => setOpen(false)}
-      />
+      {open && (
+        <DynamicModuleLoader reducers={reducers}>
+          <BlankEditorDrawer
+            closable={false}
+            height={"90%"}
+            placement="bottom"
+            open={open}
+            onClose={() => setOpen(false)}
+          />
+        </DynamicModuleLoader>
+      )}
     </>
   );
 };

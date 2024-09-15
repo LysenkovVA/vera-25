@@ -1,7 +1,7 @@
-import { RootState } from "@/shared/lib/Providers/StoreProvider/config/store";
 import { createSelector } from "@reduxjs/toolkit";
+import { StateSchema } from "@/shared/lib/Providers/StoreProvider/config/StateSchema";
 
-const getBlankSchema = (state: RootState) => {
+const getBlankSchema = (state: StateSchema) => {
   return state.blankDetails;
 };
 

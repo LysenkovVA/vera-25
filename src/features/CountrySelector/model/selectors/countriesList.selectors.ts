@@ -1,12 +1,12 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { CountryListAdapter } from "../adapter/countryListAdapter";
-import { RootState } from "@/shared/lib/Providers/StoreProvider/config/store";
+import { StateSchema } from "@/shared/lib/Providers/StoreProvider/config/StateSchema";
 
-const getCountriesListSchema = (state: RootState) => {
+const getCountriesListSchema = (state: StateSchema) => {
   return state.countriesList;
 };
 
-export const getCountriesList = CountryListAdapter.getSelectors<RootState>(
+export const getCountriesList = CountryListAdapter.getSelectors<StateSchema>(
   (state) => state.countriesList ?? CountryListAdapter.getInitialState(),
 );
 

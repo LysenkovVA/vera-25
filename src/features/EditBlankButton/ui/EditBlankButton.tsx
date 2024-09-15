@@ -10,15 +10,15 @@ import {
   ReducersList,
 } from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
-const reducers: ReducersList = {
-  blankDetails: blankSliceReducer,
-};
-
 export interface EditBlankButtonProps {
   blankId: string;
 }
 
 const EditBlankButton = (props: EditBlankButtonProps) => {
+  const reducers: ReducersList = {
+    blankDetails: blankSliceReducer,
+  };
+
   const [open, setOpen] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
@@ -29,24 +29,22 @@ const EditBlankButton = (props: EditBlankButtonProps) => {
         type={"link"}
         icon={<EditOutlined />}
         onClick={() => {
-          dispatch(fetchBlankByIdService({ id: props.blankId }));
           setOpen(true);
+          dispatch(fetchBlankByIdService({ id: props.blankId }));
         }}
       />
-      {open ? (
+      {/*  TODO модуль не подгружается динамически когда идет клик, подумать над логикой! */}
+      {open && (
         <DynamicModuleLoader reducers={reducers}>
           <BlankEditorDrawer
-            blankId={props.blankId}
             closable={false}
-            destroyOnClose
-            // title={<p>{props.blankId}</p>}
             height={"90%"}
             placement="bottom"
             open={open}
             onClose={() => setOpen(false)}
           />
         </DynamicModuleLoader>
-      ) : null}
+      )}
     </>
   );
 };
