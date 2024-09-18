@@ -8,11 +8,16 @@ import { fetchFiberMorphologiesListService } from "@/features/FiberMorphologySel
 
 import { FiberMorphology } from "@/entities/FiberMorphology";
 import {
+  fiberMorphologiesListReducer,
   getFiberMorphologiesList,
   getFiberMorphologiesListError,
   getFiberMorphologiesListIsInitialized,
   getFiberMorphologiesListIsLoading,
 } from "@/features/FiberMorphologySelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface FiberMorphologySelectorProps {
   placeholder?: string;
@@ -23,6 +28,10 @@ export interface FiberMorphologySelectorProps {
 export const FiberMorphologySelector = memo(
   (props: FiberMorphologySelectorProps) => {
     const { placeholder, value, onChange } = props;
+
+    const reducers: ReducersList = {
+      fiberMorphologiesList: fiberMorphologiesListReducer,
+    };
 
     const dispatch = useAppDispatch();
     const data = useAppSelector(getFiberMorphologiesList.selectAll);
@@ -41,7 +50,7 @@ export const FiberMorphologySelector = memo(
     });
 
     return (
-      <>
+      <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
         <Selector
           placeholder={placeholder}
           disabled={!!error}
@@ -56,7 +65,7 @@ export const FiberMorphologySelector = memo(
           }}
         />
         {error && <Typography.Text>{error}</Typography.Text>}
-      </>
+      </DynamicModuleLoader>
     );
   },
 );

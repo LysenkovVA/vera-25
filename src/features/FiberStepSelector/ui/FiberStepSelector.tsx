@@ -8,11 +8,16 @@ import { fetchFiberStepsListService } from "@/features/FiberStepSelector/model/s
 
 import { FiberStep } from "@/entities/FiberStep";
 import {
+  fiberStepsListReducer,
   getFiberStepsList,
   getFiberStepsListError,
   getFiberStepsListIsInitialized,
   getFiberStepsListIsLoading,
 } from "@/features/FiberStepSelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface FiberStepSelectorProps {
   placeholder?: string;
@@ -22,6 +27,10 @@ export interface FiberStepSelectorProps {
 
 export const FiberStepSelector = memo((props: FiberStepSelectorProps) => {
   const { placeholder, value, onChange } = props;
+
+  const reducers: ReducersList = {
+    fiberStepsList: fiberStepsListReducer,
+  };
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(getFiberStepsList.selectAll);
@@ -40,7 +49,7 @@ export const FiberStepSelector = memo((props: FiberStepSelectorProps) => {
   });
 
   return (
-    <>
+    <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
       <Selector
         placeholder={placeholder}
         disabled={!!error}
@@ -55,6 +64,6 @@ export const FiberStepSelector = memo((props: FiberStepSelectorProps) => {
         }}
       />
       {error && <Typography.Text>{error}</Typography.Text>}
-    </>
+    </DynamicModuleLoader>
   );
 });

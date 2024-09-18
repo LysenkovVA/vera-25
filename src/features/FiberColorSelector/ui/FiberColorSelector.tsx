@@ -8,11 +8,16 @@ import { fetchFiberColorsListService } from "@/features/FiberColorSelector/model
 
 import { FiberColor } from "@/entities/FiberColor";
 import {
+  fiberColorsListReducer,
   getFiberColorsList,
   getFiberColorsListError,
   getFiberColorsListIsInitialized,
   getFiberColorsListIsLoading,
 } from "@/features/FiberColorSelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface FiberColorSelectorProps {
   placeholder?: string;
@@ -22,6 +27,10 @@ export interface FiberColorSelectorProps {
 
 export const FiberColorSelector = memo((props: FiberColorSelectorProps) => {
   const { placeholder, value, onChange } = props;
+
+  const reducers: ReducersList = {
+    fiberColorsList: fiberColorsListReducer,
+  };
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(getFiberColorsList.selectAll);
@@ -40,7 +49,7 @@ export const FiberColorSelector = memo((props: FiberColorSelectorProps) => {
   });
 
   return (
-    <>
+    <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
       <Selector
         placeholder={placeholder}
         disabled={!!error}
@@ -55,6 +64,6 @@ export const FiberColorSelector = memo((props: FiberColorSelectorProps) => {
         }}
       />
       {error && <Typography.Text>{error}</Typography.Text>}
-    </>
+    </DynamicModuleLoader>
   );
 });

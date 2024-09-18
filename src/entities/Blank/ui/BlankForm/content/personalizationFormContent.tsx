@@ -30,7 +30,7 @@ export const personalizationFormContent = (
                       {...restField}
                       labelCol={{ span: 4 }}
                       label={"Тип"}
-                      name={[laminateIndex, "laminateTypeId"]}
+                      name={[laminateIndex, "laminateType", "id"]}
                       rules={[{ required: true, message: "Не указано" }]}
                     >
                       <LaminateTypeSelector placeholder="Укажите тип ламината" />
@@ -39,7 +39,7 @@ export const personalizationFormContent = (
                       {...restField}
                       labelCol={{ span: 4 }}
                       label={"Метод"}
-                      name={[laminateIndex, "laminateMethodId"]}
+                      name={[laminateIndex, "laminateMethod", "id"]}
                       rules={[{ required: true, message: "Не указано" }]}
                     >
                       <LaminateMethodSelector placeholder="Укажите способ ламинирования" />
@@ -73,7 +73,7 @@ export const personalizationFormContent = (
     </Form.Item>
     <Form.Item
       label={<Flex gap={4}>{"Способ нанесения данных"}</Flex>}
-      name={"applyingDataMethodId"}
+      name={["applyingDataMethod", "id"]}
     >
       <ApplyingDataMethodSelector
         placeholder={"Укажите способ нанесения данных"}

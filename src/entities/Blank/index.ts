@@ -19,4 +19,6 @@ export {
   blankSliceReducer,
 };
 export * from "./model/selectors/blank.selectors";
+export * from "./model/services/deleteBlank.service";
+
 export type { Blank, BlankSchema };

@@ -14,7 +14,9 @@ export const coverFormContent = (
           <Flex key={key} gap={8}>
             <MinusCircleFilled
               style={{ color: "red" }}
-              onClick={() => remove(name)}
+              onClick={() => {
+                remove(name);
+              }}
             />
             <Card style={{ marginBottom: 8, width: "100%" }}>
               <>
@@ -22,7 +24,7 @@ export const coverFormContent = (
                   {...restField}
                   labelCol={{ span: 4 }}
                   label={"Конструкция"}
-                  name={[name, "coverDesignId"]}
+                  name={[name, "coverDesign", "id"]}
                   rules={[
                     { required: true, message: "Не указана конструкция" },
                   ]}
@@ -42,7 +44,7 @@ export const coverFormContent = (
                   {...restField}
                   labelCol={{ span: 4 }}
                   label={"Цвет покровного материала"}
-                  name={[name, "coverColorId"]}
+                  name={[name, "coverColor", "id"]}
                   rules={[{ required: true, message: "Не указан цвет" }]}
                 >
                   <CoverColorSelector placeholder="Укажите цвет" />
@@ -51,7 +53,7 @@ export const coverFormContent = (
                   {...restField}
                   labelCol={{ span: 4 }}
                   label={"Фактура покровного материала"}
-                  name={[name, "coverTextureId"]}
+                  name={[name, "coverTexture", "id"]}
                   rules={[{ required: true, message: "Не указана фактура" }]}
                 >
                   <CoverTextureSelector placeholder={"Укажите фактуру"} />
@@ -60,7 +62,7 @@ export const coverFormContent = (
                   {...restField}
                   labelCol={{ span: 4 }}
                   label={"Способ нанесения изображений"}
-                  name={[name, "coverImageMethodId"]}
+                  name={[name, "coverImageMethod", "id"]}
                   rules={[
                     {
                       required: true,
@@ -76,7 +78,7 @@ export const coverFormContent = (
                   {...restField}
                   labelCol={{ span: 4 }}
                   label={"Примечания"}
-                  name={[name, "coverNotes"]}
+                  name={[name, "notes"]}
                 >
                   <Input.TextArea
                     placeholder={"Укажите примечания"}

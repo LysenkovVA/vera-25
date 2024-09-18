@@ -13,6 +13,11 @@ import {
   getBlockPagesMaterialsListIsInitialized,
   getBlockPagesMaterialsListIsLoading,
 } from "../model/selectors/blockPagesMaterialsList.selectors";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
+import { blockPagesMaterialsListReducer } from "@/features/BlockPageMaterialSelector";
 
 export interface BlockPagesMaterialSelectorProps {
   placeholder?: string;
@@ -23,6 +28,10 @@ export interface BlockPagesMaterialSelectorProps {
 export const BlockPagesMaterialSelector = memo(
   (props: BlockPagesMaterialSelectorProps) => {
     const { placeholder, value, onChange } = props;
+
+    const reducers: ReducersList = {
+      blockPagesMaterialsList: blockPagesMaterialsListReducer,
+    };
 
     const dispatch = useAppDispatch();
     const data = useAppSelector(getBlockPagesMaterialsList.selectAll);
@@ -43,7 +52,7 @@ export const BlockPagesMaterialSelector = memo(
     });
 
     return (
-      <>
+      <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
         <Selector
           placeholder={placeholder}
           disabled={!!error}
@@ -58,7 +67,7 @@ export const BlockPagesMaterialSelector = memo(
           }}
         />
         {error && <Typography.Text>{error}</Typography.Text>}
-      </>
+      </DynamicModuleLoader>
     );
   },
 );

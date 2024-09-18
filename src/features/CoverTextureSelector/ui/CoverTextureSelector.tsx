@@ -8,11 +8,16 @@ import { fetchCoverTexturesListService } from "@/features/CoverTextureSelector/m
 
 import { CoverTexture } from "@/entities/CoverTexture";
 import {
+  coverTexturesListReducer,
   getCoverTexturesList,
   getCoverTexturesListError,
   getCoverTexturesListIsInitialized,
   getCoverTexturesListIsLoading,
 } from "@/features/CoverTextureSelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface CoverTextureSelectorProps {
   placeholder?: string;
@@ -22,6 +27,10 @@ export interface CoverTextureSelectorProps {
 
 export const CoverTextureSelector = memo((props: CoverTextureSelectorProps) => {
   const { placeholder, value, onChange } = props;
+
+  const reducers: ReducersList = {
+    coverTexturesList: coverTexturesListReducer,
+  };
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(getCoverTexturesList.selectAll);
@@ -40,7 +49,7 @@ export const CoverTextureSelector = memo((props: CoverTextureSelectorProps) => {
   });
 
   return (
-    <>
+    <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
       <Selector
         placeholder={placeholder}
         disabled={!!error}
@@ -55,6 +64,6 @@ export const CoverTextureSelector = memo((props: CoverTextureSelectorProps) => {
         }}
       />
       {error && <Typography.Text>{error}</Typography.Text>}
-    </>
+    </DynamicModuleLoader>
   );
 });

@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BlanksListSchema } from "@/features/BlanksList/model/types/blanksList.schema";
-import { blanksListAdapter } from "@/features/BlanksList/model/adapter/blanksList.adapter";
-import { fetchBlanksListService } from "@/features/BlanksList/model/services/fetchBlanksList/fetchBlanksList.service";
+import { BlanksListSchema } from "@/features/Blanks/BlanksList/model/types/blanksList.schema";
+import { blanksListAdapter } from "@/features/Blanks/BlanksList/model/adapter/blanksList.adapter";
+import { fetchBlanksListService } from "@/features/Blanks/BlanksList/model/services/fetchBlanksList/fetchBlanksList.service";
 import { upsertBlankService } from "@/entities/Blank/model/services/upsertBlankService";
+import { deleteBlankService } from "@/entities/Blank";
+import { message } from "antd";
 
 const initialState: BlanksListSchema = {
   ids: [],
@@ -69,6 +71,7 @@ export const blanksListSlice = createSlice({
           // Очищаем старые
           blanksListAdapter.removeAll(state);
         }
+        message.error(action.payload);
       })
       // Добавление бланка
       .addCase(upsertBlankService.fulfilled, (state, action) => {
@@ -79,6 +82,19 @@ export const blanksListSlice = createSlice({
         } else {
           state.totalCount = 1;
         }
+      })
+      .addCase(upsertBlankService.rejected, (state, action) => {
+        message.error(action.payload);
+      })
+      // Удаление бланка
+      .addCase(deleteBlankService.fulfilled, (state, action) => {
+        blanksListAdapter.removeOne(state, action.payload.id);
+        if (state.totalCount) {
+          state.totalCount = state.ids.length;
+        } else {
+          state.totalCount = 0;
+        }
+        message.success("Бланк удален");
       });
   },
 });

@@ -157,16 +157,16 @@ model Manufacturer {
 model Cover {
   id                 String            @id @default(cuid())
   // Конструкция обложки
-  coverDesign        CoverDesign       @relation(fields: [coverDesignId], references: [id])
-  coverDesignId      String
+  coverDesign        CoverDesign?      @relation(fields: [coverDesignId], references: [id])
+  coverDesignId      String?
   // Формат
   coverFormat        String?
   // Цвет покровного материала
-  coverColor         CoverColor        @relation(fields: [coverColorId], references: [id])
-  coverColorId       String
+  coverColor         CoverColor?       @relation(fields: [coverColorId], references: [id])
+  coverColorId       String?
   // Фактура покровного материала
-  coverTexture       CoverTexture      @relation(fields: [coverTextureId], references: [id])
-  coverTextureId     String
+  coverTexture       CoverTexture?     @relation(fields: [coverTextureId], references: [id])
+  coverTextureId     String?
   // Способ нанесения изображений
   coverImageMethod   CoverImageMethod? @relation(fields: [coverImageMethodId], references: [id])
   coverImageMethodId String?

@@ -12,7 +12,12 @@ import {
   getLaminateTypesListError,
   getLaminateTypesListIsInitialized,
   getLaminateTypesListIsLoading,
+  laminateTypesListReducer,
 } from "@/features/LaminateTypeSelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface LaminateTypeSelectorProps {
   placeholder?: string;
@@ -22,6 +27,10 @@ export interface LaminateTypeSelectorProps {
 
 export const LaminateTypeSelector = memo((props: LaminateTypeSelectorProps) => {
   const { placeholder, value, onChange } = props;
+
+  const reducers: ReducersList = {
+    laminateTypesList: laminateTypesListReducer,
+  };
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(getLaminateTypesList.selectAll);
@@ -40,7 +49,7 @@ export const LaminateTypeSelector = memo((props: LaminateTypeSelectorProps) => {
   });
 
   return (
-    <>
+    <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
       <Selector
         placeholder={placeholder}
         disabled={!!error}
@@ -55,6 +64,6 @@ export const LaminateTypeSelector = memo((props: LaminateTypeSelectorProps) => {
         }}
       />
       {error && <Typography.Text>{error}</Typography.Text>}
-    </>
+    </DynamicModuleLoader>
   );
 });

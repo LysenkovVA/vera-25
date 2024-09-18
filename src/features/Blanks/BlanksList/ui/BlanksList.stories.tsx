@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { BlanksList } from "@/features/BlanksList";
+import { BlanksList } from "@/features/Blanks/BlanksList";
 
 const meta = {
   title: "entities/Blank/BlanksList",

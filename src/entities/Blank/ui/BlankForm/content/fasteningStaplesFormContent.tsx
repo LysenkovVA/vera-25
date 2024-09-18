@@ -25,7 +25,7 @@ export const fasteningStaplesContent = (parentIndex: number) => (
                       {...restField}
                       labelCol={{ span: 4 }}
                       label={"Материал"}
-                      name={[staplesIndex, "staplesMaterialId"]}
+                      name={[staplesIndex, "staplesMaterial", "id"]}
                       rules={[{ required: true, message: "Не указано" }]}
                     >
                       <StaplesMaterialSelector
@@ -36,7 +36,7 @@ export const fasteningStaplesContent = (parentIndex: number) => (
                       {...restField}
                       labelCol={{ span: 4 }}
                       label={"Размер спинок"}
-                      name={[staplesIndex, "staplesBackSizeId"]}
+                      name={[staplesIndex, "staplesBackSize", "id"]}
                       rules={[{ required: true, message: "Не указано" }]}
                     >
                       <StaplesBackSizeSelector
@@ -47,7 +47,7 @@ export const fasteningStaplesContent = (parentIndex: number) => (
                       {...restField}
                       labelCol={{ span: 4 }}
                       label={"Расстояние"}
-                      name={[staplesIndex, "staplesDistanceId"]}
+                      name={[staplesIndex, "staplesDistance", "id"]}
                       rules={[{ required: true, message: "Не указано" }]}
                     >
                       <StaplesDistanceSelector

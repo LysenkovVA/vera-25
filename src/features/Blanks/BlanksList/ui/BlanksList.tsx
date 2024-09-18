@@ -11,12 +11,12 @@ import {
   getBlanksListSearch,
   getBlanksListTake,
   getBlanksListTotalCount,
-} from "@/features/BlanksList/model/selectors/blanksList.selectors";
-import { fetchBlanksListService } from "@/features/BlanksList/model/services/fetchBlanksList/fetchBlanksList.service";
+} from "@/features/Blanks/BlanksList/model/selectors/blanksList.selectors";
+import { fetchBlanksListService } from "@/features/Blanks/BlanksList/model/services/fetchBlanksList/fetchBlanksList.service";
 import {
   blanksListActions,
   blanksListReducer,
-} from "@/features/BlanksList/model/slice/blanksList.slice";
+} from "@/features/Blanks/BlanksList/model/slice/blanksList.slice";
 import { useAppDispatch, useAppSelector } from "@/shared/lib/hooks/storeHooks";
 import {
   DynamicModuleLoader,

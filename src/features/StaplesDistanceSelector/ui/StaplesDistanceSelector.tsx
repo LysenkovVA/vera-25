@@ -13,6 +13,11 @@ import {
   getStaplesDistancesListIsInitialized,
   getStaplesDistancesListIsLoading,
 } from "../model/selectors/staplesDistancesList.selectors";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
+import { staplesDistancesListReducer } from "@/features/StaplesDistanceSelector";
 
 export interface StaplesDistanceSelectorProps {
   placeholder?: string;
@@ -23,6 +28,10 @@ export interface StaplesDistanceSelectorProps {
 export const StaplesDistanceSelector = memo(
   (props: StaplesDistanceSelectorProps) => {
     const { placeholder, value, onChange } = props;
+
+    const reducers: ReducersList = {
+      staplesDistancesList: staplesDistancesListReducer,
+    };
 
     const dispatch = useAppDispatch();
     const data = useAppSelector(getStaplesDistancesList.selectAll);
@@ -41,7 +50,7 @@ export const StaplesDistanceSelector = memo(
     });
 
     return (
-      <>
+      <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
         <Selector
           placeholder={placeholder}
           disabled={!!error}
@@ -56,7 +65,7 @@ export const StaplesDistanceSelector = memo(
           }}
         />
         {error && <Typography.Text>{error}</Typography.Text>}
-      </>
+      </DynamicModuleLoader>
     );
   },
 );

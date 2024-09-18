@@ -13,6 +13,11 @@ import {
   getStaplesBackSizesListIsInitialized,
   getStaplesBackSizesListIsLoading,
 } from "../model/selectors/staplesBackSizesList.selectors";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
+import { staplesBackSizesListReducer } from "@/features/StaplesBackSizeSelector";
 
 export interface StaplesBackSizeSelectorProps {
   placeholder?: string;
@@ -23,6 +28,10 @@ export interface StaplesBackSizeSelectorProps {
 export const StaplesBackSizeSelector = memo(
   (props: StaplesBackSizeSelectorProps) => {
     const { placeholder, value, onChange } = props;
+
+    const reducers: ReducersList = {
+      staplesBackSizesList: staplesBackSizesListReducer,
+    };
 
     const dispatch = useAppDispatch();
     const data = useAppSelector(getStaplesBackSizesList.selectAll);
@@ -41,7 +50,7 @@ export const StaplesBackSizeSelector = memo(
     });
 
     return (
-      <>
+      <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
         <Selector
           placeholder={placeholder}
           disabled={!!error}
@@ -56,7 +65,7 @@ export const StaplesBackSizeSelector = memo(
           }}
         />
         {error && <Typography.Text>{error}</Typography.Text>}
-      </>
+      </DynamicModuleLoader>
     );
   },
 );

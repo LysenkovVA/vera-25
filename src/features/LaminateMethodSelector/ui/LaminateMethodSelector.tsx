@@ -12,7 +12,12 @@ import {
   getLaminateMethodsListError,
   getLaminateMethodsListIsInitialized,
   getLaminateMethodsListIsLoading,
+  laminateMethodsListReducer,
 } from "@/features/LaminateMethodSelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface LaminateMethodSelectorProps {
   placeholder?: string;
@@ -23,6 +28,10 @@ export interface LaminateMethodSelectorProps {
 export const LaminateMethodSelector = memo(
   (props: LaminateMethodSelectorProps) => {
     const { placeholder, value, onChange } = props;
+
+    const reducers: ReducersList = {
+      laminateMethodsList: laminateMethodsListReducer,
+    };
 
     const dispatch = useAppDispatch();
     const data = useAppSelector(getLaminateMethodsList.selectAll);
@@ -41,7 +50,7 @@ export const LaminateMethodSelector = memo(
     });
 
     return (
-      <>
+      <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
         <Selector
           placeholder={placeholder}
           disabled={!!error}
@@ -56,7 +65,7 @@ export const LaminateMethodSelector = memo(
           }}
         />
         {error && <Typography.Text>{error}</Typography.Text>}
-      </>
+      </DynamicModuleLoader>
     );
   },
 );

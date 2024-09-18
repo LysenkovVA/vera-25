@@ -8,11 +8,16 @@ import { fetchApplyingDataMethodsListService } from "@/features/ApplyingDataMeth
 
 import { ApplyingDataMethod } from "@/entities/ApplyingDataMethod";
 import {
+  applyingDataMethodsListReducer,
   getApplyingDataMethodsList,
   getApplyingDataMethodsListError,
   getApplyingDataMethodsListIsInitialized,
   getApplyingDataMethodsListIsLoading,
 } from "@/features/ApplyingDataMethodSelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface ApplyingDataMethodSelectorProps {
   placeholder?: string;
@@ -23,6 +28,10 @@ export interface ApplyingDataMethodSelectorProps {
 export const ApplyingDataMethodSelector = memo(
   (props: ApplyingDataMethodSelectorProps) => {
     const { placeholder, value, onChange } = props;
+
+    const reducers: ReducersList = {
+      applyingDataMethodsList: applyingDataMethodsListReducer,
+    };
 
     const dispatch = useAppDispatch();
     const data = useAppSelector(getApplyingDataMethodsList.selectAll);
@@ -43,7 +52,7 @@ export const ApplyingDataMethodSelector = memo(
     });
 
     return (
-      <>
+      <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
         <Selector
           placeholder={placeholder}
           disabled={!!error}
@@ -58,7 +67,7 @@ export const ApplyingDataMethodSelector = memo(
           }}
         />
         {error && <Typography.Text>{error}</Typography.Text>}
-      </>
+      </DynamicModuleLoader>
     );
   },
 );

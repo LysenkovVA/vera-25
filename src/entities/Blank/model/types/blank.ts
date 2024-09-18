@@ -3,7 +3,7 @@ import { Block } from "@/entities/Block";
 import { Country } from "@/entities/Country";
 import { Manufacturer } from "@/entities/Manufacturer";
 import { SecurityLevel } from "@/entities/SecurityLevel";
-import { FasteningDto } from "@/entities/Fastening";
+import { Fastening } from "@/entities/Fastening";
 import { Detail } from "@/entities/Detail";
 import { ImageResource } from "@/entities/ImageResource";
 import { Laminate } from "@/entities/Laminate";
@@ -23,7 +23,7 @@ export interface Blank {
   securityLevelId?: string;
   covers?: Array<Cover>;
   blocks?: Array<Block>;
-  fastenings?: Array<FasteningDto>;
+  fastenings?: Array<Fastening>;
   details?: Array<Detail>;
   pagesCount?: number;
   laminates?: Array<Laminate>;

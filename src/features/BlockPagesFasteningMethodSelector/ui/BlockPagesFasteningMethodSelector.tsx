@@ -8,11 +8,16 @@ import { fetchBlockPagesFasteningMethodsListService } from "@/features/BlockPage
 
 import { BlockPagesFasteningMethod } from "@/entities/BlockPagesFasteningMethod";
 import {
+  blockPagesFasteningMethodsListReducer,
   getBlockPagesFasteningMethodsList,
   getBlockPagesFasteningMethodsListError,
   getBlockPagesFasteningMethodsListIsInitialized,
   getBlockPagesFasteningMethodsListIsLoading,
 } from "@/features/BlockPagesFasteningMethodSelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface BlockPagesFasteningMethodSelectorProps {
   placeholder?: string;
@@ -23,6 +28,10 @@ export interface BlockPagesFasteningMethodSelectorProps {
 export const BlockPagesFasteningMethodSelector = memo(
   (props: BlockPagesFasteningMethodSelectorProps) => {
     const { placeholder, value, onChange } = props;
+
+    const reducers: ReducersList = {
+      blockPagesFasteningMethodsList: blockPagesFasteningMethodsListReducer,
+    };
 
     const dispatch = useAppDispatch();
     const data = useAppSelector(getBlockPagesFasteningMethodsList.selectAll);
@@ -47,7 +56,7 @@ export const BlockPagesFasteningMethodSelector = memo(
     );
 
     return (
-      <>
+      <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
         <Selector
           placeholder={placeholder}
           disabled={!!error}
@@ -62,7 +71,7 @@ export const BlockPagesFasteningMethodSelector = memo(
           }}
         />
         {error && <Typography.Text>{error}</Typography.Text>}
-      </>
+      </DynamicModuleLoader>
     );
   },
 );

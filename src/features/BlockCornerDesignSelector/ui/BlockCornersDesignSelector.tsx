@@ -12,6 +12,11 @@ import {
   getBlockCornersDesignsListIsLoading,
 } from "../model/selectors/blockCornersDesignsList.selectors";
 import { fetchBlockCornersDesignsListService } from "@/features/BlockCornerDesignSelector/model/services/fetchBlockCornersDesignsList/fetchBlockCornersDesignsListService";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
+import { blockCornersDesignsListReducer } from "@/features/BlockCornerDesignSelector";
 
 export interface BlockCornersDesignSelectorProps {
   placeholder?: string;
@@ -22,6 +27,10 @@ export interface BlockCornersDesignSelectorProps {
 export const BlockCornersDesignSelector = memo(
   (props: BlockCornersDesignSelectorProps) => {
     const { placeholder, value, onChange } = props;
+
+    const reducers: ReducersList = {
+      blockCornersDesignsList: blockCornersDesignsListReducer,
+    };
 
     const dispatch = useAppDispatch();
     const data = useAppSelector(getBlockCornersDesignsList.selectAll);
@@ -42,7 +51,7 @@ export const BlockCornersDesignSelector = memo(
     });
 
     return (
-      <>
+      <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
         <Selector
           placeholder={placeholder}
           disabled={!!error}
@@ -57,7 +66,7 @@ export const BlockCornersDesignSelector = memo(
           }}
         />
         {error && <Typography.Text>{error}</Typography.Text>}
-      </>
+      </DynamicModuleLoader>
     );
   },
 );

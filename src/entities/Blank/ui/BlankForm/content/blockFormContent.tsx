@@ -21,7 +21,7 @@ export const blockFormContent = (
                   {...restField}
                   labelCol={{ span: 4 }}
                   label={"Конструкция"}
-                  name={[name, "blockDesign"]}
+                  name={[name, "blockDesign", "id"]}
                   rules={[
                     { required: true, message: "Не указана конструкция" },
                   ]}
@@ -41,7 +41,7 @@ export const blockFormContent = (
                   {...restField}
                   labelCol={{ span: 4 }}
                   label={"Форма углов"}
-                  name={[name, "blockCornersDesign"]}
+                  name={[name, "blockCornersDesign", "id"]}
                   rules={[
                     { required: true, message: "Не указана форма углов" },
                   ]}
@@ -52,7 +52,7 @@ export const blockFormContent = (
                   {...restField}
                   labelCol={{ span: 4 }}
                   label={"Материал страниц"}
-                  name={[name, "blockPagesMaterial"]}
+                  name={[name, "blockPagesMaterial", "id"]}
                   rules={[
                     { required: true, message: "Не указан материал страниц" },
                   ]}
@@ -103,7 +103,7 @@ export const blockFormContent = (
                   {...restField}
                   labelCol={{ span: 4 }}
                   label={"Примечания"}
-                  name={[name, "coverNotes"]}
+                  name={[name, "notes"]}
                 >
                   <Input.TextArea
                     placeholder={"Укажите примечания"}

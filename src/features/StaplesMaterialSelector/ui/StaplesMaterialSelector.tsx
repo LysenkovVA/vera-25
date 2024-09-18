@@ -13,6 +13,11 @@ import {
   getStaplesMaterialsListIsInitialized,
   getStaplesMaterialsListIsLoading,
 } from "../model/selectors/staplesMaterialsList.selectors";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
+import { staplesMaterialsListReducer } from "@/features/StaplesMaterialSelector";
 
 export interface StaplesMaterialSelectorProps {
   placeholder?: string;
@@ -24,13 +29,15 @@ export const StaplesMaterialSelector = memo(
   (props: StaplesMaterialSelectorProps) => {
     const { placeholder, value, onChange } = props;
 
+    const reducers: ReducersList = {
+      staplesMaterialsList: staplesMaterialsListReducer,
+    };
+
     const dispatch = useAppDispatch();
     const data = useAppSelector(getStaplesMaterialsList.selectAll);
     const loading = useAppSelector(getStaplesMaterialsListIsLoading);
     const error = useAppSelector(getStaplesMaterialsListError);
-    const isInitialized = useAppSelector(
-      getStaplesMaterialsListIsInitialized,
-    );
+    const isInitialized = useAppSelector(getStaplesMaterialsListIsInitialized);
 
     useEffect(() => {
       if (!isInitialized && !loading) {
@@ -43,7 +50,7 @@ export const StaplesMaterialSelector = memo(
     });
 
     return (
-      <>
+      <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
         <Selector
           placeholder={placeholder}
           disabled={!!error}
@@ -58,7 +65,7 @@ export const StaplesMaterialSelector = memo(
           }}
         />
         {error && <Typography.Text>{error}</Typography.Text>}
-      </>
+      </DynamicModuleLoader>
     );
   },
 );

@@ -1,4 +1,4 @@
-import { BlanksListSchema } from "@/features/BlanksList/model/types/blanksList.schema";
+import { BlanksListSchema } from "@/features/Blanks/BlanksList/model/types/blanksList.schema";
 import { BlankSchema } from "@/entities/Blank";
 import { SecurityLevelsListSchema } from "@/features/SecurityLevelSelector";
 import { CountriesListSchema } from "@/features/CountrySelector";

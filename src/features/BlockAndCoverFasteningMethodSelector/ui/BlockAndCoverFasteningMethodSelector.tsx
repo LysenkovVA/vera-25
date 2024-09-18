@@ -8,11 +8,16 @@ import { fetchBlockAndCoverFasteningMethodsListService } from "@/features/BlockA
 
 import { BlockAndCoverFasteningMethod } from "@/entities/BlockAndCoverFasteningMethod";
 import {
+  blockAndCoverFasteningMethodsListReducer,
   getBlockAndCoverFasteningMethodsList,
   getBlockAndCoverFasteningMethodsListError,
   getBlockAndCoverFasteningMethodsListIsInitialized,
   getBlockAndCoverFasteningMethodsListIsLoading,
 } from "@/features/BlockAndCoverFasteningMethodSelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface BlockAndCoverFasteningMethodSelectorProps {
   placeholder?: string;
@@ -23,6 +28,11 @@ export interface BlockAndCoverFasteningMethodSelectorProps {
 export const BlockAndCoverFasteningMethodSelector = memo(
   (props: BlockAndCoverFasteningMethodSelectorProps) => {
     const { placeholder, value, onChange } = props;
+
+    const reducers: ReducersList = {
+      blockAndCoverFasteningMethodsList:
+        blockAndCoverFasteningMethodsListReducer,
+    };
 
     const dispatch = useAppDispatch();
     const data = useAppSelector(getBlockAndCoverFasteningMethodsList.selectAll);
@@ -49,7 +59,7 @@ export const BlockAndCoverFasteningMethodSelector = memo(
     );
 
     return (
-      <>
+      <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
         <Selector
           placeholder={placeholder}
           disabled={!!error}
@@ -64,7 +74,7 @@ export const BlockAndCoverFasteningMethodSelector = memo(
           }}
         />
         {error && <Typography.Text>{error}</Typography.Text>}
-      </>
+      </DynamicModuleLoader>
     );
   },
 );

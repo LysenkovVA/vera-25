@@ -11,13 +11,53 @@ export async function GET(
       securityLevel: true,
       manufacturer: true,
       country: true,
-      covers: true,
-      blocks: true,
-      fastenings: true,
+      covers: {
+        include: {
+          coverDesign: true,
+          coverColor: true,
+          coverTexture: true,
+          coverImageMethod: true,
+        },
+      },
+      blocks: {
+        include: {
+          blockDesign: true,
+          blockCornersDesign: true,
+          blockPagesMaterial: true,
+        },
+      },
+      fastenings: {
+        include: {
+          blockAndCoverFasteningMethod: true,
+          blockPagesFasteningMethod: true,
+          fasteningFibers: {
+            include: {
+              fiberColor: true,
+              fiberMorphology: true,
+              fiberStep: true,
+            },
+          },
+          fasteningStaples: {
+            include: {
+              staplesMaterial: true,
+              staplesBackSize: true,
+              staplesDistance: true,
+            },
+          },
+        },
+      },
     },
     where: {
       id: params.id,
     },
   });
+  return NextResponse.json(data);
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  const data = await prisma.blank.delete({ where: { id: params.id } });
   return NextResponse.json(data);
 }

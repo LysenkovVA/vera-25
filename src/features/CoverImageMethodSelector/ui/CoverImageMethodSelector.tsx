@@ -8,11 +8,16 @@ import { fetchCoverImageMethodsListService } from "@/features/CoverImageMethodSe
 
 import { CoverImageMethod } from "@/entities/CoverImageMethod";
 import {
+  coverImageMethodsListReducer,
   getCoverImageMethodsList,
   getCoverImageMethodsListError,
   getCoverImageMethodsListIsInitialized,
   getCoverImageMethodsListIsLoading,
 } from "@/features/CoverImageMethodSelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface CoverImageMethodSelectorProps {
   placeholder?: string;
@@ -23,6 +28,10 @@ export interface CoverImageMethodSelectorProps {
 export const CoverImageMethodSelector = memo(
   (props: CoverImageMethodSelectorProps) => {
     const { placeholder, value, onChange } = props;
+
+    const reducers: ReducersList = {
+      coverImageMethodsList: coverImageMethodsListReducer,
+    };
 
     const dispatch = useAppDispatch();
     const data = useAppSelector(getCoverImageMethodsList.selectAll);
@@ -41,7 +50,7 @@ export const CoverImageMethodSelector = memo(
     });
 
     return (
-      <>
+      <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
         <Selector
           placeholder={placeholder}
           disabled={!!error}
@@ -56,7 +65,7 @@ export const CoverImageMethodSelector = memo(
           }}
         />
         {error && <Typography.Text>{error}</Typography.Text>}
-      </>
+      </DynamicModuleLoader>
     );
   },
 );

@@ -8,11 +8,16 @@ import { fetchCoverDesignsListService } from "../model/services/fetchCoverDesign
 
 import { CoverDesign } from "@/entities/CoverDesign";
 import {
+  coverDesignsListReducer,
   getCoverDesignsList,
   getCoverDesignsListError,
   getCoverDesignsListIsInitialized,
   getCoverDesignsListIsLoading,
 } from "@/features/CoverDesignSelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface CoverDesignSelectorProps {
   placeholder?: string;
@@ -22,6 +27,10 @@ export interface CoverDesignSelectorProps {
 
 export const CoverDesignSelector = memo((props: CoverDesignSelectorProps) => {
   const { placeholder, value, onChange } = props;
+
+  const reducers: ReducersList = {
+    coverDesignsList: coverDesignsListReducer,
+  };
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(getCoverDesignsList.selectAll);
@@ -40,7 +49,7 @@ export const CoverDesignSelector = memo((props: CoverDesignSelectorProps) => {
   });
 
   return (
-    <>
+    <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
       <Selector
         placeholder={placeholder}
         disabled={!!error}
@@ -55,6 +64,6 @@ export const CoverDesignSelector = memo((props: CoverDesignSelectorProps) => {
         }}
       />
       {error && <Typography.Text>{error}</Typography.Text>}
-    </>
+    </DynamicModuleLoader>
   );
 });

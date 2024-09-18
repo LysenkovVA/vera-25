@@ -8,11 +8,16 @@ import { fetchBlockDesignsListService } from "@/features/BlockDesignSelector/mod
 
 import { BlockDesign } from "@/entities/BlockDesign";
 import {
+  blockDesignsListReducer,
   getBlockDesignsList,
   getBlockDesignsListError,
   getBlockDesignsListIsInitialized,
   getBlockDesignsListIsLoading,
 } from "@/features/BlockDesignSelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface BlockDesignSelectorProps {
   placeholder?: string;
@@ -22,6 +27,10 @@ export interface BlockDesignSelectorProps {
 
 export const BlockDesignSelector = memo((props: BlockDesignSelectorProps) => {
   const { placeholder, value, onChange } = props;
+
+  const reducers: ReducersList = {
+    blockDesignsList: blockDesignsListReducer,
+  };
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(getBlockDesignsList.selectAll);
@@ -40,7 +49,7 @@ export const BlockDesignSelector = memo((props: BlockDesignSelectorProps) => {
   });
 
   return (
-    <>
+    <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
       <Selector
         placeholder={placeholder}
         disabled={!!error}
@@ -55,6 +64,6 @@ export const BlockDesignSelector = memo((props: BlockDesignSelectorProps) => {
         }}
       />
       {error && <Typography.Text>{error}</Typography.Text>}
-    </>
+    </DynamicModuleLoader>
   );
 });

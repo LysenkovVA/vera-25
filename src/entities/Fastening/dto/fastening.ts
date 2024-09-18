@@ -3,7 +3,7 @@ import { BlockPagesFasteningMethod } from "@/entities/BlockPagesFasteningMethod"
 import { FasteningFiberDto } from "@/entities/FasteningFiber";
 import { FasteningStaples } from "@/entities/FasteningStaples";
 
-export interface FasteningDto {
+export interface Fastening {
   id?: string;
   blockAndCoverFasteningMethod?: BlockAndCoverFasteningMethod;
   blockPagesFasteningMethod?: BlockPagesFasteningMethod;

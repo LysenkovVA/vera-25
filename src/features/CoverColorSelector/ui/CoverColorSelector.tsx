@@ -8,11 +8,16 @@ import { fetchCoverColorsListService } from "@/features/CoverColorSelector/model
 
 import { CoverColor } from "@/entities/CoverColor";
 import {
+  coverColorsListReducer,
   getCoverColorsList,
   getCoverColorsListError,
   getCoverColorsListIsInitialized,
   getCoverColorsListIsLoading,
 } from "@/features/CoverColorSelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface CoverColorSelectorProps {
   placeholder?: string;
@@ -22,6 +27,10 @@ export interface CoverColorSelectorProps {
 
 export const CoverColorSelector = memo((props: CoverColorSelectorProps) => {
   const { placeholder, value, onChange } = props;
+
+  const reducers: ReducersList = {
+    coverColorsList: coverColorsListReducer,
+  };
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(getCoverColorsList.selectAll);
@@ -40,7 +49,7 @@ export const CoverColorSelector = memo((props: CoverColorSelectorProps) => {
   });
 
   return (
-    <>
+    <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
       <Selector
         placeholder={placeholder}
         disabled={!!error}
@@ -55,6 +64,6 @@ export const CoverColorSelector = memo((props: CoverColorSelectorProps) => {
         }}
       />
       {error && <Typography.Text>{error}</Typography.Text>}
-    </>
+    </DynamicModuleLoader>
   );
 });

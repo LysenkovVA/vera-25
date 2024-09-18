@@ -25,7 +25,11 @@ export const fasteningFormContent = (
                     {...restField}
                     labelCol={{ span: 4 }}
                     label={"Способ скрепления блока с обложкой"}
-                    name={[fasteningIndex, "blockAndCoverFasteningMethod"]}
+                    name={[
+                      fasteningIndex,
+                      "blockAndCoverFasteningMethod",
+                      "id",
+                    ]}
                     rules={[{ required: true, message: "Не указано" }]}
                   >
                     <BlockAndCoverFasteningMethodSelector placeholder="Укажите способ скрепления блока с обложкой" />
@@ -34,7 +38,7 @@ export const fasteningFormContent = (
                     {...restField}
                     labelCol={{ span: 4 }}
                     label={"Способ скрпепления страниц блока"}
-                    name={[fasteningIndex, "blockPagesFasteningMethod"]}
+                    name={[fasteningIndex, "blockPagesFasteningMethod", "id"]}
                     rules={[{ required: true, message: "Не указано" }]}
                   >
                     <BlockPagesFasteningMethodSelector placeholder="Укажите способ скрпепления страниц блока" />

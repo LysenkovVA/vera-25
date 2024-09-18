@@ -24,7 +24,7 @@ export const fasteningFiberContent = (parentIndex: number) => (
                     {...restField}
                     labelCol={{ span: 4 }}
                     label={"Цвет"}
-                    name={[fiberIndex, "fiberColorId"]}
+                    name={[fiberIndex, "fiberColor", "id"]}
                     rules={[{ required: true, message: "Не указано" }]}
                   >
                     <FiberColorSelector placeholder={"Укажите цвет нити"} />
@@ -33,7 +33,7 @@ export const fasteningFiberContent = (parentIndex: number) => (
                     {...restField}
                     labelCol={{ span: 4 }}
                     label={"Морфология"}
-                    name={[fiberIndex, "fiberMorphologyId"]}
+                    name={[fiberIndex, "fiberMorphology", "id"]}
                     rules={[{ required: true, message: "Не указано" }]}
                   >
                     <FiberMorphologySelector
@@ -44,7 +44,7 @@ export const fasteningFiberContent = (parentIndex: number) => (
                     {...restField}
                     labelCol={{ span: 4 }}
                     label={"Шаг"}
-                    name={[fiberIndex, "fiberStepId"]}
+                    name={[fiberIndex, "fiberStep", "id"]}
                     rules={[{ required: true, message: "Не указано" }]}
                   >
                     <FiberStepSelector placeholder={"Укажите шаг нити"} />

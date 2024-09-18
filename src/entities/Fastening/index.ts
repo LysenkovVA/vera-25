@@ -1,3 +1,3 @@
-import { FasteningDto } from "./dto/fastening.dto";
+import { Fastening } from "./dto/fastening";
 
-export type { FasteningDto };
+export type { Fastening };

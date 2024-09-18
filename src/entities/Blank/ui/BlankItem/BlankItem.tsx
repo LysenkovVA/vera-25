@@ -3,8 +3,9 @@
 import { memo } from "react";
 import { Blank } from "@/entities/Blank";
 import { Card, Flex, Typography } from "antd";
-import EditBlankButton from "@/features/EditBlankButton/ui/EditBlankButton";
+import EditBlankButton from "@/features/Blanks/EditBlankButton/ui/EditBlankButton";
 import { CheckOutlined, EyeOutlined } from "@ant-design/icons";
+import { DeleteBlankButton } from "@/features/Blanks/DeleteBlankButton";
 
 export interface BlankItemProps {
   blank: Blank;
@@ -13,8 +14,6 @@ export interface BlankItemProps {
 
 const BlankItem = memo((props: BlankItemProps) => {
   const { blank, onClick } = props;
-
-  // const router = useRouter();
 
   const titleContent = (
     <Flex gap={4} justify={"space-between"}>
@@ -36,6 +35,7 @@ const BlankItem = memo((props: BlankItemProps) => {
         <CheckOutlined key={"documents"} />,
         <EyeOutlined key={"view"} />,
         <EditBlankButton key={"edit"} blankId={blank.id} />,
+        <DeleteBlankButton key={"delete"} blankId={blank.id} />,
       ]}
       // onClick={() => {
       //   router.push(`${process.env.NEXT_PUBLIC_BASE_PATH}/blanks/${blank.id}`);
