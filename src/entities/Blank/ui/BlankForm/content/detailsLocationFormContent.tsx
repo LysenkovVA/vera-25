@@ -22,7 +22,7 @@ export const detailsLocationFormContent = (
                   {...restField}
                   labelCol={{ span: 4 }}
                   label={"Тип"}
-                  name={[detailsIndex, "detailTypeId"]}
+                  name={[detailsIndex, "detailType", "id"]}
                   rules={[{ required: true, message: "Не указано" }]}
                 >
                   <DetailTypeSelector placeholder="Укажите тип" />
@@ -31,7 +31,7 @@ export const detailsLocationFormContent = (
                   {...restField}
                   labelCol={{ span: 4 }}
                   label={"Расположение"}
-                  name={[detailsIndex, "detailLocation"]}
+                  name={[detailsIndex, "location"]}
                   rules={[{ required: true, message: "Не указано" }]}
                 >
                   <LocationSelector placeholder="Укажите расположение" />

@@ -61,6 +61,7 @@ export async function POST(request: Request, response: Response) {
       data: blankQuery,
       where: { id: data.id },
     });
+    // СОЗДАНИЕ НОВОГО БЛАНКА -------------------------------
   } else {
     const blankQuery: Prisma.BlankCreateInput = {
       name: data.name,
@@ -83,163 +84,140 @@ export async function POST(request: Request, response: Response) {
     }
 
     // ДОБАВЛЕНИЕ ОБЛОЖЕК
-    const covers = data.covers?.map((cover) => {
-      const input: Prisma.CoverCreateManyBlankInput = {
-        coverColorId: cover.coverColor?.id,
-        coverDesignId: cover.coverDesign?.id,
-        coverTextureId: cover.coverTexture?.id,
-        coverFormat: cover.coverFormat,
-        coverImageMethodId: cover.coverImageMethod?.id,
-        notes: cover.notes,
-      };
+    const covers: Prisma.CoverCreateWithoutBlankInput[] | undefined =
+      data.covers?.map((cover) => {
+        const input: Prisma.CoverCreateWithoutBlankInput = {
+          coverColor: { connect: { id: cover.coverColor?.id } },
+          coverDesign: { connect: { id: cover.coverDesign?.id } },
+          coverTexture: { connect: { id: cover.coverTexture?.id } },
+          coverFormat: cover.coverFormat,
+          coverImageMethod: { connect: { id: cover.coverImageMethod?.id } },
+          notes: cover.notes,
+        };
 
-      return input;
-    });
+        return input;
+      });
 
     if (covers) {
       blankQuery.covers = {
-        createMany: {
-          data: covers,
-        },
+        create: covers,
       };
     }
 
     // ДОБАВЛЕНИЕ БЛОКОВ
-    const blocks = data.blocks?.map((block) => {
-      const input: Prisma.BlockCreateManyBlankInput = {
-        blockDesignId: block.blockDesign?.id,
-        blockFormat: block.blockFormat,
-        blockCornersDesignId: block.blockCornersDesign?.id,
-        blockPagesMaterialId: block.blockPagesMaterial?.id,
-        pagesInBlock: block.pagesInBlock,
-        pagesNumbered: block.pagesNumbered,
-        hasEndPapers: block.hasEndPapers,
-        notes: block.notes,
-      };
+    const blocks: Prisma.BlockCreateWithoutBlankInput[] | undefined =
+      data.blocks?.map((block) => {
+        const input: Prisma.BlockCreateWithoutBlankInput = {
+          blockDesign: { connect: { id: block.blockDesign?.id } },
+          blockFormat: block.blockFormat,
+          blockCornersDesign: { connect: { id: block.blockCornersDesign?.id } },
+          blockPagesMaterial: { connect: { id: block.blockPagesMaterial?.id } },
+          pagesInBlock: block.pagesInBlock,
+          pagesNumbered: block.pagesNumbered,
+          hasEndPapers: block.hasEndPapers,
+          notes: block.notes,
+        };
 
-      return input;
-    });
+        return input;
+      });
 
     if (blocks) {
       blankQuery.blocks = {
-        createMany: {
-          data: blocks,
-        },
+        create: blocks,
       };
     }
 
     // ДОБАВЛЕНИЕ СКРЕПЛЕНИЙ
-    const fastenings = data.fastenings?.map((fastening) => {
-      // НИТИ
-      const fibers = fastening.fasteningFibers?.map((fiber) => {
-        const fiberInput: Prisma.FasteningFiberCreateManyFasteningInput = {
-          fiberColorId: fiber.fiberColor?.id,
-          fiberMorphologyId: fiber.fiberMorphology?.id,
-          fiberStepId: fiber.fiberStep?.id,
-          notes: fiber.notes,
+    const fastenings: Prisma.FasteningCreateWithoutBlankInput[] | undefined =
+      data.fastenings?.map((fastening) => {
+        // НИТИ
+        const fibers:
+          | Prisma.FasteningFiberCreateWithoutFasteningInput[]
+          | undefined = fastening.fasteningFibers?.map((fiber) => {
+          const fiberInput: Prisma.FasteningFiberCreateWithoutFasteningInput = {
+            fiberColor: { connect: { id: fiber.fiberColor?.id } },
+            fiberMorphology: { connect: { id: fiber.fiberMorphology?.id } },
+            fiberStep: { connect: { id: fiber.fiberStep?.id } },
+            notes: fiber.notes,
+          };
+          return fiberInput;
+        });
+
+        // СКОБЫ
+        const staples:
+          | Prisma.FasteningStaplesCreateWithoutFasteningInput[]
+          | undefined = fastening.fasteningStaples?.map((staples) => {
+          const staplesInput: Prisma.FasteningStaplesCreateWithoutFasteningInput =
+            {
+              staplesMaterial: { connect: { id: staples.staplesMaterial?.id } },
+              staplesDistance: { connect: { id: staples.staplesDistance?.id } },
+              staplesBackSize: { connect: { id: staples.staplesBackSize?.id } },
+              notes: staples.notes,
+            };
+          return staplesInput;
+        });
+
+        const fasteningInput: Prisma.FasteningCreateWithoutBlankInput = {
+          blockAndCoverFasteningMethod: {
+            connect: { id: fastening.blockAndCoverFasteningMethod?.id },
+          },
+          blockPagesFasteningMethod: {
+            connect: { id: fastening.blockPagesFasteningMethod?.id },
+          },
+          notes: fastening.notes,
         };
-        return fiberInput;
+
+        if (fibers) {
+          fasteningInput.fasteningFibers = { create: fibers };
+        }
+
+        if (staples) {
+          fasteningInput.fasteningStaples = { create: staples };
+        }
+
+        return fasteningInput;
       });
-
-      // СКОБЫ
-      const staples = fastening.fasteningStaples?.map((staples) => {
-        const staplesInput: Prisma.FasteningStaplesCreateManyFasteningInput = {
-          staplesMaterialId: staples.staplesMaterial?.id,
-          staplesDistanceId: staples.staplesDistance?.id,
-          staplesBackSizeId: staples.staplesBackSize?.id,
-          notes: staples.notes,
-        };
-        return staplesInput;
-      });
-
-      // TODO Здесь надо айдишникам присваивать
-      const fasteningInput: Prisma.FasteningCreateInput = {
-        blockAndCoverFasteningMethod: {
-          connect: { id: fastening.blockAndCoverFasteningMethod?.id },
-        },
-        blockPagesFasteningMethod: {
-          connect: { id: fastening.blockPagesFasteningMethod?.id },
-        },
-        notes: fastening.notes,
-      };
-
-      if (fibers) {
-        fasteningInput.fasteningFibers = { createMany: { data: fibers } };
-      }
-
-      if (staples) {
-        fasteningInput.fasteningStaples = { createMany: { data: staples } };
-      }
-
-      return fasteningInput;
-    });
 
     if (fastenings) {
-      blankQuery.fastenings = { createMany: { data: fastenings } };
+      blankQuery.fastenings = { create: fastenings };
     }
 
-    // data.covers?.map((cover) => {
-    //   blankQuery.covers = {
-    //     create: {
-    //       coverColor: { connect: { id: cover.coverColor?.id } },
-    //       coverDesign: { connect: { id: cover.coverDesign?.id } },
-    //       coverTexture: { connect: { id: cover.coverTexture?.id } },
-    //       coverFormat: cover.coverFormat,
-    //       coverImageMethod: { connect: { id: cover.coverImageMethod?.id } },
-    //       notes: cover.notes,
-    //     },
-    //   };
-    // });
+    // ДОБАВЛЕНИЕ РЕКВИЗИТОВ
+    const details: Prisma.DetailCreateWithoutBlankInput[] | undefined =
+      data.details?.map((detail) => {
+        const input: Prisma.DetailCreateWithoutBlankInput = {
+          detailType: { connect: { id: detail.detailType?.id } },
+          location: detail.location,
+          notes: detail.notes,
+        };
 
-    // data.blocks?.map((block) => {
-    //   blankQuery.blocks = {
-    //     create: {
-    //       blockDesign: { connect: { id: block.blockDesign?.id } },
-    //       blockFormat: block.blockFormat,
-    //       blockCornersDesign: { connect: { id: block.blockCornersDesign?.id } },
-    //       blockPagesMaterial: { connect: { id: block.blockPagesMaterial?.id } },
-    //       pagesInBlock: block.pagesInBlock,
-    //       pagesNumbered: block.pagesNumbered,
-    //       hasEndPapers: block.hasEndPapers,
-    //       notes: block.notes,
-    //     },
-    //   };
-    // });
+        return input;
+      });
 
-    // data.fastenings?.map((fastening) => {
-    //   // TODO выяснить как добавлять в запрос большую вложенность объектов при создании
-    //   const fibers = fastening.fasteningFibers?.map((fiber) => {});
-    //
-    //   blankQuery.fastenings = {
-    //     create: {
-    //       blockPagesFasteningMethod: {
-    //         connect: { id: fastening.blockPagesFasteningMethod?.id },
-    //       },
-    //       blockAndCoverFasteningMethod: {
-    //         connect: { id: fastening.blockAndCoverFasteningMethod?.id },
-    //       },
-    //       notes: fastening.notes,
-    //       // fasteningFibers: fastening.fasteningFibers?.map(
-    //       //   (
-    //       //     fiber,
-    //       //   ):
-    //       //     | Prisma.FasteningFiberCreateNestedManyWithoutFasteningInput
-    //       //     | undefined => {
-    //       //     return {
-    //       //       create: {
-    //       //         fiberColor: { connect: { id: fiber.fiberColor?.id } },
-    //       //       },
-    //       //     };
-    //       //   },
-    //       // ),
-    //     },
-    //   };
-    // });
+    if (details) {
+      blankQuery.details = {
+        create: details,
+      };
+    }
 
     result = await prisma.blank.create({
       data: blankQuery,
       // Что возвращаем на выходе
-      include: { blankType: true },
+      include: {
+        blankType: true,
+        country: true,
+        securityLevel: true,
+        manufacturer: true,
+        covers: true,
+        blocks: true,
+        fastenings: {
+          include: {
+            fasteningFibers: true,
+            fasteningStaples: true,
+          },
+        },
+        details: true,
+      },
     });
   }
 

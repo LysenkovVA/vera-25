@@ -46,6 +46,11 @@ export async function GET(
           },
         },
       },
+      details: {
+        include: {
+          detailType: true,
+        },
+      },
     },
     where: {
       id: params.id,

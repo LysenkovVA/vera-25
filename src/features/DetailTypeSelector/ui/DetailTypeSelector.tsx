@@ -8,11 +8,16 @@ import { fetchDetailTypesListService } from "@/features/DetailTypeSelector/model
 
 import { DetailType } from "@/entities/DetailType";
 import {
+  detailTypesListReducer,
   getDetailTypesList,
   getDetailTypesListError,
   getDetailTypesListIsInitialized,
   getDetailTypesListIsLoading,
 } from "@/features/DetailTypeSelector";
+import {
+  DynamicModuleLoader,
+  ReducersList,
+} from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 
 export interface DetailTypeSelectorProps {
   placeholder?: string;
@@ -22,6 +27,10 @@ export interface DetailTypeSelectorProps {
 
 export const DetailTypeSelector = memo((props: DetailTypeSelectorProps) => {
   const { placeholder, value, onChange } = props;
+
+  const reducers: ReducersList = {
+    detailTypesList: detailTypesListReducer,
+  };
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(getDetailTypesList.selectAll);
@@ -40,7 +49,7 @@ export const DetailTypeSelector = memo((props: DetailTypeSelectorProps) => {
   });
 
   return (
-    <>
+    <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
       <Selector
         placeholder={placeholder}
         disabled={!!error}
@@ -55,6 +64,6 @@ export const DetailTypeSelector = memo((props: DetailTypeSelectorProps) => {
         }}
       />
       {error && <Typography.Text>{error}</Typography.Text>}
-    </>
+    </DynamicModuleLoader>
   );
 });
