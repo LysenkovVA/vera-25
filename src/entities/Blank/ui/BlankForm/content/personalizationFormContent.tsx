@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Flex, Form, Input } from "antd";
+import { Button, Card, Flex, Form, Input, InputNumber } from "antd";
 import { MinusCircleFilled, PlusCircleFilled } from "@ant-design/icons";
 import { LaminateTypeSelector } from "@/features/LaminateTypeSelector";
 import { LaminateMethodSelector } from "@/features/LaminateMethodSelector";
@@ -11,7 +11,10 @@ export const personalizationFormContent = (
       label={<Flex gap={4}>{"Количество страниц"}</Flex>}
       name={"pagesCount"}
     >
-      <Input placeholder={"Укажите количество страниц"} />
+      <InputNumber
+        style={{ width: "100%" }}
+        placeholder={"Укажите количество страниц"}
+      />
     </Form.Item>
 
     <Form.List name={"laminates"}>

@@ -200,6 +200,33 @@ export async function POST(request: Request, response: Response) {
       };
     }
 
+    // ДОБАВЛЕНИЕ ПЕРСОНАЛИЗАЦИИ
+    blankQuery.pagesCount = data.pagesCount;
+    blankQuery.personalizationDataContents = data.personalizationDataContents;
+
+    if (data.applyingDataMethod) {
+      blankQuery.applyingDataMethod = {
+        connect: { id: data.applyingDataMethod?.id },
+      };
+    }
+
+    // Ламинат
+    const laminates: Prisma.LaminateCreateWithoutBlankInput[] | undefined =
+      data.laminates?.map((laminate) => {
+        const input: Prisma.LaminateCreateWithoutBlankInput = {
+          laminateType: { connect: { id: laminate.laminateType?.id } },
+          laminateMethod: { connect: { id: laminate.laminateMethod?.id } },
+        };
+
+        return input;
+      });
+
+    if (laminates) {
+      blankQuery.laminates = {
+        create: laminates,
+      };
+    }
+
     result = await prisma.blank.create({
       data: blankQuery,
       // Что возвращаем на выходе

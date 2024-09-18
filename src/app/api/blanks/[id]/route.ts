@@ -51,6 +51,13 @@ export async function GET(
           detailType: true,
         },
       },
+      laminates: {
+        include: {
+          laminateType: true,
+          laminateMethod: true,
+        },
+      },
+      applyingDataMethod: true,
     },
     where: {
       id: params.id,
