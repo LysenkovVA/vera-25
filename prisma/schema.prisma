@@ -118,6 +118,8 @@ model Blank {
   applyingDataMethod          ApplyingDataMethod? @relation(fields: [applyingDataMethodId], references: [id])
   applyingDataMethodId        String?
 
+  blankDocumentMatches BlankDocumentMatch[]
+
   notes String?
 
   // Список ресурсов (изображений) бланка
@@ -129,6 +131,26 @@ model Blank {
 
   @@index([name, notes])
   @@map("blanks")
+}
+
+model BlankDocumentMatch {
+  id    String  @id @default(cuid())
+  notes String?
+
+  blank   Blank?  @relation(fields: [blankId], references: [id])
+  blankId String?
+
+  document   Document? @relation(fields: [documentId], references: [id])
+  documentId String?
+
+  controlParamtersValues ControlParameterValue[]
+
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([notes])
+  @@map(name: "blank_document_matches")
 }
 
 model BlankType {
@@ -870,6 +892,9 @@ model Document {
   notes     String?
 
   requirementGroups RequirementGroup[]
+  controlParameters ControlParameter[]
+
+  blankDocumentMatches BlankDocumentMatch[]
 
   // Служебные поля
   createdAt DateTime @default(now())
@@ -915,6 +940,47 @@ model Requirement {
 
   @@index([name, notes])
   @@map(name: "requirements")
+}
+
+// Название контрольного параметра, чему должен соответствовать бланк
+model ControlParameter {
+  id       String  @id @default(cuid())
+  name     String
+  position Int
+  notes    String?
+
+  document   Document? @relation(fields: [documentId], references: [id])
+  documentId String?
+
+  controlParameterValues ControlParameterValue[]
+
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
+  @@map(name: "control_parameters")
+}
+
+// Значение контрольного параметра
+model ControlParameterValue {
+  id       String  @id @default(cuid())
+  name     String
+  position Int
+  notes    String?
+
+  controlParameter   ControlParameter? @relation(fields: [controlParameterId], references: [id])
+  controlParameterId String?
+
+  blankDocumentMatch   BlankDocumentMatch? @relation(fields: [blankDocumentMatchId], references: [id])
+  blankDocumentMatchId String?
+
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
+  @@map(name: "control_parameter_values")
 }
 
 // -----------------------------------------------------

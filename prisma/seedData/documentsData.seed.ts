@@ -491,5 +491,18 @@ export const documents = [
         ],
       },
     ],
+    controlParameters: [
+      {
+        name: "Уровень защищенности",
+        position: 1,
+        notes: "",
+        controlParameterValues: [
+          { name: "А", position: 1, notes: "" },
+          { name: "Б", position: 2, notes: "" },
+          { name: "В", position: 3, notes: "" },
+          { name: "Г", position: 4, notes: "" },
+        ],
+      },
+    ],
   },
 ];

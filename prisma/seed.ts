@@ -148,6 +148,28 @@ async function main() {
         });
       }
     }
+
+    for (const cp of value.controlParameters) {
+      const controlParameter = await prisma.controlParameter.create({
+        data: {
+          name: cp.name,
+          position: cp.position,
+          notes: cp.notes,
+          document: { connect: document },
+        },
+      });
+
+      for (const parValue of cp.controlParameterValues) {
+        await prisma.controlParameterValue.create({
+          data: {
+            name: parValue.name,
+            position: parValue.position,
+            notes: parValue.notes,
+            controlParameter: { connect: controlParameter },
+          },
+        });
+      }
+    }
   }
 
   // ОБЛОЖКИ
