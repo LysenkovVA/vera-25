@@ -4,6 +4,8 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// Аттрибуты Prisma: https://www.prisma.io/docs/orm/reference/prisma-schema-reference#attributes
+
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["relationJoins"]
@@ -29,6 +31,11 @@ model User {
   profileId String?   @unique
   sessions  Session[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([login])
   @@map(name: "users")
 }
 
@@ -48,6 +55,11 @@ model Role {
   name  String @unique
   users User[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
   @@map(name: "roles")
 }
 
@@ -59,6 +71,11 @@ model Profile {
 
   User User?
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([surname, name])
   @@map("profiles")
 }
 
@@ -106,6 +123,11 @@ model Blank {
   // Список ресурсов (изображений) бланка
   imageResources ImageResource[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("blanks")
 }
 
@@ -118,6 +140,11 @@ model BlankType {
 
   blanks Blank[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map(name: "blank_types")
 }
 
@@ -128,6 +155,11 @@ model SecurityLevel {
 
   blanks Blank[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
   @@map(name: "security_levels")
 }
 
@@ -138,6 +170,11 @@ model Country {
 
   blanks Blank[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
   @@map(name: "countries")
 }
 
@@ -148,6 +185,11 @@ model Manufacturer {
 
   blanks Blank[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
   @@map(name: "manufacturers")
 }
 
@@ -176,6 +218,11 @@ model Cover {
   blank   Blank  @relation(fields: [blankId], references: [id], onDelete: Cascade)
   blankId String
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([notes])
   @@map("covers")
 }
 
@@ -187,6 +234,11 @@ model CoverDesign {
 
   covers Cover[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("cover_designs")
 }
 
@@ -198,6 +250,11 @@ model CoverColor {
 
   covers Cover[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("cover_colors")
 }
 
@@ -209,6 +266,11 @@ model CoverTexture {
 
   covers Cover[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("cover_textures")
 }
 
@@ -219,6 +281,11 @@ model CoverImageMethod {
 
   covers Cover[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("cover_image_methods")
 }
 
@@ -251,6 +318,11 @@ model Block {
   blank   Blank?  @relation(fields: [blankId], references: [id], onDelete: Cascade)
   blankId String?
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([notes])
   @@map("blocks")
 }
 
@@ -264,6 +336,11 @@ model BlockDesign {
 
   blocks Block[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("block_designs")
 }
 
@@ -276,6 +353,11 @@ model BlockCornersDesign {
 
   blocks Block[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("block_corners_designs")
 }
 
@@ -288,6 +370,11 @@ model BlockPagesMaterial {
 
   blocks Block[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("block_pages_materials")
 }
 
@@ -313,6 +400,11 @@ model Fastening {
   blank   Blank?  @relation(fields: [blankId], references: [id], onDelete: Cascade)
   blankId String?
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([notes])
   @@map("fastenings")
 }
 
@@ -325,6 +417,11 @@ model BlockAndCoverFasteningMethod {
 
   fastenings Fastening[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("block_and_cover_fastening_methods")
 }
 
@@ -337,6 +434,11 @@ model BlockPagesFasteningMethod {
 
   fastenings Fastening[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("block_pages_fastening_methods")
 }
 
@@ -359,6 +461,11 @@ model FasteningFiber {
   fastening   Fastening? @relation(fields: [fasteningId], references: [id], onDelete: Cascade)
   fasteningId String?
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([notes])
   @@map("fastening_fibers")
 }
 
@@ -370,6 +477,11 @@ model FiberColor {
 
   fasteningFibers FasteningFiber[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("fiber_colors")
 }
 
@@ -381,6 +493,11 @@ model FiberMorphology {
 
   fasteningFibers FasteningFiber[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("fiber_morfologies")
 }
 
@@ -392,6 +509,11 @@ model FiberStep {
 
   fasteningFibers FasteningFiber[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("fiber_steps")
 }
 
@@ -414,6 +536,11 @@ model FasteningStaples {
   fastening   Fastening? @relation(fields: [fasteningId], references: [id], onDelete: Cascade)
   fasteningId String?
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([notes])
   @@map("fastening_staples")
 }
 
@@ -425,6 +552,11 @@ model StaplesMaterial {
 
   fasteningStaples FasteningStaples[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("staple_materials")
 }
 
@@ -436,6 +568,11 @@ model StaplesBackSize {
 
   fasteningStaples FasteningStaples[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("staple_back_sizes")
 }
 
@@ -447,6 +584,11 @@ model StaplesDistance {
 
   fasteningStaples FasteningStaples[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("staple_distances")
 }
 
@@ -482,6 +624,11 @@ model Image {
   sourceDevice   SourceDevice? @relation(fields: [sourceDeviceId], references: [id])
   sourceDeviceId String?
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([fileName, notes])
   @@map("images")
 }
 
@@ -495,6 +642,11 @@ model ResearchMethod {
 
   images Image[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("research_methods")
 }
 
@@ -506,6 +658,10 @@ model ImageSet {
 
   imageResource   ImageResource? @relation(fields: [imageResourceId], references: [id], onDelete: Cascade)
   imageResourceId String?
+
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("image_sets")
 }
@@ -520,6 +676,10 @@ model Remedy {
   imageSet   ImageSet? @relation(fields: [imageSetId], references: [id], onDelete: Cascade)
   imageSetId String?
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@map("remedies")
 }
 
@@ -529,6 +689,11 @@ model RemedyVariety {
   name     String
   remedies Remedy[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
   @@map("remedy_varieties")
 }
 
@@ -546,6 +711,11 @@ model ImageResource {
   blank   Blank?  @relation(fields: [blankId], references: [id], onDelete: Cascade)
   blankId String?
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("image_resources")
 }
 
@@ -559,6 +729,11 @@ model SourceDevice {
 
   images Image[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("source_devices")
 }
 
@@ -589,6 +764,11 @@ model Detail {
   blank   Blank?  @relation(fields: [blankId], references: [id], onDelete: Cascade)
   blankId String?
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([notes])
   @@map("details")
 }
 
@@ -600,6 +780,11 @@ model DetailType {
 
   details Detail[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("detail_types")
 }
 
@@ -616,6 +801,11 @@ model Laminate {
   blank   Blank?  @relation(fields: [blankId], references: [id], onDelete: Cascade)
   blankId String?
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([notes])
   @@map("laminates")
 }
 
@@ -627,6 +817,11 @@ model LaminateType {
 
   laminates Laminate[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("laminate_types")
 }
 
@@ -638,6 +833,11 @@ model LaminateMethod {
 
   laminates Laminate[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("laminate_methods")
 }
 
@@ -649,6 +849,11 @@ model ApplyingDataMethod {
 
   blanks Blank[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map("applying_data_methods")
 }
 
@@ -666,6 +871,11 @@ model Document {
 
   requirementGroups RequirementGroup[]
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, number, date, startDate, endDate, notes])
   @@map(name: "documents")
 }
 
@@ -681,6 +891,11 @@ model RequirementGroup {
   document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
   documentId String
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map(name: "requirement_groups")
 }
 
@@ -694,6 +909,11 @@ model Requirement {
   requirementGroup   RequirementGroup @relation(fields: [requirementGroupId], references: [id], onDelete: Cascade)
   requirementGroupId String
 
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name, notes])
   @@map(name: "requirements")
 }
 

@@ -27,7 +27,7 @@ const EditBlankButton = (props: EditBlankButtonProps) => {
     <>
       <Button
         type={"link"}
-        icon={<EditOutlined />}
+        icon={<EditOutlined style={{ color: "orange" }} />}
         onClick={() => {
           setOpen(true);
           dispatch(fetchBlankByIdService({ id: props.blankId }));

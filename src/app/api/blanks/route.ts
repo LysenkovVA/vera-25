@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
       blankType: true,
       securityLevel: true,
     },
-    orderBy: { name: "asc" },
+    orderBy: { createdAt: "asc" },
     skip,
     take,
   };

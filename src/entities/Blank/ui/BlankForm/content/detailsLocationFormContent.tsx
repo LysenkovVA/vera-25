@@ -31,6 +31,7 @@ export const detailsLocationFormContent = (
                   {...restField}
                   labelCol={{ span: 4 }}
                   label={"Расположение"}
+                  // ЭТО Enum в схеме Prisma
                   name={[detailsIndex, "location"]}
                   rules={[{ required: true, message: "Не указано" }]}
                 >

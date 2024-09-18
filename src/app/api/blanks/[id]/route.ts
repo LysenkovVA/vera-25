@@ -58,6 +58,15 @@ export async function GET(
         },
       },
       applyingDataMethod: true,
+      imageResources: {
+        include: {
+          imageSets: {
+            include: {
+              images: true,
+            },
+          },
+        },
+      },
     },
     where: {
       id: params.id,

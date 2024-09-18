@@ -24,7 +24,7 @@ const DeleteBlankButton = (props: DeleteBlankButtonProps) => {
     <>
       <Button
         type={"link"}
-        icon={<DeleteOutlined />}
+        icon={<DeleteOutlined style={{ color: "red" }} />}
         onClick={() => setModal2Open(true)}
       />
       <Modal

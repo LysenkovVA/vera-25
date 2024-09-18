@@ -62,11 +62,14 @@ const BlankEditorDrawer = (props: BlankEditorDrawerProps) => {
     <Flex gap={8}>
       <Button
         icon={<CloseOutlined />}
+        type={"primary"}
         danger
         onClick={(e) => {
           onClose?.(e);
         }}
-      />
+      >
+        {"Закрыть"}
+      </Button>
       <Button icon={<SaveOutlined />} type={"primary"} onClick={onSave}>
         {"Сохранить"}
       </Button>
