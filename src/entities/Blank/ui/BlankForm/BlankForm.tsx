@@ -5,7 +5,7 @@ import { Blank } from "@/entities/Blank";
 import { infoFormContent } from "./content/infoFormContent";
 import { constructionFormContent } from "@/entities/Blank/ui/BlankForm/content/constructionFormContent";
 import { imagesFormContent } from "@/entities/Blank/ui/BlankForm/content/imagesFormContent";
-import { blankDocumentMatchFormContent } from "@/entities/Blank/ui/BlankForm/content/blankDocumentMatchFormContent";
+import { BlankDocumentMatchFormContent } from "@/entities/Blank/ui/BlankForm/content/blankDocumentMatchFormContent";
 
 export interface BlankDescriptionFormProps {
   initialValue?: Blank;
@@ -40,7 +40,7 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
       {infoFormContent}
       {constructionFormContent}
       {imagesFormContent}
-      {blankDocumentMatchFormContent}
+      <BlankDocumentMatchFormContent />
     </Form>
   );
 };

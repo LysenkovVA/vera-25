@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { theme } from "antd";
 import DocumentsContent from "@/components/RequirementsChecker/ui/DocumentsContent/DocumentsContent";
-import { DocumentDto } from "@/entities/Document/dto/document.dto";
+import { Document } from "@/entities/Document/dto/document";
 import DocumentGroupsContent from "@/components/RequirementsChecker/ui/DocumentGroupsContent/DocumentGroupsContent";
 
 const RequirementsChecker = () => {
-  const [selectedDocument, setSelectedDocument] = useState<DocumentDto>();
+  const [selectedDocument, setSelectedDocument] = useState<Document>();
 
   return (
     <>

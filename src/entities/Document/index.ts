@@ -1,3 +1,3 @@
-import { DocumentDto } from "./dto/document.dto";
+import { Document } from "./dto/document";
 
-export type { DocumentDto };
+export type { Document };

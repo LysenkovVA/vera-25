@@ -11,14 +11,10 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  const data = await prisma.document.findFirst({
+  const data = await prisma.controlParameter.findFirst({
     where: { id: params.id },
     include: {
-      requirementGroups: {
-        include: {
-          requirements: true,
-        },
-      },
+      controlParameterValues: true,
     },
   });
   return NextResponse.json(data);

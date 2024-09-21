@@ -1,7 +1,7 @@
 import { RequirementGroupDto } from "@/entities/RequirementGroup";
 
-export interface DocumentDto {
-  id?: string;
+export interface Document {
+  id: string;
   name?: string;
   number?: string;
   date?: Date;

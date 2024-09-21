@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { fetchDocumentByIdAction } from "@/app/api/documents/[id]/fetchDocumentById.action";
-import { DocumentDto } from "@/entities/Document/dto/document.dto";
+import { Document } from "@/entities/Document/dto/document";
 import { Card, Flex, Steps } from "antd";
 import DocumentRequirementContent from "@/components/RequirementsChecker/ui/DocumentRequirementContent/DocumentRequirementContent";
 import LoadingIndicator from "@/shared/UI/LoadingIndicator";
@@ -15,7 +15,7 @@ const DocumentGroupsContent = (props: DocumentGroupsContentProps) => {
   const { documentId } = props;
 
   const [currentGroup, setCurrentGroup] = useState(0);
-  const [document, setDocument] = useState<DocumentDto>();
+  const [document, setDocument] = useState<Document>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

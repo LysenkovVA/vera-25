@@ -24,6 +24,9 @@ import { LaminateMethodsListSchema } from "@/features/LaminateMethodSelector";
 import { ApplyingDataMethodsListSchema } from "@/features/ApplyingDataMethodSelector";
 import { BlankTypesListSchema } from "@/features/BlankTypeSelector";
 import { ResearchMethodsListSchema } from "@/entities/ResearchMethod";
+import { DocumentsListSchema } from "@/features/DocumentsSelector";
+import { ControlParametersListSchema } from "@/entities/ControlParameter/model/types/controlParametersListSchema";
+import { ControlParameterValuesListSchema } from "@/entities/ControlParameterValue/model/types/controlParameterValuesListSchema";
 
 export interface StateSchema {
   // Асинхронные (подключаются динамически по мере надобности)
@@ -53,6 +56,9 @@ export interface StateSchema {
   applyingDataMethodsList?: ApplyingDataMethodsListSchema;
   blankTypesList?: BlankTypesListSchema;
   researchMethodsList?: ResearchMethodsListSchema;
+  documentsList?: DocumentsListSchema;
+  controlParametersList?: ControlParametersListSchema;
+  controlParameterValuesList?: ControlParameterValuesListSchema;
 }
 
 export type StateSchemaKey = keyof StateSchema;

@@ -133,12 +133,21 @@ model Blank {
   @@map("blanks")
 }
 
+// Соответствие пунктам документа
+enum Compliance {
+  Full // Полное
+  Partially // Частичное
+  NotMatch // Не соответствует
+}
+
 model BlankDocumentMatch {
   id    String  @id @default(cuid())
   notes String?
 
   blank   Blank?  @relation(fields: [blankId], references: [id])
   blankId String?
+
+  complience Compliance
 
   document   Document? @relation(fields: [documentId], references: [id])
   documentId String?

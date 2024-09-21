@@ -1,5 +1,5 @@
 // "use client";
-import { DocumentDto } from "@/entities/Document/dto/document.dto";
+import { Document } from "@/entities/Document/dto/document";
 import { Button, Flex, Result } from "antd";
 import { fetchDocumentsAction } from "@/app/api/documents/fetchDocuments.action";
 import { useEffect, useState } from "react";
@@ -7,19 +7,19 @@ import styles from "./DocumentsContent.module.scss";
 import LoadingIndicator from "@/shared/UI/LoadingIndicator";
 
 export interface DocumentsContentProps {
-  onSelectDocument?: (doc: DocumentDto) => void;
+  onSelectDocument?: (doc: Document) => void;
 }
 
 const DocumentsContent = (props: DocumentsContentProps) => {
   const { onSelectDocument } = props;
-  const [documents, setDocuments] = useState<DocumentDto[]>([]);
+  const [documents, setDocuments] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!documents || !documents.length) {
       setLoading(true);
       fetchDocumentsAction()
-        .then<DocumentDto[]>((data: DocumentDto[]) => {
+        .then<Document[]>((data: Document[]) => {
           setDocuments(data);
           return data;
         })
