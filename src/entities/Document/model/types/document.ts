@@ -1,4 +1,5 @@
 import { RequirementGroupDto } from "@/entities/RequirementGroup";
+import { ControlParameter } from "@/entities/ControlParameter";
 
 export interface Document {
   id: string;
@@ -9,4 +10,5 @@ export interface Document {
   endDate?: Date;
   notes?: string;
   requirementGroups?: Array<RequirementGroupDto>;
+  controlParameters?: Array<ControlParameter>;
 }

@@ -14,6 +14,11 @@ export async function GET(
   const data = await prisma.document.findFirst({
     where: { id: params.id },
     include: {
+      controlParameters: {
+        include: {
+          controlParameterValues: true,
+        },
+      },
       requirementGroups: {
         include: {
           requirements: true,

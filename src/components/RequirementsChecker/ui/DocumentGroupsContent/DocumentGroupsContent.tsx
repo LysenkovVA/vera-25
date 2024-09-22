@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { fetchDocumentByIdAction } from "@/app/api/documents/[id]/fetchDocumentById.action";
-import { Document } from "@/entities/Document/dto/document";
+import { Document } from "@/entities/Document";
 import { Card, Flex, Steps } from "antd";
 import DocumentRequirementContent from "@/components/RequirementsChecker/ui/DocumentRequirementContent/DocumentRequirementContent";
 import LoadingIndicator from "@/shared/UI/LoadingIndicator";

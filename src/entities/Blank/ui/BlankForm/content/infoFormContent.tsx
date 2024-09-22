@@ -1,13 +1,7 @@
 import { Divider, Flex, Form, Input, Typography } from "antd";
-import {
-  HomeFilled,
-  InfoCircleTwoTone,
-  LockFilled,
-  ToolFilled,
-} from "@ant-design/icons";
+import { HomeFilled, InfoCircleTwoTone, ToolFilled } from "@ant-design/icons";
 import { CountrySelector } from "@/features/CountrySelector";
 import { ManufacturerSelector } from "@/features/ManufacturerSelector";
-import { SecurityLevelSelector } from "@/features/SecurityLevelSelector";
 import React from "react";
 import { BlankTypeSelector } from "@/features/BlankTypeSelector";
 
@@ -52,16 +46,16 @@ export const infoFormContent = (
     >
       <ManufacturerSelector placeholder={"Укажите производителя"} />
     </Form.Item>
-    <Form.Item
-      label={
-        <Flex gap={4}>
-          <LockFilled />
-          {"Уровень защищенности"}
-        </Flex>
-      }
-      name={"securityLevelId"}
-    >
-      <SecurityLevelSelector placeholder={"Укажите уровень защищенности"} />
-    </Form.Item>
+    {/*<Form.Item*/}
+    {/*  label={*/}
+    {/*    <Flex gap={4}>*/}
+    {/*      <LockFilled />*/}
+    {/*      {"Уровень защищенности"}*/}
+    {/*    </Flex>*/}
+    {/*  }*/}
+    {/*  name={"securityLevelId"}*/}
+    {/*>*/}
+    {/*  <SecurityLevelSelector placeholder={"Укажите уровень защищенности"} />*/}
+    {/*</Form.Item>*/}
   </>
 );

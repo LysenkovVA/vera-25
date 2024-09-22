@@ -7,57 +7,34 @@ import {
 import React, { useCallback } from "react";
 import { DocumentSelector } from "@/features/DocumentsSelector";
 import { ComplianceSelector } from "@/features/ComplienceSelector";
+import { useAppDispatch, useAppSelector } from "@/shared/lib/hooks/storeHooks";
 import {
   DynamicModuleLoader,
   ReducersList,
 } from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 import {
-  ControlParameter,
-  controlParametersListActions,
-  controlParametersListReducer,
-  fetchControlParametersListByDocumentIdService,
-  getControlParametersList,
-} from "@/entities/ControlParameter";
-import { useAppDispatch, useAppSelector } from "@/shared/lib/hooks/storeHooks";
-import { controlParameterValuesListReducer } from "@/entities/ControlParameterValue/model/slice/controlParameterValuesListSlice";
-import { fetchControlParameterValuesListByControlParameterIdService } from "@/entities/ControlParameterValue/model/services/fetchControlParameterValuesListByControlParameterId/fetchControlParameterValuesListByControlParameterIdService";
-import { getControlParameterValuesList } from "@/entities/ControlParameterValue/model/selectors/controlParameterValuesList.selectors";
+  documentSliceActions,
+  documentSliceReducer,
+} from "@/entities/Document/model/slice/documentSlice";
+import { getDocumentDetails } from "@/entities/Document/model/selectors/document.selectors";
+import { fetchDocumentByIdService } from "@/entities/Document/model/services/fetchDocumentByIdService";
 import { ControlParameterValueSelector } from "@/entities/ControlParameterValue/ui/ControlParameterValueSelector";
+import { ControlParameterValue } from "@/entities/ControlParameterValue";
 
 export const BlankDocumentMatchFormContent = () => {
   const reducers: ReducersList = {
-    controlParametersList: controlParametersListReducer,
-    controlParameterValuesList: controlParameterValuesListReducer,
+    documentDetails: documentSliceReducer,
   };
 
   const dispatch = useAppDispatch();
-  const controlParameters = useAppSelector(getControlParametersList.selectAll);
-  const controlParameterValuesList = useAppSelector(
-    getControlParameterValuesList.selectAll,
-  );
+  const documentDetails = useAppSelector(getDocumentDetails);
 
   const onChangeDocument = useCallback(
     (documentId: string | undefined) => {
       if (documentId) {
-        dispatch(
-          fetchControlParametersListByDocumentIdService({
-            replaceData: true,
-            documentId,
-          }),
-        ).then((result) => {
-          const list: ControlParameter[] = result.payload as ControlParameter[];
-
-          list.map((cpv) => {
-            dispatch(
-              fetchControlParameterValuesListByControlParameterIdService({
-                controlParameterId: cpv.id,
-                replaceData: true,
-              }),
-            );
-          });
-        });
+        dispatch(fetchDocumentByIdService({ id: documentId }));
       } else {
-        dispatch(controlParametersListActions.clearControlParametersList());
+        dispatch(documentSliceActions.clearAllData({}));
       }
     },
     [dispatch],
@@ -98,7 +75,7 @@ export const BlankDocumentMatchFormContent = () => {
                         onChange={onChangeDocument}
                       />
                     </Form.Item>
-                    {controlParameters.map((cp) => (
+                    {documentDetails?.controlParameters?.map((cp) => (
                       <Form.Item
                         key={cp.id}
                         labelCol={{ span: 4 }}
@@ -106,7 +83,13 @@ export const BlankDocumentMatchFormContent = () => {
                         name={[name, "controlParameterValue", "id"]}
                       >
                         <ControlParameterValueSelector
-                          controlParameterId={cp.id}
+                          // controlParameterId={cp.id}
+                          data={
+                            documentDetails?.controlParameters?.filter(
+                              (value) => value.id === cp.id,
+                            )?.[0]
+                              ?.controlParameterValues as ControlParameterValue[]
+                          }
                         />
                       </Form.Item>
                     ))}

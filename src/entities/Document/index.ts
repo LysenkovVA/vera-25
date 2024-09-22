@@ -1,3 +1,3 @@
-import { Document } from "./dto/document";
+import { Document } from "./model/types/document";
 
 export type { Document };

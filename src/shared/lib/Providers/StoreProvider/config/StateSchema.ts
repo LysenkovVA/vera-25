@@ -27,6 +27,7 @@ import { ResearchMethodsListSchema } from "@/entities/ResearchMethod";
 import { DocumentsListSchema } from "@/features/DocumentsSelector";
 import { ControlParametersListSchema } from "@/entities/ControlParameter/model/types/controlParametersListSchema";
 import { ControlParameterValuesListSchema } from "@/entities/ControlParameterValue/model/types/controlParameterValuesListSchema";
+import { DocumentSchema } from "@/entities/Document/model/types/DocumentSchema";
 
 export interface StateSchema {
   // Асинхронные (подключаются динамически по мере надобности)
@@ -57,6 +58,7 @@ export interface StateSchema {
   blankTypesList?: BlankTypesListSchema;
   researchMethodsList?: ResearchMethodsListSchema;
   documentsList?: DocumentsListSchema;
+  documentDetails?: DocumentSchema;
   controlParametersList?: ControlParametersListSchema;
   controlParameterValuesList?: ControlParameterValuesListSchema;
 }

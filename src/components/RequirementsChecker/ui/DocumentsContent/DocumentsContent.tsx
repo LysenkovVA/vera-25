@@ -1,5 +1,5 @@
 // "use client";
-import { Document } from "@/entities/Document/dto/document";
+import { Document } from "@/entities/Document";
 import { Button, Flex, Result } from "antd";
 import { fetchDocumentsAction } from "@/app/api/documents/fetchDocuments.action";
 import { useEffect, useState } from "react";

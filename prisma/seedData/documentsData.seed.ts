@@ -505,4 +505,33 @@ export const documents = [
       },
     ],
   },
+  {
+    name: "Тестовый документ",
+    number: "123456",
+    date: new Date(2020, 9, 29, 0, 0, 0),
+    startDate: new Date(2021, 1, 1, 0, 0, 0),
+    endDate: new Date(2026, 12, 31, 0, 0, 0),
+    notes: "",
+    requirementGroups: [],
+    controlParameters: [
+      {
+        name: "Параметр № 1",
+        position: 1,
+        notes: "",
+        controlParameterValues: [
+          { name: "Значение 1", position: 1, notes: "" },
+          { name: "Значение 2", position: 2, notes: "" },
+        ],
+      },
+      {
+        name: "Параметр № 2",
+        position: 1,
+        notes: "",
+        controlParameterValues: [
+          { name: "Значение 3", position: 1, notes: "" },
+          { name: "Значение 4", position: 2, notes: "" },
+        ],
+      },
+    ],
+  },
 ];

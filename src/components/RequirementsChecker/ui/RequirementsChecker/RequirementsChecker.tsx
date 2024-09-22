@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import DocumentsContent from "@/components/RequirementsChecker/ui/DocumentsContent/DocumentsContent";
-import { Document } from "@/entities/Document/dto/document";
+import { Document } from "@/entities/Document";
 import DocumentGroupsContent from "@/components/RequirementsChecker/ui/DocumentGroupsContent/DocumentGroupsContent";
 
 const RequirementsChecker = () => {
