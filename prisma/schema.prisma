@@ -902,13 +902,13 @@ model ApplyingDataMethod {
 
 // НПА с требованиями
 model Document {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
-  number      String
-  date        DateTime
-  startDate   DateTime
-  isNoEndDate Boolean  @default(false)
-  endDate     DateTime
+  number      String?
+  date        DateTime?
+  startDate   DateTime?
+  isNoEndDate Boolean?  @default(false)
+  endDate     DateTime?
   notes       String?
 
   requirementGroups RequirementGroup[]
