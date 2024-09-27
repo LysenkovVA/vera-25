@@ -8,7 +8,6 @@ export async function GET(
   const data = await prisma.blank.findFirst({
     include: {
       blankType: true,
-      securityLevel: true,
       manufacturer: true,
       country: true,
       covers: {
@@ -65,6 +64,12 @@ export async function GET(
               images: true,
             },
           },
+        },
+      },
+      blankDocumentMatches: {
+        include: {
+          document: true,
+          controlParameterValues: true,
         },
       },
     },

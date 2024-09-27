@@ -8,13 +8,11 @@ import {
 import BlankForm from "./ui/BlankForm/BlankForm";
 import BlankEditorDrawer from "./ui/BlankEditorDrawer/BlankEditorDrawer";
 import BlankItem from "./ui/BlankItem/BlankItem";
-import BlankView from "@/entities/Blank/ui/BlankView/BlankView";
 
 export {
   BlankForm,
   BlankEditorDrawer,
   BlankItem,
-  BlankView,
   blankSliceActions,
   blankSliceReducer,
 };

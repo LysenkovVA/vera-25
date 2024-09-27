@@ -1,44 +1,29 @@
-import { Button, Card, Divider, Flex, Form, Input, Typography } from "antd";
+"use client";
+
+import { Button, Divider, Flex, Form, FormInstance, Typography } from "antd";
 import {
   CheckSquareTwoTone,
   MinusCircleFilled,
   PlusCircleFilled,
 } from "@ant-design/icons";
-import React, { useCallback } from "react";
-import { DocumentSelector } from "@/features/DocumentsSelector";
-import { ComplianceSelector } from "@/features/ComplienceSelector";
-import { useAppDispatch, useAppSelector } from "@/shared/lib/hooks/storeHooks";
+import React from "react";
 import {
   DynamicModuleLoader,
   ReducersList,
 } from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
-import {
-  documentSliceActions,
-  documentSliceReducer,
-} from "@/entities/Document/model/slice/documentSlice";
-import { getDocumentDetails } from "@/entities/Document/model/selectors/document.selectors";
-import { fetchDocumentByIdService } from "@/entities/Document/model/services/fetchDocumentByIdService";
-import { ControlParameterValueSelector } from "@/entities/ControlParameterValue/ui/ControlParameterValueSelector";
-import { ControlParameterValue } from "@/entities/ControlParameterValue";
+import { documentSliceReducer } from "@/entities/Document/model/slice/documentSlice";
+import BlankDocumentCard from "@/entities/Blank/ui/BlankForm/content/blankDocumentCard";
 
-export const BlankDocumentMatchFormContent = () => {
+export interface BlankDocumentMatchFormContentProps {
+  form: FormInstance;
+}
+
+export const BlankDocumentMatchFormContent = (
+  props: BlankDocumentMatchFormContentProps,
+) => {
   const reducers: ReducersList = {
     documentDetails: documentSliceReducer,
   };
-
-  const dispatch = useAppDispatch();
-  const documentDetails = useAppSelector(getDocumentDetails);
-
-  const onChangeDocument = useCallback(
-    (documentId: string | undefined) => {
-      if (documentId) {
-        dispatch(fetchDocumentByIdService({ id: documentId }));
-      } else {
-        dispatch(documentSliceActions.clearAllData({}));
-      }
-    },
-    [dispatch],
-  );
 
   return (
     <DynamicModuleLoader reducers={reducers}>
@@ -50,7 +35,7 @@ export const BlankDocumentMatchFormContent = () => {
           </Flex>
         </Typography.Title>
       </Divider>
-      <Form.List name={"blankDocumentMatch"}>
+      <Form.List name={"blankDocumentMatches"}>
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, ...restField }) => (
@@ -61,62 +46,7 @@ export const BlankDocumentMatchFormContent = () => {
                     remove(name);
                   }}
                 />
-                <Card style={{ marginBottom: 8, width: "100%" }}>
-                  <>
-                    <Form.Item
-                      {...restField}
-                      labelCol={{ span: 4 }}
-                      label={"Документ"}
-                      name={[name, "document", "id"]}
-                      rules={[{ required: true, message: "Не указано" }]}
-                    >
-                      <DocumentSelector
-                        placeholder={"Укажите документ"}
-                        onChange={onChangeDocument}
-                      />
-                    </Form.Item>
-                    {documentDetails?.controlParameters?.map((cp) => (
-                      <Form.Item
-                        key={cp.id}
-                        labelCol={{ span: 4 }}
-                        label={cp.name}
-                        name={[name, "controlParameterValue", "id"]}
-                      >
-                        <ControlParameterValueSelector
-                          // controlParameterId={cp.id}
-                          data={
-                            documentDetails?.controlParameters?.filter(
-                              (value) => value.id === cp.id,
-                            )?.[0]
-                              ?.controlParameterValues as ControlParameterValue[]
-                          }
-                        />
-                      </Form.Item>
-                    ))}
-                    <Form.Item
-                      {...restField}
-                      labelCol={{ span: 4 }}
-                      label={"Соответствие"}
-                      name={[name, "compliance"]}
-                      rules={[{ required: true, message: "Не указано" }]}
-                    >
-                      <ComplianceSelector
-                        placeholder={"Укажите соответствие"}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      labelCol={{ span: 4 }}
-                      label={"Примечания"}
-                      name={[name, "notes"]}
-                    >
-                      <Input.TextArea
-                        placeholder={"Укажите примечания"}
-                        autoSize={{ minRows: 3, maxRows: 3 }}
-                      />
-                    </Form.Item>
-                  </>
-                </Card>
+                <BlankDocumentCard name={name} />
               </Flex>
             ))}
             <Form.Item style={{ display: "flex", justifyItems: "start" }}>

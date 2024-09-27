@@ -1,6 +1,5 @@
-import { BlanksListSchema } from "@/features/Blanks/BlanksList/model/types/blanksList.schema";
+import { BlanksListSchema } from "@/features/BLANKS/BlanksList/model/types/blanksList.schema";
 import { BlankSchema } from "@/entities/Blank";
-import { SecurityLevelsListSchema } from "@/features/SecurityLevelSelector";
 import { CountriesListSchema } from "@/features/CountrySelector";
 import { ManufacturersListSchema } from "@/features/ManufacturerSelector";
 import { CoverDesignsListSchema } from "@/features/CoverDesignSelector";
@@ -24,16 +23,16 @@ import { LaminateMethodsListSchema } from "@/features/LaminateMethodSelector";
 import { ApplyingDataMethodsListSchema } from "@/features/ApplyingDataMethodSelector";
 import { BlankTypesListSchema } from "@/features/BlankTypeSelector";
 import { ResearchMethodsListSchema } from "@/entities/ResearchMethod";
-import { DocumentsListSchema } from "@/features/DocumentsSelector";
+import { DocumentsListSelectorSchema } from "@/features/DOCUMENTS/DocumentsSelector";
 import { ControlParametersListSchema } from "@/entities/ControlParameter/model/types/controlParametersListSchema";
 import { ControlParameterValuesListSchema } from "@/entities/ControlParameterValue/model/types/controlParameterValuesListSchema";
 import { DocumentSchema } from "@/entities/Document/model/types/DocumentSchema";
+import { DocumentsListSchema } from "@/features/DOCUMENTS/DocumentsList/model/types/documentsListSchema";
 
 export interface StateSchema {
   // Асинхронные (подключаются динамически по мере надобности)
   blanksList?: BlanksListSchema;
   blankDetails?: BlankSchema;
-  securityLevelsList?: SecurityLevelsListSchema;
   countriesList?: CountriesListSchema;
   manufacturersList?: ManufacturersListSchema;
   coverDesignsList?: CoverDesignsListSchema;
@@ -57,6 +56,7 @@ export interface StateSchema {
   applyingDataMethodsList?: ApplyingDataMethodsListSchema;
   blankTypesList?: BlankTypesListSchema;
   researchMethodsList?: ResearchMethodsListSchema;
+  documentsListSelector?: DocumentsListSelectorSchema;
   documentsList?: DocumentsListSchema;
   documentDetails?: DocumentSchema;
   controlParametersList?: ControlParametersListSchema;

@@ -1,11 +1,13 @@
 "use client";
 import { Selector, SelectorOption } from "@/shared/UI/Selector";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 
 import { ControlParameterValue } from "@/entities/ControlParameterValue";
+import { useAppDispatch } from "@/shared/lib/hooks/storeHooks";
+import { fetchControlParameterValuesListByControlParameterIdService } from "@/entities/ControlParameterValue/model/services/fetchControlParameterValuesListByControlParameterId/fetchControlParameterValuesListByControlParameterIdService";
 
 export interface ControlParameterValueSelectorProps {
-  data: ControlParameterValue[];
+  controlParameterId: string;
   placeholder?: string;
   value?: any;
   onChange?: (value: any) => void;
@@ -13,30 +15,24 @@ export interface ControlParameterValueSelectorProps {
 
 export const ControlParameterValueSelector = memo(
   (props: ControlParameterValueSelectorProps) => {
-    const { placeholder, value, onChange, data } = props;
+    const { placeholder, value, onChange, controlParameterId } = props;
 
-    // const reducers: ReducersList = {
-    //   controlParameterValuesList: controlParameterValuesListReducer,
-    // };
+    const [data, setData] = useState<ControlParameterValue[]>([]);
 
-    // const dispatch = useAppDispatch();
-    // const data = useAppSelector(getControlParameterValuesList.selectAll);
-    // const loading = useAppSelector(getControlParameterValuesListIsLoading);
-    // const error = useAppSelector(getControlParameterValuesListError);
-    // const isInitialized = useAppSelector(
-    //   getControlParameterValuesListIsInitialized,
-    // );
+    const dispatch = useAppDispatch();
 
-    // useEffect(() => {
-    //   if (!isInitialized && !loading) {
-    //     dispatch(
-    //       fetchControlParameterValuesListByControlParameterIdService({
-    //         replaceData: true,
-    //         controlParameterId,
-    //       }),
-    //     );
-    //   }
-    // }, [isInitialized, dispatch, loading, data, controlParameterId]);
+    useEffect(() => {
+      dispatch(
+        fetchControlParameterValuesListByControlParameterIdService({
+          replaceData: true,
+          controlParameterId,
+        }),
+      )
+        .unwrap()
+        .then((values) => {
+          setData(values);
+        });
+    }, []);
 
     const opts = data.map((value: ControlParameterValue): SelectorOption => {
       return { value: value.id!, label: <div>{value.name}</div> };
@@ -46,7 +42,7 @@ export const ControlParameterValueSelector = memo(
       <>
         <Selector
           placeholder={placeholder}
-          // disabled={!!error}
+          //disabled={!!error}
           // status={error ? "error" : undefined}
           options={opts}
           // loading={loading}

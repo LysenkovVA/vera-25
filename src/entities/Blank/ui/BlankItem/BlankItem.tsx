@@ -3,9 +3,9 @@
 import { memo } from "react";
 import { Blank } from "@/entities/Blank";
 import { Card, Flex, Typography } from "antd";
-import EditBlankButton from "@/features/Blanks/EditBlankButton/ui/EditBlankButton";
+import EditBlankButton from "@/features/BLANKS/EditBlankButton/ui/EditBlankButton";
 import { CheckOutlined, EyeOutlined } from "@ant-design/icons";
-import { DeleteBlankButton } from "@/features/Blanks/DeleteBlankButton";
+import { DeleteBlankButton } from "@/features/BLANKS/DeleteBlankButton";
 
 export interface BlankItemProps {
   blank: Blank;
@@ -19,9 +19,6 @@ const BlankItem = memo((props: BlankItemProps) => {
     <Flex gap={4} justify={"space-between"}>
       <Typography.Text type={"secondary"}>
         {blank.blankType?.name}
-      </Typography.Text>
-      <Typography.Text type={"danger"}>
-        {blank.securityLevel?.name}
       </Typography.Text>
     </Flex>
   );

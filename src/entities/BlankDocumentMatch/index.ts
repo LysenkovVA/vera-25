@@ -1,3 +1,3 @@
-import { BlankDocumentMatch } from "./dto/blank-document-match";
+import { BlankDocumentMatch } from "./model/types/blank-document-match";
 
 export type { BlankDocumentMatch };

@@ -40,7 +40,7 @@ const BlankForm = (props: BlankDescriptionFormProps) => {
       {infoFormContent}
       {constructionFormContent}
       {imagesFormContent}
-      <BlankDocumentMatchFormContent />
+      <BlankDocumentMatchFormContent form={form} />
     </Form>
   );
 };

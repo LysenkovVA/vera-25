@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import { securityLevels } from "./seedData/securityLevelsData.seed";
 import { countries } from "./seedData/countriesData.seed";
 import { documents } from "./seedData/documentsData.seed";
 import { coverDesignDataSeed } from "./seedData/cover/coverDesignData.seed";
@@ -80,13 +79,13 @@ async function main() {
   }
 
   // Добавление уровней безопасности
-  for (const value of securityLevels) {
-    await prisma.securityLevel.create({
-      data: {
-        name: value,
-      },
-    });
-  }
+  // for (const value of securityLevels) {
+  //   await prisma.securityLevel.create({
+  //     data: {
+  //       name: value,
+  //     },
+  //   });
+  // }
 
   // Добавление стран
   for (const value of countries) {

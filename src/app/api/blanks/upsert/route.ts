@@ -34,12 +34,6 @@ export async function POST(request: Request, response: Response) {
       blankQuery.manufacturer = undefined;
     }
 
-    if (data.securityLevelId) {
-      blankQuery.securityLevel = { connect: { id: data.securityLevelId } };
-    } else {
-      blankQuery.securityLevel = undefined;
-    }
-
     // data.covers?.map((cover) => {
     //   blankQuery.covers = {
     //     update: {
@@ -77,10 +71,6 @@ export async function POST(request: Request, response: Response) {
 
     if (data.manufacturerId) {
       blankQuery.manufacturer = { connect: { id: data.manufacturerId } };
-    }
-
-    if (data.securityLevelId) {
-      blankQuery.securityLevel = { connect: { id: data.securityLevelId } };
     }
 
     // ДОБАВЛЕНИЕ ОБЛОЖЕК
@@ -227,13 +217,51 @@ export async function POST(request: Request, response: Response) {
       };
     }
 
+    // ДОБАВЛЕНИЕ СООТВЕТСТВИЙ ДОКУМЕНТОВ
+    const blankDocumentMatches:
+      | Prisma.BlankDocumentMatchCreateWithoutBlankInput[]
+      | undefined = data.blankDocumentMatches?.map((bdm) => {
+      const input: Prisma.BlankDocumentMatchCreateWithoutBlankInput = {
+        document: { connect: { id: bdm.document?.id } },
+        // controlParametersValues: { connect: bdm.controlParameterValues },
+        compliance: bdm.compliance,
+        notes: bdm.notes,
+      };
+
+      // TODO Я запутался!
+      // const matches:
+      //   | Prisma.BlankDocumentMatchOnControlParameterValuesCreateWithoutBlankDocumentMatchInput[]
+      //   | undefined = data.blankDocumentMatches?.map((match) => {
+      //   const inp: Prisma.BlankDocumentMatchOnControlParameterValuesCreateWithoutBlankDocumentMatchInput =
+      //     {
+      //       controlParameterValue: {
+      //         connect: {
+      //           id: match.controlParameterValues?.[0]?.controlParameterValue.id,
+      //         },
+      //       },
+      //     };
+      //   return inp;
+      // });
+      //
+      // if (matches) {
+      //   input.controlParameterValues = { create: matches };
+      // }
+
+      return input;
+    });
+
+    if (blankDocumentMatches) {
+      blankQuery.blankDocumentMatches = {
+        create: blankDocumentMatches,
+      };
+    }
+
     result = await prisma.blank.create({
       data: blankQuery,
       // Что возвращаем на выходе
       include: {
         blankType: true,
         country: true,
-        securityLevel: true,
         manufacturer: true,
         covers: true,
         blocks: true,
@@ -244,6 +272,7 @@ export async function POST(request: Request, response: Response) {
           },
         },
         details: true,
+        blankDocumentMatches: true,
       },
     });
   }

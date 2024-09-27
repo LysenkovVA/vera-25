@@ -20,14 +20,11 @@ export async function GET(request: NextRequest) {
   const countryId = request.nextUrl.searchParams.get("countryId") || undefined;
   const manufacturerId =
     request.nextUrl.searchParams.get("manufacturerId") || undefined;
-  const securityLevelId =
-    request.nextUrl.searchParams.get("securityLevelId") || undefined;
 
   // Базовый запрос
   const query: Prisma.BlankFindManyArgs = {
     include: {
       blankType: true,
-      securityLevel: true,
     },
     orderBy: { createdAt: "asc" },
     skip,

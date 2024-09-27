@@ -1,5 +1,5 @@
 "use client";
-import { BlanksList } from "@/features/Blanks/BlanksList";
+import { BlanksList } from "@/features/BLANKS/BlanksList";
 
 const BlanksPage = () => {
   return <BlanksList />;

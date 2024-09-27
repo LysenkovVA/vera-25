@@ -97,7 +97,7 @@ model Blank {
   manufacturer                Manufacturer?       @relation(fields: [manufacturerId], references: [id])
   manufacturerId              String?
   // Уровень защищенности
-  securityLevel               SecurityLevel?      @relation(fields: [securityLevelId], references: [id])
+  // securityLevel               SecurityLevel?      @relation(fields: [securityLevelId], references: [id])
   securityLevelId             String?
   // Обложка
   covers                      Cover[]
@@ -144,15 +144,15 @@ model BlankDocumentMatch {
   id    String  @id @default(cuid())
   notes String?
 
-  blank   Blank?  @relation(fields: [blankId], references: [id])
+  blank   Blank?  @relation(fields: [blankId], references: [id], onDelete: Cascade)
   blankId String?
 
-  complience Compliance
+  compliance Compliance?
 
   document   Document? @relation(fields: [documentId], references: [id])
   documentId String?
 
-  controlParamtersValues ControlParameterValue[]
+  controlParameterValues BlankDocumentMatchOnControlParameterValues[]
 
   // Служебные поля
   createdAt DateTime @default(now())
@@ -160,6 +160,16 @@ model BlankDocumentMatch {
 
   @@index([notes])
   @@map(name: "blank_document_matches")
+}
+
+model BlankDocumentMatchOnControlParameterValues {
+  blankDocumentMatch      BlankDocumentMatch    @relation(fields: [blankDocumentMatchId], references: [id])
+  blankDocumentMatchId    String
+  controlParameterValue   ControlParameterValue @relation(fields: [controlParameterValueId], references: [id])
+  controlParameterValueId String
+
+  @@id([blankDocumentMatchId, controlParameterValueId])
+  @@map(name: "blank_document_match_on_control_parameter_values")
 }
 
 model BlankType {
@@ -179,20 +189,20 @@ model BlankType {
   @@map(name: "blank_types")
 }
 
-// Уровень защищенности
-model SecurityLevel {
-  id   String @id @default(cuid())
-  name String @unique
-
-  blanks Blank[]
-
-  // Служебные поля
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([name])
-  @@map(name: "security_levels")
-}
+// // Уровень защищенности
+// model SecurityLevel {
+//   id   String @id @default(cuid())
+//   name String @unique
+//
+//   blanks Blank[]
+//
+//   // Служебные поля
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//
+//   @@index([name])
+//   @@map(name: "security_levels")
+// }
 
 // Страна
 model Country {
@@ -892,13 +902,14 @@ model ApplyingDataMethod {
 
 // НПА с требованиями
 model Document {
-  id        String   @id @default(cuid())
-  name      String
-  number    String
-  date      DateTime
-  startDate DateTime
-  endDate   DateTime
-  notes     String?
+  id          String   @id @default(cuid())
+  name        String
+  number      String
+  date        DateTime
+  startDate   DateTime
+  isNoEndDate Boolean  @default(false)
+  endDate     DateTime
+  notes       String?
 
   requirementGroups RequirementGroup[]
   controlParameters ControlParameter[]
@@ -981,8 +992,7 @@ model ControlParameterValue {
   controlParameter   ControlParameter? @relation(fields: [controlParameterId], references: [id])
   controlParameterId String?
 
-  blankDocumentMatch   BlankDocumentMatch? @relation(fields: [blankDocumentMatchId], references: [id])
-  blankDocumentMatchId String?
+  blankDocumentMatches BlankDocumentMatchOnControlParameterValues[]
 
   // Служебные поля
   createdAt DateTime @default(now())

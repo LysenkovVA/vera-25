@@ -4,6 +4,7 @@ export const documents = [
     number: "217н",
     date: new Date(2020, 9, 29, 0, 0, 0),
     startDate: new Date(2021, 1, 1, 0, 0, 0),
+    isNoEndDate: false,
     endDate: new Date(2026, 12, 31, 0, 0, 0),
     notes: "",
     requirementGroups: [
@@ -510,6 +511,7 @@ export const documents = [
     number: "123456",
     date: new Date(2020, 9, 29, 0, 0, 0),
     startDate: new Date(2021, 1, 1, 0, 0, 0),
+    isNoEndDate: false,
     endDate: new Date(2026, 12, 31, 0, 0, 0),
     notes: "",
     requirementGroups: [],
