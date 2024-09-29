@@ -37,12 +37,12 @@ const DocumentsList = () => {
   const [current, setCurrent] = useState(1);
 
   const loadData = useCallback(() => {
-    if (isLoading || isInitialized) {
+    if (isLoading) {
       return;
     }
 
     dispatch(fetchDocumentsListService({ replaceData: true }));
-  }, [dispatch, isInitialized, isLoading]);
+  }, [dispatch, isLoading]);
 
   useEffect(() => {
     loadData();
@@ -68,6 +68,7 @@ const DocumentsList = () => {
             onChange: (newPage) => {
               dispatch(documentsListActions.setSkip((newPage - 1) * take));
               setCurrent(newPage);
+              loadData();
             },
             showTotal: (total) => <div>{`Всего: ${totalCount}`}</div>,
           }}

@@ -42,12 +42,12 @@ const BlanksList = memo((props: BlanksListProps) => {
   const [current, setCurrent] = useState(1);
 
   const loadData = useCallback(() => {
-    if (isLoading || isInitialized) {
+    if (isLoading) {
       return;
     }
 
     dispatch(fetchBlanksListService({ replaceData: true }));
-  }, [dispatch, isInitialized, isLoading]);
+  }, [dispatch, isLoading]);
 
   useEffect(() => {
     loadData();
@@ -81,6 +81,7 @@ const BlanksList = memo((props: BlanksListProps) => {
             onChange: (newPage) => {
               dispatch(blanksListActions.setSkip((newPage - 1) * take));
               setCurrent(newPage);
+              loadData();
             },
             showTotal: (total) => <div>{`Всего: ${totalCount}`}</div>,
           }}

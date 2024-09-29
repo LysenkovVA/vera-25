@@ -15,6 +15,10 @@ import {
 import React, { useCallback, useEffect, useState } from "react";
 import { AlertTwoTone, InfoCircleTwoTone } from "@ant-design/icons";
 import { ControlParametersFormContent } from "./content/ControlParametersFormContent";
+import dayjs from "dayjs";
+import { useAppSelector } from "@/shared/lib/hooks/storeHooks";
+import { getDocumentIsLoading } from "@/entities/Document/model/selectors/document.selectors";
+import ru_RU from "antd/lib/locale/ru_RU";
 
 export interface DocumentFormProps {
   initialValue?: Document;
@@ -32,8 +36,19 @@ const DocumentForm = (props: DocumentFormProps) => {
 
   const [isNoEndDate, setIsNoEndDate] = useState(false);
 
+  const isLoading = useAppSelector(getDocumentIsLoading);
+
   useEffect(() => {
-    form.setFieldsValue(initialValue);
+    // При инициализации значений формы, даты должны
+    // быть в формате dayjs
+    const updatedInitialValues = {
+      ...initialValue,
+      date: initialValue?.date ? dayjs(initialValue.date) : null,
+      startDate: initialValue?.startDate ? dayjs(initialValue.startDate) : null,
+      endDate: initialValue?.endDate ? dayjs(initialValue.endDate) : null,
+    };
+
+    form.setFieldsValue(updatedInitialValues);
   }, [form, initialValue]);
 
   const onSwitchNoEndDate = useCallback((value: boolean) => {
@@ -49,6 +64,7 @@ const DocumentForm = (props: DocumentFormProps) => {
       labelCol={{ span: _formItemLabelSpan }}
       wrapperCol={{ span: _formItemFieldSpan, offset: _formItemFieldOffset }}
       colon={false}
+      disabled={isLoading}
       onFieldsChange={(changedFields, allFields) => {
         onFieldsChange?.(form.getFieldsValue());
         console.log(
@@ -92,6 +108,7 @@ const DocumentForm = (props: DocumentFormProps) => {
               <DatePicker
                 placeholder="Укажите дату"
                 format={"DD.MM.YYYY"}
+                locale={ru_RU.DatePicker}
                 style={{ width: "100%" }}
               />
             </Form.Item>
@@ -103,7 +120,12 @@ const DocumentForm = (props: DocumentFormProps) => {
         name={["startDate"]}
         rules={[{ required: true, message: "Не указана дата" }]}
       >
-        <DatePicker placeholder="Укажите дату" />
+        <DatePicker
+          placeholder="Укажите дату"
+          format={"DD.MM.YYYY"}
+          locale={ru_RU.DatePicker}
+          style={{ width: "100%" }}
+        />
       </Form.Item>
       <Form.Item label={"Бессрочно"} name={["isNoEndDate"]}>
         <Switch onChange={(e) => onSwitchNoEndDate(e.valueOf())} />
@@ -114,7 +136,12 @@ const DocumentForm = (props: DocumentFormProps) => {
           name={["endDate"]}
           rules={[{ required: true, message: "Не указана дата" }]}
         >
-          <DatePicker placeholder="Укажите дату" />
+          <DatePicker
+            placeholder="Укажите дату"
+            format={"DD.MM.YYYY"}
+            locale={ru_RU.DatePicker}
+            style={{ width: "100%" }}
+          />
         </Form.Item>
       )}
       <Divider orientation={"left"}>

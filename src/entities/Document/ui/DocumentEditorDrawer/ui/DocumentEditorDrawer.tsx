@@ -12,6 +12,7 @@ import {
   getDocumentIsLoading,
 } from "@/entities/Document/model/selectors/document.selectors";
 import { documentSliceActions } from "@/entities/Document/model/slice/documentSlice";
+import { createDocumentService } from "@/entities/Document/model/services/createDocument.service";
 
 export interface DocumentEditorDrawerProps
   extends Omit<DrawerProps, "children"> {}
@@ -35,18 +36,22 @@ const DocumentEditorDrawer = (props: DocumentEditorDrawerProps) => {
     async (e: any) => {
       try {
         if (documentFormData) {
-          // dispatch(upsertDocumentService({ document: documentFormData })).then(
-          //     (result) => {
-          //         if (result.payload) {
-          //             messageApi.success(
-          //                 <Flex gap={4}>
-          //                     <Typography.Text>{"Информация сохранена!"}</Typography.Text>
-          //                 </Flex>,
-          //             );
-          //             onClose?.(e);
-          //         }
-          //     },
-          // );
+          dispatch(createDocumentService({ document: documentFormData })).then(
+            (result) => {
+              if (result.payload) {
+                messageApi.success(
+                  <Flex gap={4}>
+                    <Typography.Text>{"Информация сохранена!"}</Typography.Text>
+                  </Flex>,
+                );
+                onClose?.(e);
+              }
+            },
+            (error) => {
+              // console.log("error:", JSON.stringify(error));
+              // messageApi.error("Error: " + JSON.stringify(error));
+            },
+          );
         }
       } catch (error) {
         messageApi.error(error as string);
@@ -67,7 +72,12 @@ const DocumentEditorDrawer = (props: DocumentEditorDrawerProps) => {
       >
         {"Закрыть"}
       </Button>
-      <Button icon={<SaveOutlined />} type={"primary"} onClick={onSave}>
+      <Button
+        icon={<SaveOutlined />}
+        type={"primary"}
+        onClick={onSave}
+        disabled={!documentFormData}
+      >
         {"Сохранить"}
       </Button>
     </Flex>

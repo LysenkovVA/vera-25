@@ -3,6 +3,7 @@ import { message } from "antd";
 import { DocumentsListSchema } from "../types/documentsListSchema";
 import { fetchDocumentsListService } from "../services/fetchDocumentsList/fetchDocumentsListService";
 import { documentsListAdapter } from "../adapter/documentsListAdapter";
+import { createDocumentService } from "@/entities/Document/model/services/createDocument.service";
 
 const initialState: DocumentsListSchema = {
   ids: [],
@@ -70,6 +71,14 @@ export const documentsListSlice = createSlice({
         }
 
         state.totalCount = 0;
+        message.error(action.payload);
+      })
+      // ДОБАВЛЕНИЕ ДОКУМЕНТА
+      .addCase(createDocumentService.fulfilled, (state, action) => {
+        documentsListAdapter.upsertOne(state, action.payload);
+        message.success("Документ добавлен!");
+      })
+      .addCase(createDocumentService.rejected, (state, action) => {
         message.error(action.payload);
       });
   },

@@ -4,7 +4,13 @@ import { Document, DocumentZSchema } from "@/entities/Document";
 import { Prisma } from "@prisma/client";
 import { ControlParameterZSchema } from "@/entities/ControlParameter";
 import { ControlParameterValueZSchema } from "@/entities/ControlParameterValue";
+import { ServerResponse } from "@/shared/lib/responses/ServerResponse";
 
+/**
+ * Создание нового документа
+ * @param request
+ * @constructor
+ */
 export async function POST(request: NextRequest) {
   try {
     // Получаем тело из запроса
@@ -80,8 +86,10 @@ export async function POST(request: NextRequest) {
     });
 
     // Возвращаем созданный документ
-    return NextResponse.json(newDocument);
+    return NextResponse.json(
+      ServerResponse.Ok<Document>(newDocument as Document),
+    );
   } catch (error) {
-    return NextResponse.json({ error: error }, { status: 500 });
+    return NextResponse.json(ServerResponse.ServerError(error));
   }
 }
