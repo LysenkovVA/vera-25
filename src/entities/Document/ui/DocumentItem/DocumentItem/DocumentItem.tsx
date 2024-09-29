@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import { AlertOutlined } from "@ant-design/icons";
 import DocumentItemStatus from "@/entities/Document/ui/DocumentItem/DocumentItemStatus/DocumentItemStatus";
 import { EditDocumentButton } from "@/features/DOCUMENTS/EditDocumentButton";
+import { DeleteDocumentButton } from "@/features/DOCUMENTS/DeleteDocumentButton";
 
 export interface DocumentItemProps {
   document: Document;
@@ -44,6 +45,7 @@ const DocumentItem = memo((props: DocumentItemProps) => {
           </Typography.Text>
         </Space>,
         <EditDocumentButton key={"edit"} documentId={document.id} />,
+        <DeleteDocumentButton key={"delete"} documentId={document.id} />,
       ]}
     >
       <Flex vertical align={"center"} justify={"center"}>

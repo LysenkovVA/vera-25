@@ -29,3 +29,11 @@ export async function GET(
 
   return NextResponse.json(data);
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  const data = await prisma.document.delete({ where: { id: params.id } });
+  return NextResponse.json(data);
+}

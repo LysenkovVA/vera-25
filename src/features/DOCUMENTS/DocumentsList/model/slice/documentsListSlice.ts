@@ -4,6 +4,7 @@ import { DocumentsListSchema } from "../types/documentsListSchema";
 import { fetchDocumentsListService } from "../services/fetchDocumentsList/fetchDocumentsListService";
 import { documentsListAdapter } from "../adapter/documentsListAdapter";
 import { createDocumentService } from "@/entities/Document/model/services/createDocument.service";
+import { deleteDocumentService } from "@/entities/Document/model/services/deleteDocument.service";
 
 const initialState: DocumentsListSchema = {
   ids: [],
@@ -80,6 +81,16 @@ export const documentsListSlice = createSlice({
       })
       .addCase(createDocumentService.rejected, (state, action) => {
         message.error(action.payload);
+      })
+      // Удаление документа
+      .addCase(deleteDocumentService.fulfilled, (state, action) => {
+        documentsListAdapter.removeOne(state, action.payload.id);
+        if (state.totalCount) {
+          state.totalCount = state.ids.length;
+        } else {
+          state.totalCount = 0;
+        }
+        message.success("Документ удален");
       });
   },
 });
