@@ -1,27 +1,32 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ThunkConfig } from "@/shared/lib/Providers/StoreProvider/config/store";
 import { Document } from "../types/document";
-import { createDocument } from "@/app/api/documents/create/actions/createDocument";
+import { createDocument } from "@/shared/actions/documents/createDocument";
+import { ServerResponse } from "@/shared/lib/responses/ServerResponse";
 
 export interface CreateDocumentProps {
   document: Document;
 }
 
 export const createDocumentService = createAsyncThunk<
-  Document,
+  ServerResponse<Document>,
   CreateDocumentProps,
   ThunkConfig<string>
 >("createDocumentService", async (props, thunkApi) => {
   const { rejectWithValue } = thunkApi;
 
   try {
-    const res = await createDocument(props.document);
+    const response = await createDocument(props.document);
 
-    if (!res.isOk) {
-      return rejectWithValue(res.errorsString);
+    if (!response.isOk) {
+      return rejectWithValue(
+        response.errorMessages
+          ? response.errorMessages.join("\n\n")
+          : "Ошибка не содержит описания",
+      );
     }
 
-    return res.data;
+    return response;
   } catch (e) {
     return rejectWithValue(
       `Произошла неизвестная ошибка при создании документа: ${JSON.stringify(e)}`,

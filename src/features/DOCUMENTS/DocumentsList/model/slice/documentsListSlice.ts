@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { message } from "antd";
+import { notification } from "antd";
 import { DocumentsListSchema } from "../types/documentsListSchema";
 import { fetchDocumentsListService } from "../services/fetchDocumentsList/fetchDocumentsListService";
 import { documentsListAdapter } from "../adapter/documentsListAdapter";
@@ -52,10 +52,10 @@ export const documentsListSlice = createSlice({
         // Если данные заменяются
         if (action.meta.arg.replaceData) {
           // Записываем новые данные
-          documentsListAdapter.setAll(state, action.payload.data!);
+          documentsListAdapter.setAll(state, action.payload.data);
         } else {
           // Добавляем порцию данных
-          documentsListAdapter.addMany(state, action.payload.data!);
+          documentsListAdapter.addMany(state, action.payload.data);
         }
 
         state.totalCount = action.payload.pagination?.total;
@@ -72,25 +72,43 @@ export const documentsListSlice = createSlice({
         }
 
         state.totalCount = 0;
-        message.error(action.payload);
+        notification.error({
+          message: "Ошибка",
+          description: action.payload,
+          duration: 5,
+          placement: "top",
+        });
       })
       // ДОБАВЛЕНИЕ ДОКУМЕНТА
       .addCase(createDocumentService.fulfilled, (state, action) => {
-        documentsListAdapter.upsertOne(state, action.payload);
-        message.success("Документ добавлен!");
+        documentsListAdapter.upsertOne(state, action.payload.data);
+        notification.success({
+          message: `Документ '${action.payload.data.name}' сохранен`,
+          duration: 5,
+          placement: "top",
+        });
       })
       .addCase(createDocumentService.rejected, (state, action) => {
-        message.error(action.payload);
+        notification.error({
+          message: "Ошибка",
+          description: action.payload,
+          duration: 5,
+          placement: "top",
+        });
       })
       // Удаление документа
       .addCase(deleteDocumentService.fulfilled, (state, action) => {
-        documentsListAdapter.removeOne(state, action.payload.id);
+        documentsListAdapter.removeOne(state, action.payload.data.id);
         if (state.totalCount) {
           state.totalCount = state.ids.length;
         } else {
           state.totalCount = 0;
         }
-        message.success("Документ удален");
+        notification.success({
+          message: `Документ '${action.payload.data.name}' удален`,
+          duration: 5,
+          placement: "top",
+        });
       });
   },
 });

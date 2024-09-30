@@ -43,9 +43,11 @@ const DocumentForm = (props: DocumentFormProps) => {
     // быть в формате dayjs
     const updatedInitialValues = {
       ...initialValue,
-      date: initialValue?.date ? dayjs(initialValue.date) : null,
-      startDate: initialValue?.startDate ? dayjs(initialValue.startDate) : null,
-      endDate: initialValue?.endDate ? dayjs(initialValue.endDate) : null,
+      date: initialValue?.date ? dayjs(initialValue.date) : undefined,
+      startDate: initialValue?.startDate
+        ? dayjs(initialValue.startDate)
+        : undefined,
+      endDate: initialValue?.endDate ? dayjs(initialValue.endDate) : undefined,
     };
 
     form.setFieldsValue(updatedInitialValues);

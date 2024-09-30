@@ -1,14 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ThunkConfig } from "@/shared/lib/Providers/StoreProvider/config/store";
-import { DocumentsResponse } from "@/app/api/documents/route";
 import { StateSchema } from "@/shared/lib/Providers/StoreProvider/config/StateSchema";
+import { fetchDocuments } from "@/shared/actions/documents/fetchDocuments";
+import { Document } from "@/entities/Document";
+import { ServerResponse } from "@/shared/lib/responses/ServerResponse";
 
 export interface FetchDocumentsListServiceProps {
   replaceData?: boolean;
 }
 
 export const fetchDocumentsListService = createAsyncThunk<
-  DocumentsResponse,
+  ServerResponse<Document[]>,
   FetchDocumentsListServiceProps,
   ThunkConfig<string>
 >("fetchDocumentsListService", async (props, thunkApi) => {
@@ -18,12 +20,24 @@ export const fetchDocumentsListService = createAsyncThunk<
 
   try {
     // Отправляем запрос
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_PATH}/documents?skip=${state.documentsList?.skip}&take=${state.documentsList?.take}&search=${state.documentsList?.search}`,
+    const response = await fetchDocuments(
+      state.documentsList?.skip,
+      state.documentsList?.take,
+      state.documentsList?.search,
     );
 
-    return (await response.json()) as DocumentsResponse;
+    if (!response.isOk) {
+      return rejectWithValue(
+        response.errorMessages
+          ? response.errorMessages.join(", ")
+          : "Ошибка не содержит описания",
+      );
+    }
+
+    return response;
   } catch (e) {
-    return rejectWithValue("Ошибка при получении списка документов");
+    return rejectWithValue(
+      "Произошла неизвестная ошибка при получении списка документов",
+    );
   }
 });

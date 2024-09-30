@@ -9,7 +9,7 @@ import {
   ReducersList,
 } from "@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
 import { documentSliceReducer } from "@/entities/Document/model/slice/documentSlice";
-import { fetchDocumentByIdService } from "@/entities/Document/model/services/fetchDocumentByIdService";
+import { fetchDocumentByIdService } from "@/entities/Document/model/services/fetchDocumentById.service";
 
 export interface EditDocumentButtonProps {
   documentId: string;

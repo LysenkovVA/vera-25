@@ -2,56 +2,59 @@ import prisma from "../../../../prisma/db";
 import { NextRequest, NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { Document } from "@/entities/Document";
-
-export interface DocumentsResponse {
-  pagination?: {
-    take?: number;
-    skip?: number;
-    search?: string;
-    total?: number;
-  };
-  data?: Document[];
-}
+import { ServerResponse } from "@/shared/lib/responses/ServerResponse";
 
 export async function GET(request: NextRequest, response: Response) {
   const skip = Number(request.nextUrl.searchParams.get("skip")) || undefined;
   const take = Number(request.nextUrl.searchParams.get("take")) || undefined;
   const search = request.nextUrl.searchParams.get("search") || "";
 
-  // Базовый запрос
-  const query: Prisma.DocumentFindManyArgs = {
-    include: {
-      controlParameters: {
-        include: { controlParameterValues: true },
+  try {
+    // Базовый запрос
+    const query: Prisma.DocumentFindManyArgs = {
+      include: {
+        controlParameters: {
+          include: { controlParameterValues: true },
+        },
       },
-    },
-    orderBy: { createdAt: "asc" },
-    skip,
-    take,
-  };
-
-  // Поисковый запрос
-  if (search) {
-    query.where = { name: { startsWith: search } };
-  }
-
-  // Результат
-  const [documents, count] = await prisma.$transaction([
-    prisma.document.findMany(query),
-    search
-      ? prisma.document.count({ where: query.where })
-      : prisma.document.count(),
-  ]);
-
-  const responseBody: DocumentsResponse = {
-    pagination: {
-      take,
+      orderBy: { createdAt: "asc" },
       skip,
-      search,
-      total: count,
-    },
-    data: documents as Document[],
-  };
+      take,
+    };
 
-  return NextResponse.json(responseBody);
+    // Поисковый запрос
+    if (search) {
+      query.where = { name: { startsWith: search } };
+    }
+
+    // Результат
+    const [documents, count] = await prisma.$transaction([
+      prisma.document.findMany(query),
+      search
+        ? prisma.document.count({ where: query.where })
+        : prisma.document.count(),
+    ]);
+
+    return NextResponse.json(
+      ServerResponse.Ok(documents as Document[], {
+        take,
+        skip,
+        search,
+        total: count,
+      }),
+    );
+  } catch (error) {
+    return NextResponse.json(
+      ServerResponse.ServerError(
+        error,
+        {
+          take,
+          skip,
+          search,
+          total: 0,
+        },
+        `Неизвестная ошибка при получении списка документов`,
+      ),
+    );
+  }
 }

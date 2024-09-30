@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DocumentSchema } from "../types/DocumentSchema";
-import { fetchDocumentByIdService } from "../services/fetchDocumentByIdService";
+import { fetchDocumentByIdService } from "../services/fetchDocumentById.service";
 import { Document } from "@/entities/Document";
 
 const initialState: DocumentSchema = {
@@ -33,8 +33,8 @@ export const documentSlice = createSlice({
       .addCase(fetchDocumentByIdService.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = undefined;
-        state.document = action.payload;
-        state.documentFormData = action.payload;
+        state.document = action.payload.data;
+        state.documentFormData = action.payload.data;
         state._isInitialized = true;
       })
       .addCase(fetchDocumentByIdService.rejected, (state, action) => {

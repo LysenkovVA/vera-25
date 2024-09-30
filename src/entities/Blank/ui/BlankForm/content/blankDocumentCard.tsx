@@ -3,7 +3,7 @@ import { Card, Form, Input } from "antd";
 import { DocumentSelector } from "@/features/DOCUMENTS/DocumentsSelector";
 import { ControlParameterValueSelector } from "@/entities/ControlParameterValue/ui/ControlParameterValueSelector";
 import { ComplianceSelector } from "@/features/ComplienceSelector";
-import { fetchDocumentByIdService } from "@/entities/Document/model/services/fetchDocumentByIdService";
+import { fetchDocumentByIdService } from "@/entities/Document/model/services/fetchDocumentById.service";
 import { useAppDispatch } from "@/shared/lib/hooks/storeHooks";
 import { Document } from "@/entities/Document";
 
@@ -28,7 +28,7 @@ const BlankDocumentCard = (props: BlankDocumentCardProps) => {
           fetchDocumentByIdService({ id: documentId }),
         ).unwrap();
 
-        setDocument(doc);
+        setDocument(doc.data);
       } else {
         setDocument(undefined);
       }
