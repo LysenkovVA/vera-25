@@ -39,19 +39,33 @@ const DocumentForm = (props: DocumentFormProps) => {
   const isLoading = useAppSelector(getDocumentIsLoading);
 
   useEffect(() => {
-    // При инициализации значений формы, даты должны
-    // быть в формате dayjs
-    const updatedInitialValues = {
-      ...initialValue,
-      date: initialValue?.date ? dayjs(initialValue.date) : undefined,
-      startDate: initialValue?.startDate
-        ? dayjs(initialValue.startDate)
-        : undefined,
-      endDate: initialValue?.endDate ? dayjs(initialValue.endDate) : undefined,
-    };
-
-    form.setFieldsValue(updatedInitialValues);
+    form.setFieldsValue(initialValue);
   }, [form, initialValue]);
+
+  // const reCalcPositions = useCallback(() => {
+  //   // TODO Исправить ошибку!
+  //   // try {
+  //   //   const doc = JSON.parse(JSON.stringify(form.getFieldsValue())) as Document;
+  //   //   if (doc) {
+  //   //     const newCp = doc.controlParameters?.map((cp, cpIndex) => {
+  //   //       cp.position = cpIndex + 1;
+  //   //
+  //   //       cp.controlParameterValues?.map((cpv, index) => {
+  //   //         cpv.position = index + 1;
+  //   //       });
+  //   //     });
+  //   //
+  //   //     form.setFieldsValue({ ...doc, controlParameterValues: { ...newCp } });
+  //   //
+  //   //     console.log(
+  //   //       "ОБЪЕКТ ФОРМЫ (ДОКУМЕНТ)",
+  //   //       JSON.stringify(form.getFieldsValue(), null, 2),
+  //   //     );
+  //   //   }
+  //   // } catch (e) {
+  //   //   notification.error({ message: "Ошибка", description: JSON.stringify(e) });
+  //   // }
+  // }, [form]);
 
   const onSwitchNoEndDate = useCallback((value: boolean) => {
     setIsNoEndDate(value);
@@ -89,7 +103,6 @@ const DocumentForm = (props: DocumentFormProps) => {
           autoSize={{ minRows: 4, maxRows: 4 }}
         />
       </Form.Item>
-
       <Form.Item colon={false} label={" "}>
         <Row gutter={16} align={"middle"} justify={"center"}>
           <Col span={12}>
@@ -106,6 +119,11 @@ const DocumentForm = (props: DocumentFormProps) => {
               label={"от"}
               name={["date"]}
               rules={[{ required: true, message: "Не указана дата" }]}
+              // Комбинация getValueProps и normalize правильно преобразует значения для отображения на форме
+              getValueProps={(value) => ({
+                value: value && dayjs(String(value)),
+              })}
+              normalize={(value) => value && `${dayjs(value).valueOf()}`}
             >
               <DatePicker
                 placeholder="Укажите дату"
@@ -121,6 +139,9 @@ const DocumentForm = (props: DocumentFormProps) => {
         label={"Начало"}
         name={["startDate"]}
         rules={[{ required: true, message: "Не указана дата" }]}
+        // Комбинация getValueProps и normalize правильно преобразует значения для отображения на форме
+        getValueProps={(value) => ({ value: value && dayjs(String(value)) })}
+        normalize={(value) => value && `${dayjs(value).valueOf()}`}
       >
         <DatePicker
           placeholder="Укажите дату"
@@ -137,6 +158,9 @@ const DocumentForm = (props: DocumentFormProps) => {
           label={"Окончание"}
           name={["endDate"]}
           rules={[{ required: true, message: "Не указана дата" }]}
+          // Комбинация getValueProps и normalize правильно преобразует значения для отображения на форме
+          getValueProps={(value) => ({ value: value && dayjs(String(value)) })}
+          normalize={(value) => value && `${dayjs(value).valueOf()}`}
         >
           <DatePicker
             placeholder="Укажите дату"

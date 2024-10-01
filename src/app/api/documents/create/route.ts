@@ -33,47 +33,52 @@ export async function POST(request: NextRequest) {
     // Контрольные параметры
     const controlParameters:
       | Prisma.ControlParameterCreateWithoutDocumentInput[]
-      | undefined = data.controlParameters?.map((controlParameterData) => {
-      // Валидация данных контрольного параметра
-      const validateControlParameter =
-        ControlParameterZSchema.parse(controlParameterData);
+      | undefined = data.controlParameters?.map(
+      (controlParameterData, position) => {
+        // Валидация данных контрольного параметра
+        controlParameterData.position = position + 1;
 
-      const controlParameter: Prisma.ControlParameterCreateWithoutDocumentInput =
-        {
-          name: validateControlParameter.name,
-          position: validateControlParameter.position,
-          notes: validateControlParameter.notes,
-        };
+        const validateControlParameter =
+          ControlParameterZSchema.parse(controlParameterData);
 
-      // Значения контрольных параметров
-      const controlParameterValues:
-        | Prisma.ControlParameterValueCreateWithoutControlParameterInput[]
-        | undefined = controlParameterData.controlParameterValues?.map(
-        (controlParameterValueData) => {
-          // Валидация данных значения контрольного параметра
-          const validateControlParameterValue =
-            ControlParameterValueZSchema.parse(controlParameterValueData);
+        const controlParameter: Prisma.ControlParameterCreateWithoutDocumentInput =
+          {
+            name: validateControlParameter.name,
+            position: validateControlParameter.position,
+            notes: validateControlParameter.notes,
+          };
 
-          const controlParameterValue: Prisma.ControlParameterValueCreateWithoutControlParameterInput =
-            {
-              name: validateControlParameterValue.name,
-              position: validateControlParameterValue.position,
-              notes: validateControlParameterValue.notes,
-            };
+        // Значения контрольных параметров
+        const controlParameterValues:
+          | Prisma.ControlParameterValueCreateWithoutControlParameterInput[]
+          | undefined = controlParameterData.controlParameterValues?.map(
+          (controlParameterValueData, cpvPosition) => {
+            // Валидация данных значения контрольного параметра
+            controlParameterValueData.position = cpvPosition + 1;
+            const validateControlParameterValue =
+              ControlParameterValueZSchema.parse(controlParameterValueData);
 
-          return controlParameterValue;
-        },
-      );
+            const controlParameterValue: Prisma.ControlParameterValueCreateWithoutControlParameterInput =
+              {
+                name: validateControlParameterValue.name,
+                position: validateControlParameterValue.position,
+                notes: validateControlParameterValue.notes,
+              };
 
-      // Добавление значений контрольного параметра к контрольному параметру
-      if (controlParameterValues) {
-        controlParameter.controlParameterValues = {
-          create: controlParameterValues,
-        };
-      }
+            return controlParameterValue;
+          },
+        );
 
-      return controlParameter;
-    });
+        // Добавление значений контрольного параметра к контрольному параметру
+        if (controlParameterValues) {
+          controlParameter.controlParameterValues = {
+            create: controlParameterValues,
+          };
+        }
+
+        return controlParameter;
+      },
+    );
 
     // Добавление контрольных параметров к запросу
     if (controlParameters) {

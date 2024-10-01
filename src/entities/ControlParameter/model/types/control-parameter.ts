@@ -6,4 +6,6 @@ export interface ControlParameter {
   position?: number;
   notes?: string;
   controlParameterValues?: Array<ControlParameterValue>;
+  // Удаленные в процессе редактирования значения контрольных параметров
+  removedControlParametersValues?: Array<ControlParameterValue>;
 }

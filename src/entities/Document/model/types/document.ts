@@ -11,4 +11,6 @@ export interface Document {
   notes?: string;
   // requirementGroups?: Array<RequirementGroupDto>;
   controlParameters?: Array<ControlParameter>;
+  // Удаленные в процессе редактирования контрольные параметры
+  removedControlParameters?: Array<ControlParameter>;
 }

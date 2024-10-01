@@ -1,8 +1,12 @@
 import { Button, Card, Flex, Form, FormInstance, Input } from "antd";
-import { MinusCircleFilled, PlusCircleFilled } from "@ant-design/icons";
-import React, { useCallback } from "react";
+import {
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  MinusCircleFilled,
+  PlusCircleFilled,
+} from "@ant-design/icons";
+import React from "react";
 import { ControlParameterValuesFormContent } from "@/entities/Document/ui/DocumentForm/content/ControlParameterValuesFormContent";
-import { Document } from "@/entities/Document";
 
 export interface ControlParametersFormContentProps {
   form: FormInstance;
@@ -13,26 +17,9 @@ export const ControlParametersFormContent = (
 ) => {
   const { form } = props;
 
-  const reCalcPositions = useCallback(() => {
-    const doc = JSON.parse(JSON.stringify(form.getFieldsValue())) as Document;
-
-    if (doc) {
-      const newCp = doc.controlParameters?.map((cp, index) => {
-        cp.position = index + 1;
-      });
-
-      form.setFieldsValue({ ...doc, controlParameterValues: { ...newCp } });
-
-      console.log(
-        "ОБЪЕКТ ФОРМЫ (ДОКУМЕНТ)",
-        JSON.stringify(form.getFieldsValue(), null, 2),
-      );
-    }
-  }, [form]);
-
   return (
     <Form.List name={"controlParameters"}>
-      {(fields, { add, remove }) => (
+      {(fields, { add, remove, move }) => (
         <>
           {fields.map(({ key, name, ...restField }) => (
             <Flex key={key} gap={8}>
@@ -40,13 +27,32 @@ export const ControlParametersFormContent = (
                 title={
                   <Flex align={"center"} justify={"space-between"}>
                     {`Контрольный параметр # ${name + 1}`}
-                    <MinusCircleFilled
-                      style={{ color: "red" }}
-                      onClick={() => {
-                        remove(name);
-                        reCalcPositions();
-                      }}
-                    />
+                    <Flex>
+                      <MinusCircleFilled
+                        style={{ color: "red" }}
+                        onClick={() => {
+                          remove(name);
+                        }}
+                      />
+                      <Button
+                        icon={<ArrowUpOutlined />}
+                        type="link"
+                        onClick={() => {
+                          move(name, name - 1);
+                        }}
+                        disabled={name === 0}
+                        style={{ padding: 0, margin: 0 }}
+                      />
+                      <Button
+                        icon={<ArrowDownOutlined />}
+                        type="link"
+                        onClick={() => {
+                          move(name, name + 1);
+                        }}
+                        disabled={name === fields.length - 1}
+                        style={{ padding: 0, margin: 0 }}
+                      />
+                    </Flex>
                   </Flex>
                 }
                 styles={{ header: { background: "GhostWhite" } }}
@@ -80,7 +86,7 @@ export const ControlParametersFormContent = (
           {/*<Form.Item style={{ display: "flex", justifyItems: "start" }}>*/}
           <Button
             type="dashed"
-            onClick={() => add({ position: fields.length + 1 })}
+            onClick={() => add()}
             block
             icon={<PlusCircleFilled style={{ color: "green" }} />}
           >

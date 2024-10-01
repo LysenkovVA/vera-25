@@ -20,8 +20,11 @@ export async function GET(
       include: {
         controlParameters: {
           include: {
-            controlParameterValues: true,
+            controlParameterValues: {
+              orderBy: { position: "asc" },
+            },
           },
+          orderBy: { position: "asc" },
         },
       },
     });
@@ -48,6 +51,37 @@ export async function GET(
     );
   }
 }
+
+// export async function PATCH(
+//   request: NextRequest,
+//   { params }: { params: { id: string } },
+// ) {
+//   try {
+//     // Получаем тело из запроса
+//     const data: Document = await request.json();
+//
+//     if (!params.id) {
+//       return NextResponse.json(
+//         ServerResponse.ServerError(
+//           "id документа для обновления не задан",
+//           undefined,
+//         ),
+//       );
+//     }
+//
+//     // Валидация данных документа
+//     const validateDocument = DocumentZSchema.parse(data);
+//
+//   } catch (error) {
+//     return NextResponse.json(
+//       ServerResponse.ServerError(
+//         error,
+//         undefined,
+//         `Неизвестная ошибка при обновлении документа с id=${params.id}`,
+//       ),
+//     );
+//   }
+// }
 
 /**
  * Удаление документа по id
