@@ -1,4 +1,4 @@
-import { Button, Form, FormInstance, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import {
   ArrowDownOutlined,
   ArrowUpOutlined,
@@ -6,28 +6,44 @@ import {
   PlusCircleFilled,
 } from "@ant-design/icons";
 import React from "react";
+import { useAppDispatch, useAppSelector } from "@/shared/lib/hooks/storeHooks";
+import { getDocumentDetailsFormData } from "@/entities/Document/model/selectors/document.selectors";
+import { cloneDeep } from "lodash";
+import { documentSliceActions } from "@/entities/Document/model/slice/documentSlice";
 
 export interface ControlParameterValuesFormContentProps {
   name: number;
-  form: FormInstance;
+  // form: FormInstance;
 }
 
 export const ControlParameterValuesFormContent = ({
   name,
-  form,
+  // form,
 }: ControlParameterValuesFormContentProps) => {
+  const dispatch = useAppDispatch();
+  const documentFormData = useAppSelector(getDocumentDetailsFormData);
+
+  // const [modal2Open, setModal2Open] = useState(false);
+  //
+  // const onOk = useCallback(
+  //   (remove: (index: number | number[]) => void, index: number) => {
+  //     remove(index);
+  //   },
+  //   [],
+  // );
+
   return (
     <Form.List name={[name, "controlParameterValues"]}>
       {(fields, { add, remove, move }) => (
         <>
-          {fields.map(({ key, name, ...restField }) => (
+          {fields.map(({ key, name: ind, ...restField }) => (
             <Form.Item
               key={key}
               {...restField}
               labelCol={{ span: 3 }}
               wrapperCol={{ span: 21 }}
-              label={`Значение # ${name + 1}`}
-              name={[name, "name"]}
+              label={`Значение # ${ind + 1}`}
+              name={[ind, "name"]}
               rules={[{ required: true, message: "Не указано значение" }]}
               style={{ marginBottom: 8, width: "100%" }}
             >
@@ -37,25 +53,65 @@ export const ControlParameterValuesFormContent = ({
                     <MinusCircleFilled
                       style={{ color: "red" }}
                       onClick={() => {
-                        remove(name);
+                        if (
+                          documentFormData?.controlParameters![name] &&
+                          documentFormData.controlParameters[name]
+                            .controlParameterValues![ind].id
+                        ) {
+                          // Клонируем объект
+                          const docClone = cloneDeep(documentFormData);
+
+                          remove(ind);
+
+                          // Добавляем удаляемый объект в массив удаленных
+                          if (
+                            docClone?.controlParameters &&
+                            docClone.controlParameters[name]
+                          ) {
+                            if (
+                              !docClone.controlParameters[name]
+                                .removedControlParametersValues
+                            ) {
+                              docClone.controlParameters[
+                                name
+                              ].removedControlParametersValues = [];
+                            }
+
+                            docClone.controlParameters[
+                              name
+                            ].removedControlParametersValues.push({
+                              id: docClone.controlParameters[name]
+                                .controlParameterValues![ind].id,
+                              name: docClone.controlParameters[name]
+                                .controlParameterValues![ind].name,
+                            });
+
+                            // Убираем из списка то, что удалили
+                            docClone.controlParameters[
+                              name
+                            ].controlParameterValues!.splice(ind, 1);
+                          }
+
+                          dispatch(documentSliceActions.setFormData(docClone));
+                        }
                       }}
                     />
                     <Button
                       icon={<ArrowUpOutlined />}
                       type="link"
                       onClick={() => {
-                        move(name, name - 1);
+                        move(ind, ind - 1);
                       }}
-                      disabled={name === 0}
+                      disabled={ind === 0}
                       style={{ padding: 0, margin: 0 }}
                     />
                     <Button
                       icon={<ArrowDownOutlined />}
                       type="link"
                       onClick={() => {
-                        move(name, name + 1);
+                        move(ind, ind + 1);
                       }}
-                      disabled={name === fields.length - 1}
+                      disabled={ind === fields.length - 1}
                       style={{ padding: 0, margin: 0 }}
                     />
                   </>

@@ -10,7 +10,6 @@ interface Props {
 
 export default async function SignInPage({ searchParams }: Props) {
   const session = await auth();
-
   // Если пользователь залогинен
   if (session && session.user) {
     redirect(searchParams.callbackUrl || "/");

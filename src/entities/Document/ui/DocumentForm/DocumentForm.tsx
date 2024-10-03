@@ -40,32 +40,8 @@ const DocumentForm = (props: DocumentFormProps) => {
 
   useEffect(() => {
     form.setFieldsValue(initialValue);
+    console.log("STATE (ДОКУМЕНТ):", JSON.stringify(initialValue, null, 2));
   }, [form, initialValue]);
-
-  // const reCalcPositions = useCallback(() => {
-  //   // TODO Исправить ошибку!
-  //   // try {
-  //   //   const doc = JSON.parse(JSON.stringify(form.getFieldsValue())) as Document;
-  //   //   if (doc) {
-  //   //     const newCp = doc.controlParameters?.map((cp, cpIndex) => {
-  //   //       cp.position = cpIndex + 1;
-  //   //
-  //   //       cp.controlParameterValues?.map((cpv, index) => {
-  //   //         cpv.position = index + 1;
-  //   //       });
-  //   //     });
-  //   //
-  //   //     form.setFieldsValue({ ...doc, controlParameterValues: { ...newCp } });
-  //   //
-  //   //     console.log(
-  //   //       "ОБЪЕКТ ФОРМЫ (ДОКУМЕНТ)",
-  //   //       JSON.stringify(form.getFieldsValue(), null, 2),
-  //   //     );
-  //   //   }
-  //   // } catch (e) {
-  //   //   notification.error({ message: "Ошибка", description: JSON.stringify(e) });
-  //   // }
-  // }, [form]);
 
   const onSwitchNoEndDate = useCallback((value: boolean) => {
     setIsNoEndDate(value);
@@ -83,10 +59,6 @@ const DocumentForm = (props: DocumentFormProps) => {
       disabled={isLoading}
       onFieldsChange={(changedFields, allFields) => {
         onFieldsChange?.(form.getFieldsValue());
-        console.log(
-          "ОБЪЕКТ ФОРМЫ (ДОКУМЕНТ):",
-          JSON.stringify(form.getFieldsValue(), null, 2),
-        );
       }}
     >
       <Divider orientation={"left"}>
@@ -123,7 +95,7 @@ const DocumentForm = (props: DocumentFormProps) => {
               getValueProps={(value) => ({
                 value: value && dayjs(String(value)),
               })}
-              normalize={(value) => value && `${dayjs(value).valueOf()}`}
+              normalize={(value) => value && `${dayjs(value).toISOString()}`}
             >
               <DatePicker
                 placeholder="Укажите дату"
@@ -140,8 +112,10 @@ const DocumentForm = (props: DocumentFormProps) => {
         name={["startDate"]}
         rules={[{ required: true, message: "Не указана дата" }]}
         // Комбинация getValueProps и normalize правильно преобразует значения для отображения на форме
-        getValueProps={(value) => ({ value: value && dayjs(String(value)) })}
-        normalize={(value) => value && `${dayjs(value).valueOf()}`}
+        getValueProps={(value) => ({
+          value: value && dayjs(String(value)),
+        })}
+        normalize={(value) => value && `${dayjs(value).toISOString()}`}
       >
         <DatePicker
           placeholder="Укажите дату"
@@ -159,8 +133,10 @@ const DocumentForm = (props: DocumentFormProps) => {
           name={["endDate"]}
           rules={[{ required: true, message: "Не указана дата" }]}
           // Комбинация getValueProps и normalize правильно преобразует значения для отображения на форме
-          getValueProps={(value) => ({ value: value && dayjs(String(value)) })}
-          normalize={(value) => value && `${dayjs(value).valueOf()}`}
+          getValueProps={(value) => ({
+            value: value && dayjs(String(value)),
+          })}
+          normalize={(value) => value && `${dayjs(value).toISOString()}`}
         >
           <DatePicker
             placeholder="Укажите дату"
@@ -178,7 +154,7 @@ const DocumentForm = (props: DocumentFormProps) => {
           </Flex>
         </Typography.Title>
       </Divider>
-      <ControlParametersFormContent form={form} />
+      <ControlParametersFormContent />
       <Divider orientation={"left"} />
       <Form.Item label={" "} name={["notes"]} noStyle wrapperCol={{ span: 24 }}>
         <Input.TextArea

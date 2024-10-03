@@ -10,6 +10,8 @@ import ru_RU from "antd/lib/locale/ru_RU";
 import dayjs from "dayjs";
 import { StoreProvider } from "@/shared/lib/Providers/StoreProvider";
 
+var utc = require("dayjs/plugin/utc");
+
 const inter = Inter({ subsets: ["cyrillic"] });
 
 export const metadata: Metadata = {
@@ -19,6 +21,7 @@ export const metadata: Metadata = {
 
 // для локализации календаря
 dayjs.locale("ru");
+dayjs.extend(utc);
 
 export default function RootLayout({
   children,

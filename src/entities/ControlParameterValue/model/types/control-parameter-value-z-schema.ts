@@ -18,7 +18,9 @@ export const ControlParameterValueZSchema = z.object({
     }),
   notes: z
     .string({
-      invalid_type_error: "Примечания должны быть строкой",
+      invalid_type_error:
+        "Примечания значения контрольного параметра должны быть строкой",
     })
-    .optional(),
+    .optional()
+    .nullable(),
 });

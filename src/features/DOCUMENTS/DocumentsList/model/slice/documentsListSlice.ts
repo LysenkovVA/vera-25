@@ -5,6 +5,7 @@ import { fetchDocumentsListService } from "../services/fetchDocumentsList/fetchD
 import { documentsListAdapter } from "../adapter/documentsListAdapter";
 import { createDocumentService } from "@/entities/Document/model/services/createDocument.service";
 import { deleteDocumentService } from "@/entities/Document/model/services/deleteDocument.service";
+import { updateDocumentService } from "@/entities/Document/model/services/updateDocument.service";
 
 const initialState: DocumentsListSchema = {
   ids: [],
@@ -96,6 +97,23 @@ export const documentsListSlice = createSlice({
           placement: "top",
         });
       })
+      // Обновление документа
+      .addCase(updateDocumentService.fulfilled, (state, action) => {
+        documentsListAdapter.upsertOne(state, action.payload.data);
+        notification.success({
+          message: `Документ '${action.payload.data.name}' обновлен`,
+          duration: 5,
+          placement: "top",
+        });
+      })
+      .addCase(updateDocumentService.rejected, (state, action) => {
+        notification.error({
+          message: "Ошибка",
+          description: action.payload,
+          duration: 5,
+          placement: "top",
+        });
+      })
       // Удаление документа
       .addCase(deleteDocumentService.fulfilled, (state, action) => {
         documentsListAdapter.removeOne(state, action.payload.data.id);
@@ -106,6 +124,14 @@ export const documentsListSlice = createSlice({
         }
         notification.success({
           message: `Документ '${action.payload.data.name}' удален`,
+          duration: 5,
+          placement: "top",
+        });
+      })
+      .addCase(deleteDocumentService.rejected, (state, action) => {
+        notification.error({
+          message: "Ошибка",
+          description: action.payload,
           duration: 5,
           placement: "top",
         });

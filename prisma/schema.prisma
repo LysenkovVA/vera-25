@@ -969,7 +969,7 @@ model ControlParameter {
   position Int
   notes    String?
 
-  document   Document? @relation(fields: [documentId], references: [id])
+  document   Document? @relation(fields: [documentId], references: [id], onDelete: Cascade)
   documentId String?
 
   controlParameterValues ControlParameterValue[]
@@ -989,7 +989,7 @@ model ControlParameterValue {
   position Int
   notes    String?
 
-  controlParameter   ControlParameter? @relation(fields: [controlParameterId], references: [id])
+  controlParameter   ControlParameter? @relation(fields: [controlParameterId], references: [id], onDelete: Cascade)
   controlParameterId String?
 
   blankDocumentMatches BlankDocumentMatchOnControlParameterValues[]

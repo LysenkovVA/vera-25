@@ -13,6 +13,7 @@ import {
 } from "@/entities/Document/model/selectors/document.selectors";
 import { documentSliceActions } from "@/entities/Document/model/slice/documentSlice";
 import { createDocumentService } from "@/entities/Document/model/services/createDocument.service";
+import { updateDocumentService } from "@/entities/Document/model/services/updateDocument.service";
 
 export interface DocumentEditorDrawerProps
   extends Omit<DrawerProps, "children"> {}
@@ -36,8 +37,10 @@ const DocumentEditorDrawer = (props: DocumentEditorDrawerProps) => {
     async (e: any) => {
       try {
         if (documentFormData) {
-          dispatch(createDocumentService({ document: documentFormData })).then(
-            (result) => {
+          if (!documentFormData.id) {
+            dispatch(
+              createDocumentService({ document: documentFormData }),
+            ).then((result) => {
               if (result.payload) {
                 messageApi.success(
                   <Flex gap={4}>
@@ -46,12 +49,21 @@ const DocumentEditorDrawer = (props: DocumentEditorDrawerProps) => {
                 );
                 onClose?.(e);
               }
-            },
-            (error) => {
-              // console.log("error:", JSON.stringify(error));
-              // messageApi.error("Error: " + JSON.stringify(error));
-            },
-          );
+            });
+          } else {
+            dispatch(
+              updateDocumentService({ document: documentFormData }),
+            ).then((result) => {
+              if (result.payload) {
+                messageApi.success(
+                  <Flex gap={4}>
+                    <Typography.Text>{"Информация обновлена!"}</Typography.Text>
+                  </Flex>,
+                );
+                onClose?.(e);
+              }
+            });
+          }
         }
       } catch (error) {
         messageApi.error(error as string);

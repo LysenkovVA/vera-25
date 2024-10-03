@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Form, FormInstance, Input } from "antd";
+import { Button, Card, Flex, Form, Input } from "antd";
 import {
   ArrowDownOutlined,
   ArrowUpOutlined,
@@ -7,49 +7,79 @@ import {
 } from "@ant-design/icons";
 import React from "react";
 import { ControlParameterValuesFormContent } from "@/entities/Document/ui/DocumentForm/content/ControlParameterValuesFormContent";
+import { useAppDispatch, useAppSelector } from "@/shared/lib/hooks/storeHooks";
+import { getDocumentDetailsFormData } from "@/entities/Document/model/selectors/document.selectors";
+import { documentSliceActions } from "@/entities/Document/model/slice/documentSlice";
+import { Document } from "@/entities/Document";
 
-export interface ControlParametersFormContentProps {
-  form: FormInstance;
-}
+export interface ControlParametersFormContentProps {}
 
 export const ControlParametersFormContent = (
   props: ControlParametersFormContentProps,
 ) => {
-  const { form } = props;
+  const dispatch = useAppDispatch();
+  const documentFormData = useAppSelector(getDocumentDetailsFormData);
 
   return (
     <Form.List name={"controlParameters"}>
       {(fields, { add, remove, move }) => (
         <>
-          {fields.map(({ key, name, ...restField }) => (
+          {fields.map(({ key, name: ind, ...restField }) => (
             <Flex key={key} gap={8}>
               <Card
                 title={
                   <Flex align={"center"} justify={"space-between"}>
-                    {`Контрольный параметр # ${name + 1}`}
+                    {`Контрольный параметр # ${ind + 1}`}
                     <Flex>
                       <MinusCircleFilled
                         style={{ color: "red" }}
                         onClick={() => {
-                          remove(name);
+                          // TODO отрефакторить как со значениями
+                          if (
+                            documentFormData?.controlParameters &&
+                            documentFormData.controlParameters[ind].id
+                          ) {
+                            const newFormData = {
+                              ...documentFormData,
+                            } as Document;
+
+                            if (!newFormData.removedControlParameters) {
+                              newFormData.removedControlParameters = [];
+                            }
+
+                            newFormData.removedControlParameters = [
+                              ...newFormData.removedControlParameters,
+                              {
+                                id: documentFormData.controlParameters[ind].id,
+                                name: documentFormData.controlParameters[ind]
+                                  .name,
+                              },
+                            ];
+
+                            dispatch(
+                              documentSliceActions.setFormData(newFormData),
+                            );
+                          }
+
+                          remove(ind);
                         }}
                       />
                       <Button
                         icon={<ArrowUpOutlined />}
                         type="link"
                         onClick={() => {
-                          move(name, name - 1);
+                          move(ind, ind - 1);
                         }}
-                        disabled={name === 0}
+                        disabled={ind === 0}
                         style={{ padding: 0, margin: 0 }}
                       />
                       <Button
                         icon={<ArrowDownOutlined />}
                         type="link"
                         onClick={() => {
-                          move(name, name + 1);
+                          move(ind, ind + 1);
                         }}
-                        disabled={name === fields.length - 1}
+                        disabled={ind === fields.length - 1}
                         style={{ padding: 0, margin: 0 }}
                       />
                     </Flex>
@@ -65,10 +95,8 @@ export const ControlParametersFormContent = (
                 <>
                   <Form.Item
                     {...restField}
-                    // labelCol={{ span: 4 }}
-                    // label={" "}
                     wrapperCol={{ span: 24 }}
-                    name={[name, "name"]}
+                    name={[ind, "name"]}
                     rules={[
                       {
                         required: true,
@@ -78,12 +106,11 @@ export const ControlParametersFormContent = (
                   >
                     <Input placeholder={"Укажите название параметра"} />
                   </Form.Item>
-                  <ControlParameterValuesFormContent name={name} form={form} />
+                  <ControlParameterValuesFormContent name={ind} />
                 </>
               </Card>
             </Flex>
           ))}
-          {/*<Form.Item style={{ display: "flex", justifyItems: "start" }}>*/}
           <Button
             type="dashed"
             onClick={() => add()}
@@ -92,7 +119,6 @@ export const ControlParametersFormContent = (
           >
             Добавить контрольный параметр
           </Button>
-          {/*</Form.Item>*/}
         </>
       )}
     </Form.List>
