@@ -24,7 +24,43 @@ export async function GET(request: NextRequest, response: Response) {
 
     // Поисковый запрос
     if (search) {
-      query.where = { name: { startsWith: search } };
+      query.where = {
+        OR: [
+          { name: { contains: search, mode: "insensitive" } },
+          { number: { contains: search, mode: "insensitive" } },
+          { notes: { contains: search, mode: "insensitive" } },
+          // Контрольные параметры
+          {
+            controlParameters: {
+              some: { name: { contains: search, mode: "insensitive" } },
+            },
+          },
+          {
+            controlParameters: {
+              some: { notes: { contains: search, mode: "insensitive" } },
+            },
+          },
+          // Значения контрольных параметров
+          {
+            controlParameters: {
+              some: {
+                controlParameterValues: {
+                  some: { name: { contains: search, mode: "insensitive" } },
+                },
+              },
+            },
+          },
+          {
+            controlParameters: {
+              some: {
+                controlParameterValues: {
+                  some: { notes: { contains: search, mode: "insensitive" } },
+                },
+              },
+            },
+          },
+        ],
+      };
     }
 
     // Результат

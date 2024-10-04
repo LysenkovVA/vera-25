@@ -29,7 +29,7 @@ const DocumentItem = memo((props: DocumentItemProps) => {
       size={"small"}
       styles={{
         title: { margin: 0, padding: 0 },
-        body: { width: "100%", margin: 0, minHeight: 200 },
+        body: { width: "100%", margin: 0, height: 150 },
       }}
       actions={[
         <Space key={"controlParameters"}>
@@ -54,14 +54,17 @@ const DocumentItem = memo((props: DocumentItemProps) => {
             fontSize: 16,
             textAlign: "center",
             paddingBottom: 16,
-            color: "cadetblue",
+            color: "darkgrey",
           }}
         >
           {`№ ${document.number ?? "-"} от ${document.date ? dayjs(document.date).format("DD.MM.YYYY") : "-"}`}
         </Typography.Text>
-        <Typography.Text style={{ textAlign: "center", fontWeight: "bold" }}>
+        <Typography.Paragraph
+          style={{ textAlign: "center", fontWeight: "bold" }}
+          ellipsis={{ rows: 4, expandable: false }}
+        >
           {document.name}
-        </Typography.Text>
+        </Typography.Paragraph>
       </Flex>
     </Card>
   );

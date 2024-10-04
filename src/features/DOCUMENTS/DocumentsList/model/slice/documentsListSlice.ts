@@ -28,17 +28,13 @@ export const documentsListSlice = createSlice({
     setPage: (state, action: PayloadAction<number>) => {
       state.page = action.payload;
       state.skip = (action.payload - 1) * state.take!;
-      // state._isInitialized = false;
     },
-    // setSkip: (state, action: PayloadAction<number>) => {
-    //   state.skip = action.payload;
-    //   state._isInitialized = false;
-    // },
-    // setSearchQuery: (state, action: PayloadAction<string>) => {
-    //   state.search = action.payload;
-    //   state.skip = 0;
-    //   state._isInitialized = false;
-    // },
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      state.search = action.payload;
+      state.page = 1;
+      state.skip = 0;
+      state._isInitialized = false;
+    },
     initializeState: (state) => {
       state._isInitialized = true;
     },

@@ -23,6 +23,7 @@ export const fetchDocumentsListService = createAsyncThunk<
     // TODO ошибка
     await addQueryParams({
       page: state.documentsList?.page?.toString(),
+      search: state.documentsList?.search,
     });
 
     // Отправляем запрос
