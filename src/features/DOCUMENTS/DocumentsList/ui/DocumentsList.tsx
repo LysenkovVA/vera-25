@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   DynamicModuleLoader,
   ReducersList,
@@ -14,27 +14,31 @@ import {
   getDocumentsList,
   getDocumentsListIsInitialized,
   getDocumentsListIsLoading,
+  getDocumentsListPage,
   getDocumentsListSearch,
   getDocumentsListTake,
   getDocumentsListTotalCount,
 } from "@/features/DOCUMENTS/DocumentsList/model/selectors/documentsList.selectors";
 import { fetchDocumentsListService } from "@/features/DOCUMENTS/DocumentsList/model/services/fetchDocumentsList/fetchDocumentsListService";
 import { DocumentItem } from "@/entities/Document";
+import { useSearchParams } from "next/navigation";
+import { initializeDocumentsListService } from "@/features/DOCUMENTS/DocumentsList/model/services/initializeDocumentsList/initializeDocumentsList.service";
 
 const DocumentsList = () => {
   const reducers: ReducersList = {
     documentsList: documentsListReducer,
   };
 
+  const searchParams = useSearchParams();
+
   const dispatch = useAppDispatch();
   const documentsList = useAppSelector(getDocumentsList.selectAll);
   const isLoading = useAppSelector(getDocumentsListIsLoading);
   const totalCount = useAppSelector(getDocumentsListTotalCount);
   const take = useAppSelector(getDocumentsListTake);
+  const page = useAppSelector(getDocumentsListPage);
   const search = useAppSelector(getDocumentsListSearch);
   const isInitialized = useAppSelector(getDocumentsListIsInitialized);
-
-  const [current, setCurrent] = useState(1);
 
   const loadData = useCallback(() => {
     if (isLoading) {
@@ -45,15 +49,8 @@ const DocumentsList = () => {
   }, [dispatch, isLoading]);
 
   useEffect(() => {
-    loadData();
+    dispatch(initializeDocumentsListService(searchParams));
   }, []);
-
-  const onChangeSearch = useCallback(
-    (value: string) => {
-      dispatch(documentsListActions.setSearchQuery(value));
-    },
-    [dispatch],
-  );
 
   return (
     <DynamicModuleLoader reducers={reducers} removeAfterUnmount={false}>
@@ -64,10 +61,9 @@ const DocumentsList = () => {
             align: "center",
             pageSize: take,
             total: totalCount,
-            current,
+            current: page,
             onChange: (newPage) => {
-              dispatch(documentsListActions.setSkip((newPage - 1) * take));
-              setCurrent(newPage);
+              dispatch(documentsListActions.setPage(newPage));
               loadData();
             },
             showTotal: (total) => <div>{`Всего: ${totalCount}`}</div>,

@@ -31,6 +31,13 @@ export const getDocumentsListIsInitialized = createSelector(
   },
 );
 
+export const getDocumentsListPage = createSelector(
+  getDocumentsListSchema,
+  (schema) => {
+    return schema?.page ?? 1;
+  },
+);
+
 export const getDocumentsListTake = createSelector(
   getDocumentsListSchema,
   (schema) => {

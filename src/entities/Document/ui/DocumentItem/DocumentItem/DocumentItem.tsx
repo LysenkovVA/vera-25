@@ -32,7 +32,7 @@ const DocumentItem = memo((props: DocumentItemProps) => {
         body: { width: "100%", margin: 0, minHeight: 200 },
       }}
       actions={[
-        <Space key={"controlParameters"} size={"small"}>
+        <Space key={"controlParameters"}>
           <AlertOutlined />
           <Typography.Text
             type={

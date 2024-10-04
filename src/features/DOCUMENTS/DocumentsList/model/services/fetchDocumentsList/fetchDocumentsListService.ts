@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ThunkConfig } from "@/shared/lib/Providers/StoreProvider/config/store";
 import { StateSchema } from "@/shared/lib/Providers/StoreProvider/config/StateSchema";
-import { fetchDocuments } from "@/shared/actions/documents/fetchDocuments";
 import { Document } from "@/entities/Document";
 import { ServerResponse } from "@/shared/lib/responses/ServerResponse";
+import { fetchDocuments } from "@/shared/actions/documents/fetchDocuments";
+import { addQueryParams } from "@/shared/lib/url/addQueryParams/addQueryParams";
 
 export interface FetchDocumentsListServiceProps {
   replaceData?: boolean;
@@ -19,6 +20,11 @@ export const fetchDocumentsListService = createAsyncThunk<
   const state = getState() as StateSchema;
 
   try {
+    // TODO ошибка
+    await addQueryParams({
+      page: state.documentsList?.page?.toString(),
+    });
+
     // Отправляем запрос
     const response = await fetchDocuments(
       state.documentsList?.skip,
@@ -37,7 +43,7 @@ export const fetchDocumentsListService = createAsyncThunk<
     return response;
   } catch (e) {
     return rejectWithValue(
-      "Произошла неизвестная ошибка при получении списка документов",
+      `Произошла неизвестная ошибка при получении списка документов: ${JSON.stringify(e)}`,
     );
   }
 });

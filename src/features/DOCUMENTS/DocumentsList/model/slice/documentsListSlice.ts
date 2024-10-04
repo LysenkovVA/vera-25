@@ -6,12 +6,14 @@ import { documentsListAdapter } from "../adapter/documentsListAdapter";
 import { createDocumentService } from "@/entities/Document/model/services/createDocument.service";
 import { deleteDocumentService } from "@/entities/Document/model/services/deleteDocument.service";
 import { updateDocumentService } from "@/entities/Document/model/services/updateDocument.service";
+import { initializeDocumentsListService } from "@/features/DOCUMENTS/DocumentsList/model/services/initializeDocumentsList/initializeDocumentsList.service";
 
 const initialState: DocumentsListSchema = {
   ids: [],
   entities: {},
   isLoading: false,
   error: undefined,
+  page: 1,
   take: 5,
   skip: 0,
   search: "",
@@ -23,18 +25,34 @@ export const documentsListSlice = createSlice({
   name: "documentsListSlice",
   initialState,
   reducers: {
-    setSkip: (state, action: PayloadAction<number>) => {
-      state.skip = action.payload;
-      state._isInitialized = false;
+    setPage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
+      state.skip = (action.payload - 1) * state.take!;
+      // state._isInitialized = false;
     },
-    setSearchQuery: (state, action: PayloadAction<string>) => {
-      state.search = action.payload;
-      state.skip = 0;
-      state._isInitialized = false;
+    // setSkip: (state, action: PayloadAction<number>) => {
+    //   state.skip = action.payload;
+    //   state._isInitialized = false;
+    // },
+    // setSearchQuery: (state, action: PayloadAction<string>) => {
+    //   state.search = action.payload;
+    //   state.skip = 0;
+    //   state._isInitialized = false;
+    // },
+    initializeState: (state) => {
+      state._isInitialized = true;
     },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(initializeDocumentsListService.rejected, (state, action) => {
+        notification.error({
+          message: "Ошибка",
+          description: action.payload,
+          duration: 5,
+          placement: "top",
+        });
+      })
       .addCase(fetchDocumentsListService.pending, (state, action) => {
         state.isLoading = true;
         state.error = undefined;
@@ -60,7 +78,7 @@ export const documentsListSlice = createSlice({
         }
 
         state.totalCount = action.payload.pagination?.total;
-        state._isInitialized = true;
+        // state._isInitialized = true;
       })
       .addCase(fetchDocumentsListService.rejected, (state, action) => {
         state.isLoading = false;
@@ -83,6 +101,9 @@ export const documentsListSlice = createSlice({
       // ДОБАВЛЕНИЕ ДОКУМЕНТА
       .addCase(createDocumentService.fulfilled, (state, action) => {
         documentsListAdapter.upsertOne(state, action.payload.data);
+
+        state.totalCount = state.ids.length;
+
         notification.success({
           message: `Документ '${action.payload.data.name}' сохранен`,
           duration: 5,
@@ -117,11 +138,13 @@ export const documentsListSlice = createSlice({
       // Удаление документа
       .addCase(deleteDocumentService.fulfilled, (state, action) => {
         documentsListAdapter.removeOne(state, action.payload.data.id);
-        if (state.totalCount) {
-          state.totalCount = state.ids.length;
-        } else {
-          state.totalCount = 0;
-        }
+        state.totalCount = state.ids.length;
+
+        // if (state.totalCount) {
+        //   state.totalCount = state.ids.length;
+        // } else {
+        //   state.totalCount = 0;
+        // }
         notification.success({
           message: `Документ '${action.payload.data.name}' удален`,
           duration: 5,
