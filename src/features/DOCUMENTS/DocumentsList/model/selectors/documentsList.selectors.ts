@@ -3,16 +3,19 @@ import { documentsListAdapter } from "../adapter/documentsListAdapter";
 import { StateSchema } from "@/shared/lib/Providers/StoreProvider/config/StateSchema";
 
 const getDocumentsListSchema = (state: StateSchema) => {
+  // console.log("getDocumentsListSchema");
   return state.documentsList;
 };
 
 export const getDocumentsList = documentsListAdapter.getSelectors<StateSchema>(
-  (state) => state.documentsList ?? documentsListAdapter.getInitialState(),
+  (state) =>
+    getDocumentsListSchema(state) ?? documentsListAdapter.getInitialState(),
 );
 
 export const getDocumentsListIsLoading = createSelector(
   getDocumentsListSchema,
   (schema) => {
+    // console.log("getDocumentsListIsLoading");
     return schema?.isLoading ?? false;
   },
 );

@@ -1,29 +1,28 @@
 "use client";
 import { useCallback } from "react";
 import DrawerWrapper from "@/shared/UI/DrawerWrapper/DrawerWrapper";
-import { Button, DrawerProps, Flex, Typography } from "antd";
+import { Button, DrawerProps, Flex, Form, Typography } from "antd";
 import { Document, DocumentForm } from "@/entities/Document";
 import useMessage from "antd/es/message/useMessage";
 import { useAppDispatch, useAppSelector } from "@/shared/lib/hooks/storeHooks";
 import { CloseOutlined, SaveOutlined } from "@ant-design/icons";
-import LoadingIndicator from "@/shared/UI/LoadingIndicator";
-import {
-  getDocumentDetailsFormData,
-  getDocumentIsLoading,
-} from "@/entities/Document/model/selectors/document.selectors";
+import { getDocumentDetailsFormData } from "@/entities/Document/model/selectors/document.selectors";
 import { documentSliceActions } from "@/entities/Document/model/slice/documentSlice";
+import { ValidateErrorEntity } from "rc-field-form/es/interface";
 import { createDocumentService } from "@/entities/Document/model/services/createDocument.service";
 import { updateDocumentService } from "@/entities/Document/model/services/updateDocument.service";
 
 export interface DocumentEditorDrawerProps
-  extends Omit<DrawerProps, "children"> {}
+  extends Omit<DrawerProps, "children" | "onClose"> {
+  onClose?: () => void;
+}
 
 const DocumentEditorDrawer = (props: DocumentEditorDrawerProps) => {
   const { onClose, ...restProps } = props;
   const [messageApi, contextHolder] = useMessage();
+  const [form] = Form.useForm();
 
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector(getDocumentIsLoading);
   const documentFormData = useAppSelector(getDocumentDetailsFormData);
 
   const onFieldsChanged = useCallback(
@@ -33,44 +32,38 @@ const DocumentEditorDrawer = (props: DocumentEditorDrawerProps) => {
     [dispatch],
   );
 
-  const onSave = useCallback(
-    async (e: any) => {
-      try {
-        if (documentFormData) {
-          if (!documentFormData.id) {
-            dispatch(
-              createDocumentService({ document: documentFormData }),
-            ).then((result) => {
-              if (result.payload) {
-                messageApi.success(
-                  <Flex gap={4}>
-                    <Typography.Text>{"Информация сохранена!"}</Typography.Text>
-                  </Flex>,
-                );
-                onClose?.(e);
-              }
-            });
-          } else {
-            dispatch(
-              updateDocumentService({ document: documentFormData }),
-            ).then((result) => {
-              if (result.payload) {
-                messageApi.success(
-                  <Flex gap={4}>
-                    <Typography.Text>{"Информация обновлена!"}</Typography.Text>
-                  </Flex>,
-                );
-                onClose?.(e);
-              }
-            });
-          }
-        }
-      } catch (error) {
-        messageApi.error(error as string);
+  const onSaveClick = useCallback(() => {
+    console.log("Submitting form...");
+    form.submit();
+  }, []);
+
+  const onFinish = useCallback(() => {
+    console.log("Saving data...");
+
+    if (documentFormData) {
+      if (!documentFormData.id) {
+        dispatch(createDocumentService({ document: documentFormData })).then(
+          (result) => {
+            if (result.payload) {
+              onClose?.();
+            }
+          },
+        );
+      } else {
+        dispatch(updateDocumentService({ document: documentFormData })).then(
+          (result) => {
+            if (result.payload) {
+              onClose?.();
+            }
+          },
+        );
       }
-    },
-    [documentFormData, dispatch, messageApi, onClose],
-  );
+    }
+  }, [documentFormData, dispatch, onClose]);
+
+  const onFinishFailed = useCallback((errorInfo: ValidateErrorEntity<any>) => {
+    console.log("refuse save data...");
+  }, []);
 
   const extraContent = (
     <Flex gap={8}>
@@ -79,17 +72,12 @@ const DocumentEditorDrawer = (props: DocumentEditorDrawerProps) => {
         type={"primary"}
         danger
         onClick={(e) => {
-          onClose?.(e);
+          onClose?.();
         }}
       >
         {"Закрыть"}
       </Button>
-      <Button
-        icon={<SaveOutlined />}
-        type={"primary"}
-        onClick={onSave}
-        disabled={!documentFormData}
-      >
+      <Button icon={<SaveOutlined />} type={"primary"} onClick={onSaveClick}>
         {"Сохранить"}
       </Button>
     </Flex>
@@ -120,14 +108,13 @@ const DocumentEditorDrawer = (props: DocumentEditorDrawerProps) => {
         extra={extraContent}
         // destroyOnClose={true}
       >
-        {isLoading ? (
-          <LoadingIndicator />
-        ) : (
-          <DocumentForm
-            onFieldsChange={onFieldsChanged}
-            initialValue={documentFormData}
-          />
-        )}
+        <DocumentForm
+          onFieldsChange={onFieldsChanged}
+          initialValue={documentFormData}
+          form={form}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        />
       </DrawerWrapper>
     </>
   );

@@ -4,12 +4,16 @@ import {
   TStore,
 } from "@/shared/lib/Providers/StoreProvider/config/ReducerManager";
 import { StateSchema } from "@/shared/lib/Providers/StoreProvider/config/StateSchema";
+import { documentsListReducer } from "@/features/DOCUMENTS/DocumentsList/model/slice/documentsListSlice";
+import { blanksListReducer } from "@/features/BLANKS/BlanksList/model/slice/blanksList.slice";
 
 export const makeStore = () => {
-  // TODO -Здесь возможно необходимо сразу грузить статические редюсеры
-  // Для проверки что нет ошибки с редюсерами при старте приложения добавил этот редюсер
+  // Чтобы не было ошибки при загрузке приложения, о том что не иницилизирован Store,
+  // нужно добавить редюсеры
+  // Также уходит warning по селекторам
   const reducerManager = createReducerManager({
-    // blanksList: blanksListReducer,
+    blanksList: blanksListReducer,
+    documentsList: documentsListReducer,
   });
 
   const store = configureStore({

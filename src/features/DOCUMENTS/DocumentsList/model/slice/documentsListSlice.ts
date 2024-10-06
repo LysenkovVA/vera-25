@@ -134,13 +134,8 @@ export const documentsListSlice = createSlice({
       // Удаление документа
       .addCase(deleteDocumentService.fulfilled, (state, action) => {
         documentsListAdapter.removeOne(state, action.payload.data.id);
-        state.totalCount = state.ids.length;
+        state.totalCount = state.totalCount! - 1;
 
-        // if (state.totalCount) {
-        //   state.totalCount = state.ids.length;
-        // } else {
-        //   state.totalCount = 0;
-        // }
         notification.success({
           message: `Документ '${action.payload.data.name}' удален`,
           duration: 5,

@@ -13,24 +13,13 @@ import { documentSliceActions } from "@/entities/Document/model/slice/documentSl
 
 export interface ControlParameterValuesFormContentProps {
   name: number;
-  // form: FormInstance;
 }
 
 export const ControlParameterValuesFormContent = ({
   name,
-  // form,
 }: ControlParameterValuesFormContentProps) => {
   const dispatch = useAppDispatch();
   const documentFormData = useAppSelector(getDocumentDetailsFormData);
-
-  // const [modal2Open, setModal2Open] = useState(false);
-  //
-  // const onOk = useCallback(
-  //   (remove: (index: number | number[]) => void, index: number) => {
-  //     remove(index);
-  //   },
-  //   [],
-  // );
 
   return (
     <Form.List name={[name, "controlParameterValues"]}>

@@ -100,7 +100,7 @@ export const ControlParametersFormContent = (
                     rules={[
                       {
                         required: true,
-                        message: "Не указано значение параметра",
+                        message: "Не указано название параметра",
                       },
                     ]}
                   >
@@ -113,7 +113,9 @@ export const ControlParametersFormContent = (
           ))}
           <Button
             type="dashed"
-            onClick={() => add()}
+            onClick={() => {
+              add();
+            }}
             block
             icon={<PlusCircleFilled style={{ color: "green" }} />}
           >

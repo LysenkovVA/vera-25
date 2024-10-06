@@ -13,7 +13,7 @@ export const deleteDocumentService = createAsyncThunk<
   DeleteDocumentServiceProps,
   ThunkConfig<string>
 >("deleteDocumentService", async (props, thunkApi) => {
-  const { rejectWithValue } = thunkApi;
+  const { rejectWithValue, dispatch } = thunkApi;
 
   try {
     const response = await deleteDocument(props.documentId);

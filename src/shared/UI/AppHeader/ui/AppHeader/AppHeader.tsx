@@ -6,6 +6,7 @@ import styles from "./AppHeader.module.scss";
 import { HeaderItems } from "@/shared/UI/AppHeader/ui/HeaderItems";
 import SignOutButton from "@/shared/UI/AppHeader/ui/SignOutButton";
 import ProfileAvatar from "@/shared/UI/AppHeader/ui/ProfileAvatar/ProfileAvatar";
+import AppLogo from "@/shared/UI/AppHeader/ui/AppLogo/AppLogo";
 
 const AppHeader = () => {
   const pathname = usePathname();
@@ -14,6 +15,7 @@ const AppHeader = () => {
   return (
     <div className={styles.Container}>
       {/*<NewBlankButton />*/}
+      <AppLogo />
       <Menu
         theme="dark"
         mode="horizontal"
